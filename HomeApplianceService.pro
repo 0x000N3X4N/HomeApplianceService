@@ -31,7 +31,10 @@ SOURCES += \
     record.cpp \
     pricelist.cpp \
     mainw.cpp \
-    editor.cpp
+    editor.cpp \
+    service_add.cpp \
+    service_deleter.cpp \
+    statistic.cpp
 
 HEADERS += \
     libs/xSql/handle.h \
@@ -39,13 +42,19 @@ HEADERS += \
     record.h \
     pricelist.h \
     mainw.h \
-    editor.h
+    editor.h \
+    service_add.h \
+    service_deleter.h \
+    statistic.h
 
 FORMS += \
     record.ui \
     pricelist.ui \
     mainwindow.ui \
-    editor.ui
+    editor.ui \
+    service_add.ui \
+    service_deleter.ui \
+    statistic.ui
 
 RESOURCES += res.qrc
 

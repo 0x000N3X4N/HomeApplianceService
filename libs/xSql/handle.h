@@ -9,7 +9,7 @@ class Handle {
 public:
   Handle(XSqlDatabase& other);
   ~Handle();
-  void executeSqlQuery(const QString& query);
+  bool executeSqlQuery(const QString& query);
   QVariant parse_value(const QString& name);
   QVariant parse_value(int i);
   int size() const;

@@ -10,6 +10,18 @@
     <height>324</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>330</width>
+    <height>324</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>330</width>
+    <height>324</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Edit record</string>
   </property>
@@ -86,7 +98,7 @@
        <item>
         <widget class="QLineEdit" name="complete_order_name_lEdit">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
         </widget>
        </item>

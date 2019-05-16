@@ -7,8 +7,8 @@ Handle::Handle(XSqlDatabase& other) {
 
 Handle::~Handle() { }
 
-void Handle::executeSqlQuery(const QString& query) {
-  mysqlquery.exec(query);
+bool Handle::executeSqlQuery(const QString& query) {
+  return mysqlquery.exec(query);
 }
 
 QVariant Handle::parse_value(const QString& name) { return mysqlquery.value(name); }

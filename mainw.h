@@ -8,6 +8,7 @@
 #include "pricelist.h"
 #include "record.h"
 #include "editor.h"
+#include "statistic.h"
 #include "libs/xSql/xSqlConnector.h"
 #include "libs/xSql/handle.h"
 
@@ -27,22 +28,25 @@ signals:
   void showPriceList();
   void showAddOrder();
   void showEditor(QTableView* tb_orders, Handle* hQuery);
+  void showStatistic();
   void tbSendPriceList(QSortFilterProxyModel* );
   void sendPriceList(QTableView* pTbOrders, Handle* hQuery,
                      std::shared_ptr<double[]> pPriceList,
-                     size_t sizeOfPriceList);
+                     std::vector<QString> aEquipmentName);
 
 
 private slots:
   void on_price_btn_clicked();
   void on_add_order_btn_clicked();
   void on_edit_btn_clicked();
+  void on_statistic_btn_clicked();
 
 private:
   Ui::MainWindow* m_pUi;
-  PriceList* m_pPriceListWindow;
+  CPriceList* m_pPriceListWindow;
   CEditor* m_pEditor;
-  Record* m_pRecord;
+  CRecord* m_pRecord;
+  CStatistic* m_pStatistic;
   XSqlDatabase* m_hDb;
   Handle* m_hQuery; // query handler
   QSqlQueryModel* m_hModel;

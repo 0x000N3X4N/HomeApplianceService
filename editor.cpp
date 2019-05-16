@@ -55,11 +55,6 @@ void CEditor::on_confirm_btn_clicked() {
 }
 
 void CEditor::on_status_comboBox_currentIndexChanged(int index) {
-  if (index == 2) {
-    m_pUi->complete_dateEdit->setEnabled(true);
-    m_pUi->complete_order_name_lEdit->setEnabled(true);
-  } else {
-    m_pUi->complete_dateEdit->setEnabled(false);
-    m_pUi->complete_order_name_lEdit->setEnabled(false);
-  }
+  (index == 2) ? m_pUi->complete_dateEdit->setEnabled(true)
+               : m_pUi->complete_dateEdit->setEnabled(false);
 }

@@ -3,6 +3,8 @@
 		<file>resources/img/add_btn_icon.png</file>
 		<file>resources/img/price_btn_icon.png</file>
 		<file>resources/img/edit_btn_icon.png</file>
+		<file>resources/img/statistic_btn_icon.png</file>
+		<file>resources/img/delete_btn_icon.png</file>
 	</qresource>
 
 	<qresource prefix="qss_icons">

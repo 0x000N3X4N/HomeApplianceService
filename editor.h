@@ -22,7 +22,6 @@ public slots:
 
 private slots:
   void on_confirm_btn_clicked();
-
   void on_status_comboBox_currentIndexChanged(int index);
 
 private:
