@@ -82,9 +82,9 @@
      <item>
       <layout class="QHBoxLayout" name="name_equipment_hLayout">
        <item>
-        <widget class="QLabel" name="name_of_equipment__label">
+        <widget class="QLabel" name="name_of_laptop_label">
          <property name="text">
-          <string>Name of equipment:</string>
+          <string>Name of laptop:</string>
          </property>
         </widget>
        </item>

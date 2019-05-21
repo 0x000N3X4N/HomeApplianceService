@@ -29,26 +29,26 @@ private:
   Handle* m_hQuery;
   QTableView* m_hTbPriceList;
   std::array<QString, 20> m_listOfEquipment {
-    "Стиральных машин",
-    "Посудомоечных машин",
-    "СВЧ",
-    "Телевизоров",
-    "ЖК мониторов",
-    "Плазменных панелей",
-    "Холодильников",
-    "Газовых плит",
-    "Сушильных шкафов",
-    "Блендеры",
-    "Воздухоочистители",
-    "Инфракрасные обогреватели ",
-    "Котлы ",
-    "Утюги",
-    "Фены",
-    "Степлеры",
-    "Бензопилы",
-    "Мотоблоки",
-    "Хлебопечки",
-    "Кофеварки"
+    "MSI GS65 STEALTH",
+    "ASUS ROG ZEPHYRUS GX501",
+    "MSI GT75 TITAN",
+    "ASUS ROG G703GI",
+    "RAZER BLADE",
+    "DELL XPS 15",
+    "ASUS ROG STRIX GL502",
+    "ACER PREDATOR HELIOS 300",
+    "DELL G3 15",
+    "GIGABYTE AERO 15",
+    "ALIENWARRE 17 R5",
+    "Lenovo Legion Y520",
+    "ASUS VivoBook Pro 15 ",
+    "Lenovo IdeaPad 310",
+    "Lenovo ThinkPad X1 Carbon",
+    "Lenovo ThinkPad P1",
+    "Lenovo ThinkPad T480",
+    "Lenovo Yoga Chromebook C630",
+    "Lenovo Legion Y740",
+    "Lenovo Legion Y7000"
   };
 };
 

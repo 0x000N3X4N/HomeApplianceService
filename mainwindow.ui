@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>CRM HomeApplianceService</string>
+   <string>CRM LaptopMaintenanceService</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QFrame" name="button_bar_frame">

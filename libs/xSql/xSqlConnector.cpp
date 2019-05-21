@@ -5,7 +5,7 @@ XSqlDatabase::XSqlDatabase() {
   db.setHostName("localhost");
   db.setUserName("nativeuser");
   db.setPassword("new_password");
-  db.setDatabaseName("home_appliance_service");
+  db.setDatabaseName("laptop_maintenance_service");
   status = db.open();
   if (!status) {
     qDebug() << db.lastError();
