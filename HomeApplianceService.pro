@@ -63,3 +63,8 @@ win32: LIBS += -L$$PWD/libs/mysql-connector-c-6.1.11-winx64/lib/ -llibmysql
 
 INCLUDEPATH += $$PWD/libs/mysql-connector-c-6.1.11-winx64/include
 DEPENDPATH += $$PWD/libs/mysql-connector-c-6.1.11-winx64/include
+
+win32: LIBS += -L$$PWD/libs/mysql-connector-c-6.1.11-win32/lib/ -llibmysql
+
+INCLUDEPATH += $$PWD/libs/mysql-connector-c-6.1.11-win32/include
+DEPENDPATH += $$PWD/libs/mysql-connector-c-6.1.11-win32/include
