@@ -1,6 +1,7 @@
 ﻿#include "editor.h"
 #include "ui_editor.h"
 
+
 CEditor::CEditor(QWidget *parent) :
   QDialog(parent),
   m_pUi(new Ui::EditorWindow)
@@ -15,7 +16,7 @@ CEditor::CEditor(QWidget *parent) :
 
 CEditor::~CEditor() { delete m_pUi; }
 
-void CEditor::showWindow(QTableView* p_tb_orders, Handle* hQuery) {
+void CEditor::showWindow(QTableView* p_tb_orders, CQueryController* hQuery) {
   show();
   m_pTbOrders = p_tb_orders;
   m_hQuery = hQuery;

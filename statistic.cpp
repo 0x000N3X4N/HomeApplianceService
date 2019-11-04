@@ -1,12 +1,13 @@
 ﻿#include "statistic.h"
 #include "ui_statistic.h"
 
+
 CStatistic::CStatistic(QWidget *parent) :
   QDialog(parent),
   m_pUi(new Ui::StatisticWindow)
 {
   m_pUi->setupUi(this);
-  m_hQuery = new Handle(XSqlDatabase::getInstance());
+  m_hQuery = new CQueryController(CODBCW::getInstance());
   m_hModel = new QSqlQueryModel();
   m_hFilterModel = new QSortFilterProxyModel();
   m_pUi->accept_dateEdit->setCalendarPopup(true);

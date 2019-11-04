@@ -8,7 +8,7 @@ QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = HomeApplianceService
+TARGET = LaptopMaintenanceService
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -25,9 +25,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+  libs/ODBCConnector/ODBCW.cpp \
+  libs/ODBCConnector/query_controller.cpp \
         main.cpp \
-    libs/xSql/handle.cpp \
-    libs/xSql/xSqlConnector.cpp \
     record.cpp \
     pricelist.cpp \
     mainw.cpp \
@@ -37,8 +37,8 @@ SOURCES += \
     statistic.cpp
 
 HEADERS += \
-    libs/xSql/handle.h \
-    libs/xSql/xSqlConnector.h \
+    libs/ODBCConnector/ODBCW.h \
+    libs/ODBCConnector/query_controller.h \
     record.h \
     pricelist.h \
     mainw.h \
@@ -57,14 +57,3 @@ FORMS += \
     statistic.ui
 
 RESOURCES += res.qrc
-
-
-win32: LIBS += -L$$PWD/libs/mysql-connector-c-6.1.11-winx64/lib/ -llibmysql
-
-INCLUDEPATH += $$PWD/libs/mysql-connector-c-6.1.11-winx64/include
-DEPENDPATH += $$PWD/libs/mysql-connector-c-6.1.11-winx64/include
-
-win32: LIBS += -L$$PWD/libs/mysql-connector-c-6.1.11-win32/lib/ -llibmysql
-
-INCLUDEPATH += $$PWD/libs/mysql-connector-c-6.1.11-win32/include
-DEPENDPATH += $$PWD/libs/mysql-connector-c-6.1.11-win32/include

@@ -38,7 +38,7 @@ CRecord::~CRecord() {
 
 void CRecord::showWindow() { this->show(); }
 
-void CRecord::priceListChanged(QTableView* pTbOrders, Handle* hQuery,
+void CRecord::priceListChanged(QTableView* pTbOrders, CQueryController* hQuery,
                               std::shared_ptr<double[]> priceList,
                               std::vector<QString> aEquipmentName) {
   m_hQuery = hQuery;

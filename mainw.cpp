@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 #pragma enregion
   /////
 #pragma region Initialize fields of class
-  m_hDb = &XSqlDatabase::getInstance();
+  m_hDb = &CODBCW::getInstance();
 
 #ifdef QT_DEBUG
   qDebug() << "Database handle set at: " << m_hDb;
@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pUi->tb_orders->horizontalHeader()
                     ->setSectionResizeMode(QHeaderView::Stretch);
     m_hModel = new QSqlQueryModel();
-    m_hQuery = new Handle(*m_hDb);
+    m_hQuery = new CQueryController(*m_hDb);
     m_hFilterModel = new QSortFilterProxyModel();
     initTbOrders();
   }
@@ -76,22 +76,33 @@ void MainWindow::initTbOrders() {
 }
 
 void MainWindow::on_price_btn_clicked() {
-  m_hQuery->executeSqlQuery("SELECT id_pricelist AS 'Id', service AS 'Service', "
-                            "price AS 'Price' FROM pricelist");
-  //TODO: refactor
-  QSqlQueryModel* hModel = new QSqlQueryModel();
-  QSortFilterProxyModel* hFilterModel = new QSortFilterProxyModel();
-  hModel->setQuery(m_hQuery->getQuery());
-  hFilterModel->setDynamicSortFilter(true);
-  hFilterModel->setSourceModel(hModel);
+  try {
+    if (!m_hQuery->executeSqlQuery("SELECT PK_component_id AS 'ID', product_type AS 'Component type', title AS 'Title',"
+                                   " tech_characteristics AS 'Tech characteristics', price AS 'Price', release_date AS 'Release date' "
+                                   "FROM components "
+                                   "JOIN components_type "
+                                   "ON FK_type_code = PK_component_type_id;"))
+      throw std::invalid_argument("Error, query for pricelist not executed!");
+    //TODO: refactor
+    QSqlQueryModel* hModel = new QSqlQueryModel();
+    QSortFilterProxyModel* hFilterModel = new QSortFilterProxyModel();
+    hModel->setQuery(m_hQuery->getQuery());
+    hFilterModel->setDynamicSortFilter(true);
+    hFilterModel->setSourceModel(hModel);
 
-  emit tbSendPriceList(hFilterModel);
-  emit showPriceList();
+    emit tbSendPriceList(hFilterModel);
+    emit showPriceList();
+  }
+  catch(std::invalid_argument& e) {
+    qDebug() << e.what();
+    QMessageBox::critical(this, e.what(), e.what());
+    return;
+  }
 }
 
 void MainWindow::on_add_order_btn_clicked() {
   try {
-    m_hQuery->executeSqlQuery("SELECT price AS 'Price', equipment FROM pricelist");
+    m_hQuery->executeSqlQuery("SELECT price AS 'Price', name FROM pricelist");
 
     if (!m_hQuery->isSelect())
       throw std::invalid_argument("Erorr, price list doesn't contain prices!");

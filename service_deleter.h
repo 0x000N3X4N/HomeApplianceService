@@ -1,10 +1,12 @@
 ﻿#ifndef SERVICE_DELETER_H
 #define SERVICE_DELETER_H
 
+
 #include <QDialog>
 #include <QTableView>
 #include <QMessageBox>
-#include "libs/xSql/handle.h"
+#include "libs/ODBCConnector/query_controller.h"
+
 
 namespace Ui {
   class ServiceDeleterWindow;
@@ -26,7 +28,7 @@ private slots:
 
 private:
   Ui::ServiceDeleterWindow* m_pUi;
-  Handle* m_hQuery;
+  CQueryController* m_hQuery;
   QTableView* m_hTbPriceList;
 };
 

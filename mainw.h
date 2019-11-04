@@ -1,6 +1,7 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+
 #include <QMainWindow>
 #include <QDebug>
 #include <QtSql>
@@ -9,15 +10,15 @@
 #include "record.h"
 #include "editor.h"
 #include "statistic.h"
-#include "libs/xSql/xSqlConnector.h"
-#include "libs/xSql/handle.h"
+#include "libs/ODBCConnector/ODBCW.h"
+#include "libs/ODBCConnector/query_controller.h"
+
 
 namespace Ui {
   class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
   Q_OBJECT
 
 public:
@@ -27,10 +28,10 @@ public:
 signals:
   void showPriceList();
   void showAddOrder();
-  void showEditor(QTableView* tb_orders, Handle* hQuery);
+  void showEditor(QTableView* tb_orders, CQueryController* hQuery);
   void showStatistic();
   void tbSendPriceList(QSortFilterProxyModel* );
-  void sendPriceList(QTableView* pTbOrders, Handle* hQuery,
+  void sendPriceList(QTableView* pTbOrders, CQueryController* hQuery,
                      std::shared_ptr<double[]> pPriceList,
                      std::vector<QString> aEquipmentName);
 
@@ -47,8 +48,8 @@ private:
   CEditor* m_pEditor;
   CRecord* m_pRecord;
   CStatistic* m_pStatistic;
-  XSqlDatabase* m_hDb;
-  Handle* m_hQuery; // query handler
+  CODBCW* m_hDb;
+  CQueryController* m_hQuery; // query handler
   QSqlQueryModel* m_hModel;
   QSortFilterProxyModel* m_hFilterModel;
 

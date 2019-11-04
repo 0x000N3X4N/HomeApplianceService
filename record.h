@@ -6,7 +6,7 @@
 #include <QTableView>
 #include <QMessageBox>
 #include <memory>
-#include "libs/xSql/handle.h"
+#include "libs/ODBCConnector/query_controller.h"
 
 #pragma region CFG
   #define OVERHAUL 20
@@ -26,7 +26,7 @@ public:
 
 public slots:
   void showWindow();
-  void priceListChanged(QTableView* pTbOrders, Handle* hQuery,
+  void priceListChanged(QTableView* pTbOrders, CQueryController* hQuery,
                         std::shared_ptr<double[]> priceList,
                         std::vector<QString> aEquipmentName);
 
@@ -41,7 +41,7 @@ private slots:
 
 private:
   Ui::RecordWindow* m_pUi;
-  Handle* m_hQuery;
+  CQueryController* m_hQuery;
   struct priceListHandler;
   priceListHandler* m_pPriceListHandler;
   std::map<std::vector<QString>,

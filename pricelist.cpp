@@ -1,6 +1,7 @@
 ﻿#include "pricelist.h"
 #include "ui_pricelist.h"
 
+
 CPriceList::CPriceList(QWidget *parent) :
   QDialog(parent),
   m_pUi(new Ui::PriceListWindow)

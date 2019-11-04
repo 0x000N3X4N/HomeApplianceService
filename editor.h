@@ -1,16 +1,17 @@
 ﻿#ifndef EDITOR_H
 #define EDITOR_H
 
+
 #include <QDialog>
 #include <QTableView>
-#include "libs/xSql/handle.h"
+#include "libs/ODBCConnector/query_controller.h"
+
 
 namespace Ui {
   class EditorWindow;
 }
 
-class CEditor : public QDialog
-{
+class CEditor : public QDialog {
   Q_OBJECT
 
 public:
@@ -18,7 +19,7 @@ public:
   ~CEditor();
 
 public slots:
-  void showWindow(QTableView* p_tb_orders, Handle* hQuery);
+  void showWindow(QTableView* p_tb_orders, CQueryController* hQuery);
 
 private slots:
   void on_confirm_btn_clicked();
@@ -26,8 +27,9 @@ private slots:
 
 private:
   Ui::EditorWindow* m_pUi;
-  Handle* m_hQuery;
+  CQueryController* m_hQuery;
   QTableView* m_pTbOrders;
 };
+
 
 #endif // EDITOR_H

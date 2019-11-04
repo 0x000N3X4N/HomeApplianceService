@@ -1,15 +1,16 @@
 ﻿#ifndef STATISTIC_H
 #define STATISTIC_H
 
+
 #include <QDialog>
-#include "libs/xSql/handle.h"
+#include "libs/ODBCConnector/query_controller.h"
+
 
 namespace Ui {
   class StatisticWindow;
 }
 
-class CStatistic : public QDialog
-{
+class CStatistic : public QDialog {
   Q_OBJECT
 
 public:
@@ -22,7 +23,7 @@ private slots:
 
 private:
   Ui::StatisticWindow* m_pUi;
-  Handle* m_hQuery;
+  CQueryController* m_hQuery;
   QSqlQueryModel* m_hModel;
   QSortFilterProxyModel* m_hFilterModel;
 };

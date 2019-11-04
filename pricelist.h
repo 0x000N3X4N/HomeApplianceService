@@ -1,17 +1,18 @@
 ﻿#ifndef PRICELISTWINDOW_H
 #define PRICELISTWINDOW_H
 
+
 #include <QDialog>
 #include <QtSql>
 #include "service_add.h"
 #include "service_deleter.h"
 
+
 namespace Ui {
   class PriceListWindow;
 }
 
-class CPriceList : public QDialog
-{
+class CPriceList : public QDialog {
   Q_OBJECT
 
 public:
@@ -34,5 +35,6 @@ private:
   CServiceAdd* m_pServiceAdd;
   CServiceDeleter* m_pServiceDeleter;
 };
+
 
 #endif // PRICELISTWINDOW_H
