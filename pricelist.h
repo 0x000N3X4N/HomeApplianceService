@@ -4,7 +4,7 @@
 
 #include <QDialog>
 #include <QtSql>
-#include "service_add.h"
+#include "comp_add.h"
 #include "service_deleter.h"
 
 
@@ -12,7 +12,7 @@ namespace Ui {
   class PriceListWindow;
 }
 
-class CPriceList : public QDialog {
+class CPriceList : public QWidget {
   Q_OBJECT
 
 public:
@@ -29,10 +29,14 @@ signals:
 private slots:
   void on_add_price_btn_clicked();
   void on_delete_btn_clicked();
+  void on_up_btn_clicked();
+  void on_down_btn_clicked();
+  void on_left_btn_clicked();
+  void on_right_btn_clicked();
 
 private:
   Ui::PriceListWindow* m_pUi;
-  CServiceAdd* m_pServiceAdd;
+  CCompAdd* m_pServiceAdd;
   CServiceDeleter* m_pServiceDeleter;
 };
 

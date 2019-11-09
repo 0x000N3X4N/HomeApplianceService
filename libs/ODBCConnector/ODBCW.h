@@ -6,6 +6,7 @@
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
 #include <QDebug>
+#include "boost/noncopyable.hpp"
 
 
 /* ------------------------------------------------------------------
@@ -13,7 +14,7 @@
  * ------------------------------------------------------------------
  */
 
-class CODBCW {
+class CODBCW : public boost::noncopyable {
 public:
   static CODBCW& getInstance();
   QString databaseName() const;
@@ -22,7 +23,6 @@ public:
 private:
   CODBCW();
   ~CODBCW() = default;
-  CODBCW(const CODBCW& instance) = delete;
 
   QSqlDatabase db;
   bool status;

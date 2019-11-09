@@ -1,11 +1,10 @@
-﻿#ifndef PRICEADD_H
-#define PRICEADD_H
+﻿#ifndef COMPADD_H
+#define COMPADD_H
 
 
 #include <QDialog>
 #include <QTableView>
 #include <QMessageBox>
-#include <array>
 #include "libs/ODBCConnector/query_controller.h"
 
 
@@ -13,12 +12,14 @@ namespace Ui {
   class ServiceAddWindow;
 }
 
-class CServiceAdd : public QDialog {
+typedef std::map<size_t, QString> component_item_Ty_T;
+
+class CCompAdd : public QDialog {
   Q_OBJECT
 
 public:
-  explicit CServiceAdd(QWidget *parent = nullptr);
-  ~CServiceAdd();
+  explicit CCompAdd(QWidget *parent = nullptr);
+  ~CCompAdd();
 
 public slots:
   void showWindow(QTableView* hTbPriceList);
@@ -30,12 +31,8 @@ private:
   Ui::ServiceAddWindow* m_pUi;
   CQueryController* m_hQuery;
   QTableView* m_hTbPriceList;
-  //TODO: webhook and fetch list of equipment from remote server
-  std::array<QString, 20> m_listOfEquipment {
-    "1",
-    "2",
-    "3"
-  };
+  component_item_Ty_T m_map_comp_items;
 };
 
-#endif // PRICEADD_H
+
+#endif // COMPADD_H

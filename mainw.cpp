@@ -77,8 +77,8 @@ void MainWindow::initTbOrders() {
 
 void MainWindow::on_price_btn_clicked() {
   try {
-    if (!m_hQuery->executeSqlQuery("SELECT PK_component_id AS 'ID', product_type AS 'Component type', title AS 'Title',"
-                                   " tech_characteristics AS 'Tech characteristics', price AS 'Price', release_date AS 'Release date' "
+    if (!m_hQuery->executeSqlQuery("SELECT title AS 'Title',"
+                                   " specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date' "
                                    "FROM components "
                                    "JOIN components_type "
                                    "ON FK_type_code = PK_component_type_id;"))
@@ -105,7 +105,7 @@ void MainWindow::on_add_order_btn_clicked() {
     m_hQuery->executeSqlQuery("SELECT price AS 'Price', name FROM pricelist");
 
     if (!m_hQuery->isSelect())
-      throw std::invalid_argument("Erorr, price list doesn't contain prices!");
+      throw std::invalid_argument("Error, price list doesn't contain prices!");
 
     size_t sizeOfPriceList = m_hQuery->size();
     std::shared_ptr<double[]> pPriceList(new double[sizeOfPriceList],

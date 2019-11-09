@@ -8,9 +8,6 @@
 #include <memory>
 #include "libs/ODBCConnector/query_controller.h"
 
-#pragma region CFG
-  #define OVERHAUL 20
-#pragma endregion
 
 namespace Ui {
   class RecordWindow;
@@ -32,7 +29,6 @@ public slots:
 
 private slots:
   void on_name_comboBox_currentIndexChanged(int index);
-  void on_type_repair_comboBox_currentIndexChanged(int index);
   void on_accept_btn_clicked();
   void on_status_comboBox_currentIndexChanged(int index);
   void on_guarantee_dial_valueChanged(int value);
@@ -50,7 +46,6 @@ private:
            std::shared_ptr<double[]>>::iterator m_map_it;
   QTableView* m_pTbOrders;
   double m_total;
-  bool bIsOverhaul;
   double m_prevTotal;
   int m_guarantee;
 };

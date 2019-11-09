@@ -3,16 +3,16 @@
 
 
 CPriceList::CPriceList(QWidget *parent) :
-  QDialog(parent),
+  QWidget(parent),
   m_pUi(new Ui::PriceListWindow)
 {
   m_pUi->setupUi(this);
-  m_pServiceAdd = new CServiceAdd();
+  m_pServiceAdd = new CCompAdd();
   m_pServiceDeleter = new CServiceDeleter();
 
 #pragma region Signals/Slots
   connect(this, &CPriceList::showServiceAdd,
-          m_pServiceAdd, &CServiceAdd::showWindow);
+          m_pServiceAdd, &CCompAdd::showWindow);
 
   connect(this, &CPriceList::showServiceDeleter,
           m_pServiceDeleter, &CServiceDeleter::showWindow);
@@ -39,4 +39,55 @@ void CPriceList::on_add_price_btn_clicked() {
 
 void CPriceList::on_delete_btn_clicked() {
   emit showServiceDeleter(m_pUi->tb_price_list);
+}
+
+void CPriceList::on_up_btn_clicked() {
+  QModelIndex curr_idx = m_pUi->tb_price_list->selectionModel()->currentIndex();
+  qDebug() << "CPriceList::on_up_btn_clicked: [curr_row]: " << curr_idx.row();
+  if (curr_idx.row() > 0)
+  {
+    QModelIndex upd_idx = m_pUi->tb_price_list->model()->index(curr_idx.row() - 1, curr_idx.column());
+    m_pUi->tb_price_list->selectionModel()->clearSelection();
+    qDebug() << m_pUi->tb_price_list->selectionModel()->currentIndex();
+    m_pUi->tb_price_list->selectionModel()->select(upd_idx, QItemSelectionModel::Select);
+    m_pUi->tb_price_list->selectionModel()->setCurrentIndex(upd_idx, QItemSelectionModel::Select);
+  }
+}
+
+void CPriceList::on_down_btn_clicked() {
+  QModelIndex curr_idx = m_pUi->tb_price_list->selectionModel()->currentIndex();
+  auto nRow_cnt = m_pUi->tb_price_list->selectionModel()->currentIndex().model()->rowCount();
+  qDebug() << "CPriceList::on_down_btn_clicked: [curr_row]: " << curr_idx.row();
+  if (curr_idx.row() + 1 != nRow_cnt) {
+    QModelIndex upd_idx = m_pUi->tb_price_list->model()->index(curr_idx.row() + 1, curr_idx.column());
+    m_pUi->tb_price_list->selectionModel()->clearSelection();
+    qDebug() << m_pUi->tb_price_list->selectionModel()->currentIndex();
+    m_pUi->tb_price_list->selectionModel()->select(upd_idx, QItemSelectionModel::Select);
+    m_pUi->tb_price_list->selectionModel()->setCurrentIndex(upd_idx, QItemSelectionModel::Select);
+  }
+}
+
+void CPriceList::on_left_btn_clicked() {
+  QModelIndex curr_idx = m_pUi->tb_price_list->selectionModel()->currentIndex();
+  qDebug() << "CPriceList::on_left_btn_clicked: [curr_col]: " << curr_idx.column();
+  if (curr_idx.column() > 0) {
+    QModelIndex upd_idx = m_pUi->tb_price_list->model()->index(curr_idx.row(), curr_idx.column() - 1);
+    m_pUi->tb_price_list->selectionModel()->clearSelection();
+    qDebug() << m_pUi->tb_price_list->selectionModel()->currentIndex();
+    m_pUi->tb_price_list->selectionModel()->select(upd_idx, QItemSelectionModel::Select);
+    m_pUi->tb_price_list->selectionModel()->setCurrentIndex(upd_idx, QItemSelectionModel::Select);
+  }
+}
+
+void CPriceList::on_right_btn_clicked() {
+  QModelIndex curr_idx = m_pUi->tb_price_list->selectionModel()->currentIndex();
+  auto nCol_cnt = m_pUi->tb_price_list->selectionModel()->currentIndex().model()->columnCount();
+  qDebug() << "CPriceList::on_right_btn_clicked: [curr_col]: " << curr_idx.column();
+  if (curr_idx.column() + 1 != nCol_cnt) {
+    QModelIndex upd_idx = m_pUi->tb_price_list->model()->index(curr_idx.row(), curr_idx.column() + 1);
+    m_pUi->tb_price_list->selectionModel()->clearSelection();
+    qDebug() << m_pUi->tb_price_list->selectionModel()->currentIndex();
+    m_pUi->tb_price_list->selectionModel()->select(upd_idx, QItemSelectionModel::Select);
+    m_pUi->tb_price_list->selectionModel()->setCurrentIndex(upd_idx, QItemSelectionModel::Select);
+  }
 }

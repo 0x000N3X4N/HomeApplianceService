@@ -61,39 +61,23 @@ void CRecord::priceListChanged(QTableView* pTbOrders, CQueryController* hQuery,
 void CRecord::on_name_comboBox_currentIndexChanged(int index) {
   if (!m_priceListStructure.empty()) {
     m_map_it = m_priceListStructure.begin();
-    (bIsOverhaul) ? m_total = m_map_it->second[index] + OVERHAUL
-                              : m_total = m_map_it->second[index];
     m_pUi->total_value_label->setText(QString::number(m_total));
     m_pUi->guarantee_dial->setValue(0);
     m_prevTotal = m_total;
   }
 }
 
-void CRecord::on_type_repair_comboBox_currentIndexChanged(int index) {
-  if (index > 0) {
-    m_total += OVERHAUL;
-    m_prevTotal += OVERHAUL;
-    m_pUi->total_value_label->setText(QString::number(m_total));
-    bIsOverhaul = true;
-  } else {
-    m_total -= OVERHAUL;
-    m_prevTotal -= OVERHAUL;
-    m_pUi->total_value_label->setText(QString::number(m_total));
-    bIsOverhaul = false;
-  }
-}
-
 void CRecord::on_accept_btn_clicked() {
   QString sQuery;
-  if  (m_pUi->complete_dateEdit->isEnabled())
+  if (m_pUi->complete_dateEdit->isEnabled())
     sQuery = QString("INSERT INTO `home_appliance_service`.`order`"
-                             "(name, type, acceptance_date, completion_date, total, status, completed_surname)"
-                             "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7')")
-                             .arg(m_pUi->name_comboBox->currentText(), m_pUi->type_repair_comboBox->currentText(),
-                                  m_pUi->accept_dateEdit->date().toString("yyyy-MM-dd"),
-                                  m_pUi->complete_dateEdit->date().toString("yyyy-MM-dd"),
-                                  QString::number(m_total), m_pUi->status_comboBox->currentText(),
-                                  m_pUi->completed_order_name_lEdit->text());
+                     "(name, type, acceptance_date, completion_date, total, status, completed_surname)"
+                     "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7')")
+                     .arg(m_pUi->name_comboBox->currentText(), m_pUi->type_repair_comboBox->currentText(),
+                          m_pUi->accept_dateEdit->date().toString("yyyy-MM-dd"),
+                          m_pUi->complete_dateEdit->date().toString("yyyy-MM-dd"),
+                          QString::number(m_total), m_pUi->status_comboBox->currentText(),
+                          m_pUi->completed_order_name_lEdit->text());
 
   else
     sQuery = QString("INSERT INTO `home_appliance_service`.`order`("
