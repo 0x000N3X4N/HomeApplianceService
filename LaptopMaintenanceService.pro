@@ -24,6 +24,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+INCLUDEPATH += x:\libs\cpp\boost_1_71_0\
+
 SOURCES += \
   libs/ODBCConnector/ODBCW.cpp \
   libs/ODBCConnector/query_controller.cpp \
@@ -32,7 +34,7 @@ SOURCES += \
     pricelist.cpp \
     mainw.cpp \
     editor.cpp \
-    service_add.cpp \
+    comp_add.cpp \
     service_deleter.cpp \
     statistic.cpp
 
@@ -43,7 +45,7 @@ HEADERS += \
     pricelist.h \
     mainw.h \
     editor.h \
-    service_add.h \
+    comp_add.h \
     service_deleter.h \
     statistic.h
 
@@ -52,7 +54,7 @@ FORMS += \
     pricelist.ui \
     mainwindow.ui \
     editor.ui \
-    service_add.ui \
+    comp_add.ui \
     service_deleter.ui \
     statistic.ui
 

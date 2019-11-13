@@ -1,5 +1,5 @@
 ﻿#include "comp_add.h"
-#include "ui_service_add.h"
+#include "ui_comp_add.h"
 
 
 CCompAdd::CCompAdd(QWidget *parent) :

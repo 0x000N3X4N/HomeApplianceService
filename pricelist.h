@@ -4,6 +4,7 @@
 
 #include <QDialog>
 #include <QtSql>
+#include <QMenu>
 #include "comp_add.h"
 #include "service_deleter.h"
 
@@ -36,6 +37,7 @@ private slots:
 
 private:
   Ui::PriceListWindow* m_pUi;
+  QMenu* m_menu_ptr;
   CCompAdd* m_pServiceAdd;
   CServiceDeleter* m_pServiceDeleter;
 };

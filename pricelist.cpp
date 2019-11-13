@@ -9,6 +9,7 @@ CPriceList::CPriceList(QWidget *parent) :
   m_pUi->setupUi(this);
   m_pServiceAdd = new CCompAdd();
   m_pServiceDeleter = new CServiceDeleter();
+  m_menu_ptr = new QMenu();
 
 #pragma region Signals/Slots
   connect(this, &CPriceList::showServiceAdd,
@@ -16,7 +17,13 @@ CPriceList::CPriceList(QWidget *parent) :
 
   connect(this, &CPriceList::showServiceDeleter,
           m_pServiceDeleter, &CServiceDeleter::showWindow);
+  connect(m_menu_ptr, &QMenu::triggered, [](QAction *action){
+          qDebug()<< "triggered: " <<action->text();
+      });
 #pragma endregion
+  m_menu_ptr->addAction("Add component");
+  m_menu_ptr->addAction("Add component type");
+  m_pUi->add_price_btn->setMenu(m_menu_ptr);
 
   m_pUi->tb_price_list->horizontalHeader()
                    ->setSectionResizeMode(QHeaderView::Stretch);

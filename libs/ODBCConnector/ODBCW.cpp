@@ -2,7 +2,7 @@
 
 CODBCW::CODBCW() {
   db = QSqlDatabase::addDatabase("QODBC");
-  db.setDatabaseName("DRIVER={SQL Server};Server=QWERTY;Database=PCSMDB;Uid=sa;Port=1433;Pwd=;");
+  db.setDatabaseName("DRIVER={SQL Server};Server=DESKTOP-6RR6GV2;Database=PCSMDB;Uid=sa;Port=1433;Pwd=sa;");
   status = db.open();
   if (!status) {
     qDebug() << db.lastError();
