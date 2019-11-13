@@ -24,7 +24,7 @@ public slots:
   void setTablePriceList(QSortFilterProxyModel* );
 
 signals:
-  void showServiceAdd(QTableView* hTbPriceList);
+  void showCompAdd(QTableView* hTbPriceList);
   void showServiceDeleter(QTableView* hTbPriceList);
 
 private slots:
@@ -38,7 +38,7 @@ private slots:
 private:
   Ui::PriceListWindow* m_pUi;
   QMenu* m_menu_ptr;
-  CCompAdd* m_pServiceAdd;
+  CCompAdd* m_comp_add_ptr;
   CServiceDeleter* m_pServiceDeleter;
 };
 

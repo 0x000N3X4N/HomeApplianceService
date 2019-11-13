@@ -7,23 +7,29 @@ CPriceList::CPriceList(QWidget *parent) :
   m_pUi(new Ui::PriceListWindow)
 {
   m_pUi->setupUi(this);
-  m_pServiceAdd = new CCompAdd();
+  m_comp_add_ptr = new CCompAdd();
   m_pServiceDeleter = new CServiceDeleter();
   m_menu_ptr = new QMenu();
-
-#pragma region Signals/Slots
-  connect(this, &CPriceList::showServiceAdd,
-          m_pServiceAdd, &CCompAdd::showWindow);
-
-  connect(this, &CPriceList::showServiceDeleter,
-          m_pServiceDeleter, &CServiceDeleter::showWindow);
-  connect(m_menu_ptr, &QMenu::triggered, [](QAction *action){
-          qDebug()<< "triggered: " <<action->text();
-      });
-#pragma endregion
   m_menu_ptr->addAction("Add component");
   m_menu_ptr->addAction("Add component type");
   m_pUi->add_price_btn->setMenu(m_menu_ptr);
+
+#pragma region Signals/Slots
+  connect(this, &CPriceList::showCompAdd,
+          m_comp_add_ptr, &CCompAdd::showWindow);
+
+  connect(this, &CPriceList::showServiceDeleter,
+          m_pServiceDeleter, &CServiceDeleter::showWindow);
+
+  connect(m_menu_ptr, &QMenu::triggered, [this] (QAction* action_ptr) {
+            auto action_name_qstr = action_ptr->text();
+            if (action_name_qstr.compare("Add component", Qt::CaseInsensitive) == 0) {
+              m_comp_add_ptr->show();
+            } else if (action_name_qstr.compare("Add component type", Qt::CaseInsensitive) == 0) {
+
+            }
+          });
+#pragma endregion
 
   m_pUi->tb_price_list->horizontalHeader()
                    ->setSectionResizeMode(QHeaderView::Stretch);
@@ -31,7 +37,7 @@ CPriceList::CPriceList(QWidget *parent) :
 
 CPriceList::~CPriceList() {
   delete m_pUi;
-  delete m_pServiceAdd;
+  delete m_comp_add_ptr;
   delete m_pServiceDeleter;
 }
 
@@ -41,7 +47,7 @@ void CPriceList::setTablePriceList(QSortFilterProxyModel* model) {
 }
 
 void CPriceList::on_add_price_btn_clicked() {
-  emit showServiceAdd(m_pUi->tb_price_list);
+  emit showCompAdd(m_pUi->tb_price_list);
 }
 
 void CPriceList::on_delete_btn_clicked() {
