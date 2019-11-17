@@ -11,7 +11,7 @@
 		<file alias="up_arrow_disabled.png">resources/img/theme/up_arrow_disabled.png</file>
 		<file alias="Hmovetoolbar.png">resources/img/theme/Hmovetoolbar.png</file>
 		<file alias="stylesheet-branch-end.png">resources/img/theme/stylesheet-branch-end.png</file>
-		<file alias="branch_closed-on.pn">resources/img/theme/branch_closed-on.png</file>
+		<file alias="branch_closed-on.png">resources/img/theme/branch_closed-on.png</file>
 		<file alias="stylesheet-vline.png">resources/img/theme/stylesheet-vline.png</file>
 		<file alias="branch_closed.png">resources/img/theme/branch_closed.png</file>
 		<file alias="branch_open-on.png">resources/img/theme/branch_open-on.png</file>
