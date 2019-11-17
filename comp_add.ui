@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Add service</string>
+   <string>Add component</string>
   </property>
   <widget class="QGroupBox" name="service_gBox">
    <property name="geometry">

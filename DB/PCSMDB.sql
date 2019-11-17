@@ -15,7 +15,7 @@ USE PCSMDB;
 --/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 --/\/\/\/\/\/\/\/\/\/ DEFINE TABLES /\/\/\/\/\/\/\/\/\/\/\/\/\/\
 --/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-CREATE TABLE components_type(PK_component_type_id INT PRIMARY KEY IDENTITY, product_type VARCHAR(70) NOT NULL);
+CREATE TABLE components_type(PK_component_type_id INT PRIMARY KEY IDENTITY, product_type VARCHAR(70) NOT NULL UNIQUE);
 CREATE TABLE components (
 						  PK_component_id INT PRIMARY KEY IDENTITY, FK_type_code INT REFERENCES components_type(PK_component_type_id)
 						  ON DELETE CASCADE, title VARCHAR(256) NOT NULL, specifications TEXT NOT NULL, price MONEY NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE components (
 						);
 CREATE TABLE employees (
 						 PK_employee_id INT PRIMARY KEY IDENTITY, fullname NVARCHAR(70) NOT NULL, post NVARCHAR(70) NOT NULL,
-						 working_hours INT NOT NULL DEFAULT(8), salary MONEY NULL
+						 salary MONEY NULL, working_hours INT NULL DEFAULT(8)
 					   );
 CREATE TABLE passport (
 					    PK_passport_id INT PRIMARY KEY IDENTITY, fullname NVARCHAR(70) NOT NULL, place_of_residence NVARCHAR(70) NOT NULL,
@@ -171,6 +171,14 @@ VALUES ('1', 'Dell SE2419H', 'Разрешение\1920x1080' + CHAR(0xA) +
 																'Толщина транзистора\7 нм'                                           + CHAR(0xA) +
 																'Многопоточность ядра\true '                                         + CHAR(0xA), '411.72', '2019');
 SELECT * FROM components;
+
+INSERT INTO employees(fullname, post, salary)
+VALUES ('John Track Lir', 'Accountant', 500),
+	   ('Stephan King Sir', 'Accountant', 1000);
+SELECT * FROM employees;
+
+--INSERT INTO passport
+--VALUES ('John Track Lir', 'Kolesnikova 5', 'Frunzenskoe RUVD', 123);
 
 		--TODO: Entities city, street
 --*********************************************************
