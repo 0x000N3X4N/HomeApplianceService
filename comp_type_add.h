@@ -6,7 +6,7 @@
 
 
 namespace Ui {
-  class CComp_TyAdd;
+  class comp_type_add_wnd;
 }
 
 class CComp_TyAdd : public QDialog {
@@ -17,7 +17,8 @@ public:
   ~CComp_TyAdd();
 
 private:
-  Ui::CComp_TyAdd* m_pUi;
+  Ui::comp_type_add_wnd* m_pUi;
 };
+
 
 #endif // COMP_TYPE_ADD_H

@@ -8,6 +8,7 @@ CPriceList::CPriceList(QWidget *parent) :
 {
   m_pUi->setupUi(this);
   m_comp_add_ptr = new CCompAdd();
+  m_CompTyAdd_ptr = new CComp_TyAdd();
   m_pServiceDeleter = new CServiceDeleter();
   m_menu_ptr = new QMenu();
   m_menu_ptr->addAction("Add component");
@@ -24,9 +25,9 @@ CPriceList::CPriceList(QWidget *parent) :
   connect(m_menu_ptr, &QMenu::triggered, [this] (QAction* action_ptr) {
             auto action_name_qstr = action_ptr->text();
             if (action_name_qstr.compare("Add component", Qt::CaseInsensitive) == 0) {
-              m_comp_add_ptr->show();
+              emit showCompAdd(m_pUi->tb_price_list);
             } else if (action_name_qstr.compare("Add component type", Qt::CaseInsensitive) == 0) {
-
+              m_CompTyAdd_ptr->show();
             }
           });
 #pragma endregion

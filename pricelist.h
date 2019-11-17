@@ -7,6 +7,7 @@
 #include <QMenu>
 #include "comp_add.h"
 #include "service_deleter.h"
+#include "comp_type_add.h"
 
 
 namespace Ui {
@@ -27,6 +28,10 @@ signals:
   void showCompAdd(QTableView* hTbPriceList);
   void showServiceDeleter(QTableView* hTbPriceList);
 
+  //TODO: something universal method to switch between widgets, like:
+  //template<T>
+  //void switchTo(T*)
+
 private slots:
   void on_add_price_btn_clicked();
   void on_delete_btn_clicked();
@@ -39,6 +44,7 @@ private:
   Ui::PriceListWindow* m_pUi;
   QMenu* m_menu_ptr;
   CCompAdd* m_comp_add_ptr;
+  CComp_TyAdd* m_CompTyAdd_ptr;
   CServiceDeleter* m_pServiceDeleter;
 };
 

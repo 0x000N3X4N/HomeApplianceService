@@ -20,6 +20,9 @@ CCompAdd::~CCompAdd() {
 
 void CCompAdd::showWindow(QTableView* hTbPriceList) {
   m_hTbPriceList = hTbPriceList;
+  m_hQuery->clear();
+  m_hQuery->executeSqlQuery(QString("SELECT * "
+                                    "FROM components_type;"));
   this->show();
 }
 
