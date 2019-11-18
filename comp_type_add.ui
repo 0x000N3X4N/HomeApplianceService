@@ -37,9 +37,9 @@
    </property>
    <layout class="QHBoxLayout" name="hLayout">
     <item>
-     <widget class="QLabel" name="product_ty_l">
+     <widget class="QLabel" name="comp_ty_l">
       <property name="text">
-       <string>Product type:</string>
+       <string>Component type:</string>
       </property>
      </widget>
     </item>

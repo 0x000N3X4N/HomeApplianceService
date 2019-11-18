@@ -25,7 +25,7 @@
   <property name="windowTitle">
    <string>PriceList</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_4">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <widget class="QFrame" name="toolbar_frame">
      <property name="frameShape">
@@ -36,13 +36,25 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QGroupBox" name="price_lsit_gBox">
+       <widget class="QGroupBox" name="pricelist_gBox">
         <property name="title">
          <string>PriceList</string>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QTableView" name="tb_price_list"/>
+          <widget class="QTableView" name="pricelist_tbv"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="comp_types_gBox">
+        <property name="title">
+         <string>Component types</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QTableView" name="comp_Ty_tbv"/>
          </item>
         </layout>
        </widget>

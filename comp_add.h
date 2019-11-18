@@ -12,7 +12,7 @@ namespace Ui {
   class ServiceAddWindow;
 }
 
-typedef std::map<size_t, QString> component_item_Ty_T;
+typedef std::map<QString, size_t> component_item_Ty_T;
 
 class CCompAdd : public QDialog {
   Q_OBJECT
@@ -28,6 +28,8 @@ private slots:
   void on_add_service_btn_clicked();
 
 private:
+  void update_comp_items();
+
   Ui::ServiceAddWindow* m_pUi;
   CQueryController* m_hQuery;
   QTableView* m_hTbPriceList;

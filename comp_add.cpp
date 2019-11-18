@@ -8,9 +8,6 @@ CCompAdd::CCompAdd(QWidget *parent) :
 {
   m_pUi->setupUi(this);
   m_hQuery = new CQueryController(CODBCW::getInstance());
-
-//  std::for_each(m_listOfEquipment.begin(), m_listOfEquipment.end(),
-//                [=](QString& name) { m_pUi->component_type_comboBox->addItem(name); });
 }
 
 CCompAdd::~CCompAdd() {
@@ -19,20 +16,31 @@ CCompAdd::~CCompAdd() {
 }
 
 void CCompAdd::showWindow(QTableView* hTbPriceList) {
-  m_hTbPriceList = hTbPriceList;
-  m_hQuery->clear();
-  m_hQuery->executeSqlQuery(QString("SELECT * "
-                                    "FROM components_type;"));
-  this->show();
+  try {
+    m_hTbPriceList = hTbPriceList;
+    m_hQuery->clear();
+    if (m_hQuery->executeSqlQuery("SELECT * FROM components_type;")) {
+      while (m_hQuery->next())
+        m_map_comp_items[m_hQuery->parse_value(1).toString()] = m_hQuery->parse_value(0).toUInt();
+
+      update_comp_items();
+      this->show();
+    } else throw std::invalid_argument("CCompAdd::showWindow(..) : Error execute query!");
+  }
+  catch(std::invalid_argument& e) {
+    QMessageBox::critical(this, "Error", e.what());
+  }
 }
 
 void CCompAdd::on_add_service_btn_clicked() {
+  auto it = m_map_comp_items.find(m_pUi->component_type_comboBox->currentText());
+
   QString sQuery = QString("INSERT INTO components "
                            "VALUES ('%1', '%2', '%3', '%4', '2019')")
-                           .arg(m_pUi->component_type_comboBox->currentText(),
+                           .arg(QString::number(it->second),
                                 m_pUi->component_name_lEdit->text(),
                                 m_pUi->spec_lEdit->text(),
-                                m_pUi->price_dSpinBox->text());
+                                QString::number(m_pUi->price_dSpinBox->value()));
 
   if (m_hQuery->executeSqlQuery(sQuery)) {
     QMessageBox::information(this, "Success!", "Service was successfully added!");
@@ -52,4 +60,11 @@ void CCompAdd::on_add_service_btn_clicked() {
   } else
     QMessageBox::critical(this, "Error", "Error to add service into your pricelist!\r\n"
                                          "Please, check your connection to database!");
+}
+
+void CCompAdd::update_comp_items() {
+  m_pUi->component_type_comboBox->clear();
+
+  for (auto it = m_map_comp_items.begin(); it != m_map_comp_items.end(); it++)
+    m_pUi->component_type_comboBox->addItem(it->first);
 }

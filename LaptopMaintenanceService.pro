@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-INCLUDEPATH += x:/libs/cpp/boost/v1.70/
+INCLUDEPATH += x:/libs/cpp/boost/v1.71/
 
 SOURCES += \
   comp_type_add.cpp \
@@ -52,13 +52,13 @@ HEADERS += \
     statistic.h
 
 FORMS += \
+    comp_deleter.ui \
     comp_type_add.ui \
     record.ui \
     pricelist.ui \
     mainwindow.ui \
     editor.ui \
     comp_add.ui \
-    service_deleter.ui \
     statistic.ui
 
 RESOURCES += res.qrc

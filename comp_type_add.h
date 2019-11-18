@@ -3,6 +3,9 @@
 
 
 #include <QDialog>
+#include <QMessageBox>
+#include "libs/ODBCConnector/query_controller.h"
+#include "libs/ODBCConnector/ODBCW.h"
 
 
 namespace Ui {
@@ -15,6 +18,9 @@ class CComp_TyAdd : public QDialog {
 public:
   explicit CComp_TyAdd(QWidget *parent = nullptr);
   ~CComp_TyAdd();
+
+private slots:
+  void on_add_type_btn_clicked();
 
 private:
   Ui::comp_type_add_wnd* m_pUi;

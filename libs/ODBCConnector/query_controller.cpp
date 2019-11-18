@@ -1,5 +1,8 @@
 ﻿#include "query_controller.h"
 
+
+//TODO: mb have sense to implement method like QSqlQuery::bindValue(...)
+
 CQueryController::CQueryController(CODBCW& other) {
   QSqlQuery tmp(reinterpret_cast<QSqlDatabase&>(other));
   mysqlquery = tmp;
