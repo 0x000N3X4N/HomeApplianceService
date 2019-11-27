@@ -15,7 +15,7 @@ USE PCSMDB;
 --/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 --/\/\/\/\/\/\/\/\/\/ DEFINE TABLES /\/\/\/\/\/\/\/\/\/\/\/\/\/\
 --/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-CREATE TABLE components_type(PK_component_type_id INT PRIMARY KEY IDENTITY, product_type VARCHAR(70) NOT NULL UNIQUE);
+CREATE TABLE components_type(PK_component_type_id INT PRIMARY KEY IDENTITY, component_type VARCHAR(70) NOT NULL UNIQUE);
 CREATE TABLE components (
 						  PK_component_id INT PRIMARY KEY IDENTITY, FK_type_code INT REFERENCES components_type(PK_component_type_id)
 						  ON DELETE CASCADE, title VARCHAR(256) NOT NULL, specifications TEXT NOT NULL, price MONEY NOT NULL,
@@ -170,8 +170,9 @@ VALUES ('1', 'Dell SE2419H', 'Разрешение\1920x1080' + CHAR(0xA) +
 																'Расчетная тепловая мощность (TDP)\65 Вт'                            + CHAR(0xA) +
 																'Толщина транзистора\7 нм'                                           + CHAR(0xA) +
 																'Многопоточность ядра\true '                                         + CHAR(0xA), '411.72', '2019');
-SELECT * FROM components;
 
+SELECT * FROM components;
+SELECT * FROM components_type;
 INSERT INTO employees(fullname, post, salary)
 VALUES ('John Track Lir', 'Accountant', 500),
 	   ('Stephan King Sir', 'Accountant', 1000);

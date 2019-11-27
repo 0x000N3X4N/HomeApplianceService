@@ -28,4 +28,5 @@ private:
   QSortFilterProxyModel* m_hFilterModel;
 };
 
+
 #endif // STATISTIC_H

@@ -1,6 +1,7 @@
 ﻿#ifndef RECORD_H
 #define RECORD_H
 
+
 #include <QDialog>
 #include <QDebug>
 #include <QTableView>
@@ -13,8 +14,7 @@ namespace Ui {
   class RecordWindow;
 }
 
-class CRecord : public QDialog
-{
+class CRecord : public QDialog {
   Q_OBJECT
 
 public:

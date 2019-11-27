@@ -84,19 +84,32 @@ void MainWindow::on_price_btn_clicked() {
                                    "ON FK_type_code = PK_component_type_id;"))
       throw std::invalid_argument("Error, query for pricelist not executed!");
     //TODO: refactor
-    QSqlQueryModel* hModel = new QSqlQueryModel();
-    QSortFilterProxyModel* hFilterModel = new QSortFilterProxyModel();
-    hModel->setQuery(m_hQuery->getQuery());
-    hFilterModel->setDynamicSortFilter(true);
-    hFilterModel->setSourceModel(hModel);
+    QSqlQueryModel* hCompQModel = new QSqlQueryModel();
+    QSqlQueryModel* hCompTypeQModel = new QSqlQueryModel();
+    QSortFilterProxyModel* hCompFilterModel = new QSortFilterProxyModel();
+    QSortFilterProxyModel* hCompTyFilterModel = new QSortFilterProxyModel();
+    hCompQModel->setQuery(m_hQuery->getQuery());
+    hCompFilterModel->setDynamicSortFilter(true);
+    hCompFilterModel->setSourceModel(hCompQModel);
 
-    emit tbSendPriceList(hFilterModel);
+    m_hQuery->clear();
+
+    if (!m_hQuery->executeSqlQuery("SELECT component_type AS 'Component type' FROM components_type;"))
+      throw std::invalid_argument("Error, query for pricelist not executed!");
+
+    hCompTypeQModel->setQuery(m_hQuery->getQuery());
+    hCompTyFilterModel->setDynamicSortFilter(true);
+    hCompTyFilterModel->setSourceModel(hCompTypeQModel);
+
+    emit tbSendPriceList(hCompFilterModel, hCompTyFilterModel);
     emit showPriceList();
   }
   catch(std::invalid_argument& e) {
-    qDebug() << e.what();
     QMessageBox::critical(this, e.what(), e.what());
     return;
+  }
+  catch(...) {
+    QMessageBox::critical(this, "Error!", "MainWindow::on_price_btn_clicked : Unexpected error!");
   }
 }
 
@@ -105,7 +118,7 @@ void MainWindow::on_add_order_btn_clicked() {
     m_hQuery->executeSqlQuery("SELECT price AS 'Price', name FROM pricelist");
 
     if (!m_hQuery->isSelect())
-      throw std::invalid_argument("Error, price list doesn't contain prices!");
+      throw std::invalid_argument("Error, pricelist doesn't contain prices!");
 
     size_t sizeOfPriceList = m_hQuery->size();
     std::shared_ptr<double[]> pPriceList(new double[sizeOfPriceList],
@@ -120,7 +133,6 @@ void MainWindow::on_add_order_btn_clicked() {
 
     emit sendPriceList(m_pUi->tb_orders, m_hQuery, pPriceList, equipment_name);
   } catch(std::invalid_argument& e) {
-    qDebug() << e.what();
     QMessageBox::critical(this, e.what(), e.what());
     return;
   }

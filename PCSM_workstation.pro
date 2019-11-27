@@ -24,10 +24,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-INCLUDEPATH += x:/libs/cpp/boost/v1.71/
+INCLUDEPATH += x:/libs/cpp/boost/v1.70/
 
 SOURCES += \
+  comp_deleter.cpp \
   comp_type_add.cpp \
+  comp_type_deleter.cpp \
+  component.cpp \
   libs/ODBCConnector/ODBCW.cpp \
   libs/ODBCConnector/query_controller.cpp \
         main.cpp \
@@ -36,11 +39,14 @@ SOURCES += \
     mainw.cpp \
     editor.cpp \
     comp_add.cpp \
-    service_deleter.cpp \
     statistic.cpp
 
 HEADERS += \
+    PCSM_base_types.h \
+    comp_deleter.h \
     comp_type_add.h \
+    comp_type_deleter.h \
+    component.h \
     libs/ODBCConnector/ODBCW.h \
     libs/ODBCConnector/query_controller.h \
     record.h \
@@ -48,12 +54,12 @@ HEADERS += \
     mainw.h \
     editor.h \
     comp_add.h \
-    service_deleter.h \
     statistic.h
 
 FORMS += \
     comp_deleter.ui \
     comp_type_add.ui \
+    comp_type_deleter.ui \
     record.ui \
     pricelist.ui \
     mainwindow.ui \

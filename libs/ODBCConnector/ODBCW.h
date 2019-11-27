@@ -5,6 +5,7 @@
 #include <QtSql>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
+#include <QMessageBox>
 #include <QDebug>
 #include "boost/noncopyable.hpp"
 

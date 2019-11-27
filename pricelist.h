@@ -5,14 +5,18 @@
 #include <QDialog>
 #include <QtSql>
 #include <QMenu>
+#include "PCSM_base_types.h"
+#include "libs/ODBCConnector/query_controller.h"
 #include "comp_add.h"
-#include "service_deleter.h"
+#include "comp_deleter.h"
 #include "comp_type_add.h"
+#include "comp_type_deleter.h"
 
 
 namespace Ui {
   class PriceListWindow;
 }
+
 
 class CPriceList : public QWidget {
   Q_OBJECT
@@ -22,19 +26,20 @@ public:
   ~CPriceList();
 
 public slots:
-  void setTablePriceList(QSortFilterProxyModel* );
+  void setTablePriceList(QSortFilterProxyModel* hCompFModel,
+                         QSortFilterProxyModel* hCompTypeFModel);
 
 signals:
-  void showCompAdd(QTableView* hTbPriceList);
-  void showServiceDeleter(QTableView* hTbPriceList);
+  void showCompAdd(QTableView* hTbPriceList, component_item_Ty_T& _map_comp_Ty_items);
+  void showCompTypeAdd(QTableView* hTbCompType);
+  void showCompDeleter(QTableView* hTbPriceList, component_itemT& _map_comp_items);
+  void showCompTypeDeleter(QTableView* hTbCompType);
 
   //TODO: something universal method to switch between widgets, like:
   //template<T>
   //void switchTo(T*)
 
 private slots:
-  void on_add_price_btn_clicked();
-  void on_delete_btn_clicked();
   void on_up_btn_clicked();
   void on_down_btn_clicked();
   void on_left_btn_clicked();
@@ -42,10 +47,15 @@ private slots:
 
 private:
   Ui::PriceListWindow* m_pUi;
-  QMenu* m_menu_ptr;
+  CQueryController* m_hQuery;
+  QMenu* m_pCompAddMenu;
+  QMenu* m_pCompDelMenu;
   CCompAdd* m_comp_add_ptr;
   CComp_TyAdd* m_CompTyAdd_ptr;
-  CServiceDeleter* m_pServiceDeleter;
+  CComp_TyDeleter* m_CompTyDel_ptr;
+  CCompDeleter* m_pServiceDeleter;
+  component_item_Ty_T m_map_comp_Ty_items;
+  component_itemT m_map_comp_items;
 };
 
 

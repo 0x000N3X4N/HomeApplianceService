@@ -1,14 +1,21 @@
 ﻿#include "ODBCW.h"
 
 CODBCW::CODBCW() {
-  db = QSqlDatabase::addDatabase("QODBC");
-  db.setDatabaseName("DRIVER={SQL Server};Server=DESKTOP-6RR6GV2;Database=PCSMDB;Uid=sa;Port=1433;Pwd=sa;");
-  status = db.open();
-  if (!status) {
-    qDebug() << db.lastError();
-    qFatal( "Failed to connect." );
-  } else
-    qDebug() << "Successfully connected to database!";
+  try {
+    db = QSqlDatabase::addDatabase("QODBC");
+    db.setDatabaseName("DRIVER={SQL Server};Server=QWERTY;Database=PCSMDB;Uid=sa;Port=1433;Pwd=sa;");
+    status = db.open();
+    if (!status) {
+      //TODO: debug info macro
+      qDebug() << db.lastError();
+      qFatal( "Failed to connect." );
+    } else
+      qDebug() << "Successfully connected to database!";
+  }
+  catch(...) {
+    //TODO: error handling
+//    QMessageBox::critical(this, "Error!", "CODBCW::CODBCW : Unexpected error!");
+  }
 }
 
 CODBCW& CODBCW::getInstance() {

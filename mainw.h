@@ -18,6 +18,7 @@ namespace Ui {
   class MainWindow;
 }
 
+
 class MainWindow : public QMainWindow {
   Q_OBJECT
 
@@ -30,7 +31,8 @@ signals:
   void showAddOrder();
   void showEditor(QTableView* tb_orders, CQueryController* hQuery);
   void showStatistic();
-  void tbSendPriceList(QSortFilterProxyModel* );
+  void tbSendPriceList(QSortFilterProxyModel* hFModelComp,
+                       QSortFilterProxyModel* hFModelCompType);
   void sendPriceList(QTableView* pTbOrders, CQueryController* hQuery,
                      std::shared_ptr<double[]> pPriceList,
                      std::vector<QString> aEquipmentName);

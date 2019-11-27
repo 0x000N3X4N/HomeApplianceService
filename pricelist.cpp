@@ -7,53 +7,98 @@ CPriceList::CPriceList(QWidget *parent) :
   m_pUi(new Ui::PriceListWindow)
 {
   m_pUi->setupUi(this);
+  m_hQuery = new CQueryController(CODBCW::getInstance());
   m_comp_add_ptr = new CCompAdd();
   m_CompTyAdd_ptr = new CComp_TyAdd();
-  m_pServiceDeleter = new CServiceDeleter();
-  m_menu_ptr = new QMenu();
-  m_menu_ptr->addAction("Add component");
-  m_menu_ptr->addAction("Add component type");
-  m_pUi->add_price_btn->setMenu(m_menu_ptr);
+  m_pServiceDeleter = new CCompDeleter();
+  m_pCompAddMenu = new QMenu();
+  m_pCompDelMenu = new QMenu();
+  m_CompTyDel_ptr = new CComp_TyDeleter();
+  m_pCompAddMenu->addAction("Add component");
+  m_pCompAddMenu->addAction("Add component type");
+  m_pCompDelMenu->addAction("Delete component");
+  m_pCompDelMenu->addAction("Delete component type");
+  m_pUi->add_price_btn->setMenu(m_pCompAddMenu);
+  m_pUi->delete_btn->setMenu(m_pCompDelMenu);
 
 #pragma region Signals/Slots
   connect(this, &CPriceList::showCompAdd,
           m_comp_add_ptr, &CCompAdd::showWindow);
 
-  connect(this, &CPriceList::showServiceDeleter,
-          m_pServiceDeleter, &CServiceDeleter::showWindow);
+  connect(this, &CPriceList::showCompDeleter,
+          m_pServiceDeleter, &CCompDeleter::showWindow);
 
-  connect(m_menu_ptr, &QMenu::triggered, [this] (QAction* action_ptr) {
+  connect(this, &CPriceList::showCompTypeAdd,
+          m_CompTyAdd_ptr, &CComp_TyAdd::showWindow);
+
+  connect(this, &CPriceList::showCompTypeDeleter,
+          m_CompTyDel_ptr, &CComp_TyDeleter::showWindow);
+
+  connect(m_pCompAddMenu, &QMenu::triggered, [this] (QAction* action_ptr) {
             auto action_name_qstr = action_ptr->text();
             if (action_name_qstr.compare("Add component", Qt::CaseInsensitive) == 0) {
-              emit showCompAdd(m_pUi->pricelist_tbv);
+               try {
+                 m_hQuery->clear();
+                 if (m_hQuery->executeSqlQuery("SELECT * FROM components_type;")) {
+                   while (m_hQuery->next())
+                     m_map_comp_Ty_items[m_hQuery->parse_value(1).toString()] = m_hQuery->parse_value(0).toUInt();
+
+                     emit showCompAdd(m_pUi->pricelist_tbv, m_map_comp_Ty_items);
+                 } else throw std::invalid_argument("CPriceList::CPriceList : Error execute query!");
+               }
+               catch(std::invalid_argument& e) {
+                 QMessageBox::critical(this, "Error", e.what());
+               }
+
             } else if (action_name_qstr.compare("Add component type", Qt::CaseInsensitive) == 0) {
-              m_CompTyAdd_ptr->show();
+              emit showCompTypeAdd(m_pUi->comp_Ty_tbv);
             }
           });
+
+  connect(m_pCompDelMenu, &QMenu::triggered, [this] (QAction* action_ptr) {
+    auto action_name_qstr = action_ptr->text();
+    if (action_name_qstr.compare("Delete component", Qt::CaseInsensitive) == 0) {
+      try {
+        m_hQuery->clear();
+        if (m_hQuery->executeSqlQuery("SELECT PK_component_id, title FROM components;"))
+        {
+          while (m_hQuery->next())
+            m_map_comp_items[m_hQuery->parse_value(1).toString()] = m_hQuery->parse_value(0).toUInt();
+
+          emit showCompDeleter(m_pUi->pricelist_tbv, m_map_comp_items);
+        }
+        else throw std::invalid_argument("CPriceList::CPriceList : Error execute query!");
+      }
+      catch(...) {
+        QMessageBox::critical(this, "Error!", "CPriceList::CPriceList : Unexpected error!");
+      }
+    } else if (action_name_qstr.compare("Delete component type", Qt::CaseInsensitive) == 0) {
+      emit showCompTypeDeleter(m_pUi->comp_Ty_tbv);
+    }
+  });
 #pragma endregion
 
   m_pUi->pricelist_tbv->horizontalHeader()
                    ->setSectionResizeMode(QHeaderView::Stretch);
-  m_pUi->comp_Ty_tbv->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+  m_pUi->comp_Ty_tbv->horizontalHeader()
+                   ->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 CPriceList::~CPriceList() {
   delete m_pUi;
+  delete m_hQuery;
   delete m_comp_add_ptr;
   delete m_pServiceDeleter;
+  delete m_CompTyAdd_ptr;
 }
 
-void CPriceList::setTablePriceList(QSortFilterProxyModel* model) {
-  m_pUi->pricelist_tbv->setModel(model);
+void CPriceList::setTablePriceList(QSortFilterProxyModel* hCompFModel,
+                                   QSortFilterProxyModel* hCompTypeFModel) {
+  m_pUi->pricelist_tbv->setModel(hCompFModel);
   m_pUi->pricelist_tbv->setSortingEnabled(true);
-}
-
-void CPriceList::on_add_price_btn_clicked() {
-  emit showCompAdd(m_pUi->pricelist_tbv);
-}
-
-void CPriceList::on_delete_btn_clicked() {
-  emit showServiceDeleter(m_pUi->pricelist_tbv);
+  m_pUi->comp_Ty_tbv->setModel(hCompTypeFModel);
+  m_pUi->comp_Ty_tbv->setSortingEnabled(true);
 }
 
 void CPriceList::on_up_btn_clicked() {
