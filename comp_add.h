@@ -8,14 +8,14 @@
 #include "PCSM_base_types.h"
 #include "component.h"
 #include "libs/ODBCConnector/query_controller.h"
-
+#include <type_traits>
 
 namespace Ui {
   class ServiceAddWindow;
 }
 
 //TODO: component class
-class CCompAdd : public QDialog, public CComponents {
+class CCompAdd : public QDialog, public CCompsTraits {
   Q_OBJECT
 
 public:

@@ -33,7 +33,7 @@ void CCompAdd::showWindow(QTableView* hTbPriceList) {
 void CCompAdd::on_add_service_btn_clicked() {
 //  auto it = CComponents::comps.find(m_pUi->component_type_comboBox->currentText());
 
-  CComponents::comps.at()
+  CCompsTraits::comps.
   QString sQuery = QString("INSERT INTO components "
                            "VALUES ('%1', '%2', '%3', '%4', '2019')")
                            .arg(QString::number(it->second),
