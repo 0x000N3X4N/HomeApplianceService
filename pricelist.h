@@ -30,9 +30,9 @@ public slots:
                          QSortFilterProxyModel* hCompTypeFModel);
 
 signals:
-  void showCompAdd(QTableView* hTbPriceList, component_item_Ty_T& _map_comp_Ty_items);
+  void showCompAdd(QTableView* hTbPriceList);
   void showCompTypeAdd(QTableView* hTbCompType);
-  void showCompDeleter(QTableView* hTbPriceList, component_itemT& _map_comp_items);
+  void showCompDeleter(QTableView* hTbPriceList);
   void showCompTypeDeleter(QTableView* hTbCompType);
 
   //TODO: something universal method to switch between widgets, like:
@@ -55,7 +55,6 @@ private:
   CComp_TyDeleter* m_CompTyDel_ptr;
   CCompDeleter* m_pServiceDeleter;
   component_item_Ty_T m_map_comp_Ty_items;
-  component_itemT m_map_comp_items;
 };
 
 

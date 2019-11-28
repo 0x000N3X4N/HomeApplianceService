@@ -43,7 +43,7 @@ CPriceList::CPriceList(QWidget *parent) :
                    while (m_hQuery->next())
                      m_map_comp_Ty_items[m_hQuery->parse_value(1).toString()] = m_hQuery->parse_value(0).toUInt();
 
-                     emit showCompAdd(m_pUi->pricelist_tbv, m_map_comp_Ty_items);
+//                     emit showCompAdd(m_pUi->pricelist_tbv, m_map_comp_Ty_items);
                  } else throw std::invalid_argument("CPriceList::CPriceList : Error execute query!");
                }
                catch(std::invalid_argument& e) {
@@ -62,10 +62,15 @@ CPriceList::CPriceList(QWidget *parent) :
         m_hQuery->clear();
         if (m_hQuery->executeSqlQuery("SELECT PK_component_id, title FROM components;"))
         {
-          while (m_hQuery->next())
-            m_map_comp_items[m_hQuery->parse_value(1).toString()] = m_hQuery->parse_value(0).toUInt();
+          PCOM::CComponents<>::CompsT _comps;
+          while (m_hQuery->next()) {
+            std::shared_ptr<PCOM::comp<>> t = std::make_shared<PCOM::comp<>>("1" , 1);
+            QString title_qstr = m_hQuery->parse_value(1).toString();
+            size_t id = m_hQuery->parse_value(0).toUInt();
+            _comps.push_back(std::make_shared<PCOM::comp<>>(title_qstr , id));
+          }
 
-          emit showCompDeleter(m_pUi->pricelist_tbv, m_map_comp_items);
+          emit showCompDeleter(m_pUi->pricelist_tbv);
         }
         else throw std::invalid_argument("CPriceList::CPriceList : Error execute query!");
       }

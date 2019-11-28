@@ -26,17 +26,16 @@ void CCompAdd::clearUi() {
 
 void CCompAdd::showWindow(QTableView* hTbPriceList) {
   m_hTbPriceList = hTbPriceList;
-  update_comp_items();
+  comps.upd(*m_pUi->component_type_comboBox);
   this->show();
 }
 
 void CCompAdd::on_add_service_btn_clicked() {
-//  auto it = CComponents::comps.find(m_pUi->component_type_comboBox->currentText());
+  auto it = comps.find(m_pUi->component_type_comboBox->currentText());
 
-  CCompsTraits::comps.
   QString sQuery = QString("INSERT INTO components "
                            "VALUES ('%1', '%2', '%3', '%4', '2019')")
-                           .arg(QString::number(it->second),
+                           .arg(QString::number((*it)->get_id()),
                                 m_pUi->component_name_lEdit->text(),
                                 m_pUi->spec_lEdit->text(),
                                 QString::number(m_pUi->price_dSpinBox->value()));
@@ -67,11 +66,4 @@ void CCompAdd::on_add_service_btn_clicked() {
   catch(...) {
     QMessageBox::critical(this, "Error!", "CCompAdd::on_add_service_btn_clicked : Unexpected error!");
   }
-}
-
-void CCompAdd::update_comp_items() {
-  m_pUi->component_type_comboBox->clear();
-
-  for (auto it = m_map_comp_items.begin(); it != m_map_comp_items.end(); it++)
-    m_pUi->component_type_comboBox->addItem(it->first);
 }

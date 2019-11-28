@@ -8,7 +8,7 @@ CCompDeleter::CCompDeleter(QWidget *parent) :
 {
   m_pUi->setupUi(this);
   m_hQuery = new CQueryController(CODBCW::getInstance());
-  connect(this, &CCompDeleter::finished,
+  QWidget::connect(this, &CCompDeleter::finished,
           this, &CCompDeleter::CCompDeleter::clearUi);
 }
 
@@ -17,15 +17,13 @@ CCompDeleter::~CCompDeleter() {
   delete m_hQuery;
 }
 
-void CCompDeleter::showWindow(QTableView* hTbPriceList,
-                              component_itemT& _map_comp_items) {
+void CCompDeleter::showWindow(QTableView* hTbPriceList) {
   m_hTbPriceList = hTbPriceList;
-  m_map_comp_items = _map_comp_items;
   //TODO: @arg: std::move
   // pass as rvalue ref
   // FIXME
-  _map_comp_items.clear();
-  upd_comp_items();
+  comps.get()->clear();
+  comps.upd(*m_pUi->comp_type_cmbBox);
   this->show();
 }
 
@@ -35,7 +33,7 @@ void CCompDeleter::on_accept_deleter_btn_clicked() {
                            .arg(m_pUi->comp_type_cmbBox->currentText());
 
   if (m_hQuery->executeSqlQuery(sQuery)) {
-    m_map_comp_items.erase(m_pUi->comp_type_cmbBox->currentText());
+    comps.rm(m_pUi->comp_type_cmbBox->currentText());
 
     QMessageBox::information(this, "Success",
                              "Component was successfully removed!");
@@ -54,16 +52,9 @@ void CCompDeleter::on_accept_deleter_btn_clicked() {
     hFilterModel->setDynamicSortFilter(true);
     hFilterModel->setSourceModel(hModel);
     m_hTbPriceList->setModel(hFilterModel);
-    upd_comp_items();
+    comps.upd(*m_pUi->comp_type_cmbBox);
   } else
     QMessageBox::critical(this, "Error!", "Please check your connection to database!");
-}
-
-void CCompDeleter::upd_comp_items() {
-  m_pUi->comp_type_cmbBox->clear();
-
-  for (auto it = m_map_comp_items.begin(); it != m_map_comp_items.end(); it++)
-    m_pUi->comp_type_cmbBox->addItem(it->first);
 }
 
 void CCompDeleter::clearUi() {
