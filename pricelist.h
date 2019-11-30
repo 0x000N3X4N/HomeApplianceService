@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QtSql>
 #include <QMenu>
+#include "component.h"
 #include "PCSM_base_types.h"
 #include "libs/ODBCConnector/query_controller.h"
 #include "comp_add.h"
@@ -18,7 +19,7 @@ namespace Ui {
 }
 
 
-class CPriceList : public QWidget {
+class CPriceList : public QWidget, public PCOM::CCompsTraits {
   Q_OBJECT
 
 public:
@@ -54,7 +55,6 @@ private:
   CComp_TyAdd* m_CompTyAdd_ptr;
   CComp_TyDeleter* m_CompTyDel_ptr;
   CCompDeleter* m_pServiceDeleter;
-  component_item_Ty_T m_map_comp_Ty_items;
 };
 
 

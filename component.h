@@ -22,10 +22,11 @@ namespace PCSM {
 
 
     template <typename NameT, typename IdT>
-    struct comp : public QObject {
+    struct comp {
       comp(NameT _name, IdT _id) :
         m_name(_name),
         m_id(_id) { }
+      comp() = default;
 
       IdT       get_id()   const   { return m_id;   }
       NameT     get_name() const   { return m_name; }
@@ -42,10 +43,9 @@ namespace PCSM {
       typedef _CompsTy CompsT;
       typedef typename CompsT::const_iterator CompsT_cit;
 
-      CComponents();
 
-      CompsT* get()              const { return &_m_comps;  }
-      void    set(CompsT _comps) const { _m_comps = _comps; }
+      CompsT* get()              { return &_m_comps;  }
+      void    set(CompsT _comps) { _m_comps = _comps; }
 
     protected:
       CompsT _m_comps;
@@ -54,8 +54,8 @@ namespace PCSM {
 
     class CCompsTraits : public CComponents<> {
     public:
-      bool rm(QString name) const {
-        comps._m_comps.erase(find(name));
+      void rm(QString name) const {
+        get_comps()._m_comps.erase(find(name));
       }
 
       CompsT_cit find(QString name) const {
@@ -69,13 +69,16 @@ namespace PCSM {
       void upd(QComboBox& _cmb_box_ptr) const {
         _cmb_box_ptr.clear();
 
-        for (auto comp : comps._m_comps)
+        for (auto comp : get_comps()._m_comps)
           _cmb_box_ptr.addItem(comp->get_name());
 
       }
 
     protected:
-      static CCompsTraits comps;
+      static CCompsTraits& get_comps() {
+        static CCompsTraits instance;
+        return instance;
+      }
     };
 
 

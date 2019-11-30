@@ -22,8 +22,8 @@ void CCompDeleter::showWindow(QTableView* hTbPriceList) {
   //TODO: @arg: std::move
   // pass as rvalue ref
   // FIXME
-  comps.get()->clear();
-  comps.upd(*m_pUi->comp_type_cmbBox);
+  CCompsTraits::get_comps().get()->clear();
+  CCompsTraits::get_comps().upd(*m_pUi->comp_type_cmbBox);
   this->show();
 }
 
@@ -33,7 +33,7 @@ void CCompDeleter::on_accept_deleter_btn_clicked() {
                            .arg(m_pUi->comp_type_cmbBox->currentText());
 
   if (m_hQuery->executeSqlQuery(sQuery)) {
-    comps.rm(m_pUi->comp_type_cmbBox->currentText());
+    CCompsTraits::get_comps().rm(m_pUi->comp_type_cmbBox->currentText());
 
     QMessageBox::information(this, "Success",
                              "Component was successfully removed!");
@@ -52,7 +52,7 @@ void CCompDeleter::on_accept_deleter_btn_clicked() {
     hFilterModel->setDynamicSortFilter(true);
     hFilterModel->setSourceModel(hModel);
     m_hTbPriceList->setModel(hFilterModel);
-    comps.upd(*m_pUi->comp_type_cmbBox);
+    CCompsTraits::get_comps().upd(*m_pUi->comp_type_cmbBox);
   } else
     QMessageBox::critical(this, "Error!", "Please check your connection to database!");
 }

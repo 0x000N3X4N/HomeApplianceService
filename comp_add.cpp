@@ -26,12 +26,12 @@ void CCompAdd::clearUi() {
 
 void CCompAdd::showWindow(QTableView* hTbPriceList) {
   m_hTbPriceList = hTbPriceList;
-  comps.upd(*m_pUi->component_type_comboBox);
+  CCompsTraits::get_comps().upd(*m_pUi->component_type_comboBox);
   this->show();
 }
 
 void CCompAdd::on_add_service_btn_clicked() {
-  auto it = comps.find(m_pUi->component_type_comboBox->currentText());
+  auto it = CCompsTraits::get_comps().find(m_pUi->component_type_comboBox->currentText());
 
   QString sQuery = QString("INSERT INTO components "
                            "VALUES ('%1', '%2', '%3', '%4', '2019')")
@@ -42,7 +42,7 @@ void CCompAdd::on_add_service_btn_clicked() {
 
   try {
     if (m_hQuery->executeSqlQuery(sQuery)) {
-      QMessageBox::information(this, "Success!", "Service was successfully added!");
+      QMessageBox::information(this, "Success!", "Component was successfully added!");
       m_hQuery->clear();
       sQuery = "SELECT PK_component_id AS 'ID', component_type AS 'Component type', title AS 'Title',"
                " specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date' "
