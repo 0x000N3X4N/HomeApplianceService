@@ -7,9 +7,14 @@ CCompAdd::CCompAdd(QWidget *parent) :
   m_pUi(new Ui::ServiceAddWindow)
 {
   m_pUi->setupUi(this);
+  m_hQuery = new CQueryController(CODBCW::getInstance());
+
+
   QWidget::connect(this, &CCompAdd::finished,
           this, &CCompAdd::clearUi);
-  m_hQuery = new CQueryController(CODBCW::getInstance());
+
+  m_pUi->release_date_dEdit->setCalendarPopup(true);
+  m_pUi->release_date_dEdit->setLocale(QLocale::English);
 }
 
 CCompAdd::~CCompAdd() {
@@ -18,6 +23,7 @@ CCompAdd::~CCompAdd() {
 }
 
 void CCompAdd::clearUi() {
+  CCompsTraits::get_comps().get()->clear();
   m_pUi->spec_lEdit->clear();
   m_pUi->component_name_lEdit->clear();
   m_pUi->component_type_comboBox->clear();
@@ -34,17 +40,19 @@ void CCompAdd::on_add_service_btn_clicked() {
   auto it = CCompsTraits::get_comps().find(m_pUi->component_type_comboBox->currentText());
 
   QString sQuery = QString("INSERT INTO components "
-                           "VALUES ('%1', '%2', '%3', '%4', '2019')")
+                           "VALUES ('%1', '%2', '%3', '%4', '%5')")
                            .arg(QString::number((*it)->get_id()),
                                 m_pUi->component_name_lEdit->text(),
                                 m_pUi->spec_lEdit->text(),
-                                QString::number(m_pUi->price_dSpinBox->value()));
+                                QString::number(m_pUi->price_dSpinBox->value()),
+                                QString::number(m_pUi->release_date_dEdit->date().year()));
 
   try {
     if (m_hQuery->executeSqlQuery(sQuery)) {
-      QMessageBox::information(this, "Success!", "Component was successfully added!");
+      QMessageBox::information(this, "Success!", "Component '" + m_pUi->component_name_lEdit->text()
+                                                               + "' was successfully added!");
       m_hQuery->clear();
-      sQuery = "SELECT PK_component_id AS 'ID', component_type AS 'Component type', title AS 'Title',"
+      sQuery = "SELECT title AS 'Title', component_type AS 'Component type',"
                " specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date' "
                "FROM components "
                "JOIN components_type "

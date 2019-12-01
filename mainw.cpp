@@ -77,7 +77,7 @@ void MainWindow::initTbOrders() {
 
 void MainWindow::on_price_btn_clicked() {
   try {
-    if (!m_hQuery->executeSqlQuery("SELECT title AS 'Title',"
+    if (!m_hQuery->executeSqlQuery("SELECT title AS 'Title', component_type AS 'Component type',"
                                    " specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date' "
                                    "FROM components "
                                    "JOIN components_type "

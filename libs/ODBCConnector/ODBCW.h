@@ -7,6 +7,7 @@
 #include <QtSql/QSqlQuery>
 #include <QMessageBox>
 #include <QDebug>
+#include <QHostInfo>
 #include "boost/noncopyable.hpp"
 
 

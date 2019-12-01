@@ -1,10 +1,16 @@
 ﻿#include "ODBCW.h"
 
+
 CODBCW::CODBCW() {
   try {
+    QString host_qstr = QHostInfo::localHostName(), connection_qstr;
     db = QSqlDatabase::addDatabase("QODBC");
-    db.setDatabaseName("DRIVER={SQL Server};Server=QWERTY;Database=PCSMDB;Uid=sa;Port=1433;Pwd=sa;");
+    connection_qstr = QString("DRIVER={SQL Server};Server=%1;Database=PCSMDB;Uid=sa;Port=1433;Pwd=sa;")
+                      .arg(host_qstr);
+
+    db.setDatabaseName(connection_qstr);
     status = db.open();
+
     if (!status) {
       //TODO: debug info macro
       qDebug() << db.lastError();

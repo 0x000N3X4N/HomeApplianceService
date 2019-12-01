@@ -4,14 +4,16 @@
 
 #include <QDialog>
 #include <QTableView>
-#include "comp_add.h"
+#include "PCSM_base_types.h"
+#include "component.h"
+#include "libs/ODBCConnector/query_controller.h"
 
 
 namespace Ui {
   class comp_type_deleter;
 }
 
-class CComp_TyDeleter : public QDialog {
+class CComp_TyDeleter : public QDialog, public PCOM::CCompsTraits {
   Q_OBJECT
 
 public:
@@ -22,9 +24,13 @@ public slots:
   void showWindow(QTableView* hTbCompType);
   void on_delete_comp_type_btn_clicked();
 
+private slots:
+  void clearUi();
+
 private:
   Ui::comp_type_deleter* m_pUi;
   QTableView* m_pTbCompType;
+  CQueryController* m_hQuery;
 };
 
 

@@ -15,24 +15,45 @@ USE PCSMDB;
 --/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 --/\/\/\/\/\/\/\/\/\/ DEFINE TABLES /\/\/\/\/\/\/\/\/\/\/\/\/\/\
 --/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-CREATE TABLE components_type(PK_component_type_id INT PRIMARY KEY IDENTITY, component_type VARCHAR(70) NOT NULL UNIQUE);
+CREATE TABLE components_type (PK_component_type_id INT PRIMARY KEY IDENTITY, component_type VARCHAR(70) NOT NULL UNIQUE,
+							  CONSTRAINT [CK_Comp_tyIsValid] CHECK ([component_type] <> N'')
+							 );
 CREATE TABLE components (
 						  PK_component_id INT PRIMARY KEY IDENTITY, FK_type_code INT REFERENCES components_type(PK_component_type_id)
-						  ON DELETE CASCADE, title VARCHAR(256) NOT NULL, specifications TEXT NOT NULL, price MONEY NOT NULL,
-						  release_date INT NOT NULL
+						  ON DELETE CASCADE, title VARCHAR(256) NOT NULL, specifications VARCHAR(MAX) NOT NULL, price MONEY NOT NULL,
+						  release_date INT NOT NULL, 
+						  CONSTRAINT [CK_CompIsValid] CHECK ([title] <> N'' AND 
+															  [specifications] <> N'' AND
+															  [price] <> N'' AND
+															  [release_date] <> N'')
 						);
 CREATE TABLE employees (
 						 PK_employee_id INT PRIMARY KEY IDENTITY, fullname NVARCHAR(70) NOT NULL, post NVARCHAR(70) NOT NULL,
-						 salary MONEY NULL, working_hours INT NULL DEFAULT(8)
+						 salary MONEY NULL, working_hours INT NULL DEFAULT(8),
+						 CONSTRAINT [CK_EmpIsValid] CHECK ([fullname] <> N'' AND 
+														   [post] <> N'')
 					   );
 CREATE TABLE passport (
 					    PK_passport_id INT PRIMARY KEY IDENTITY, fullname NVARCHAR(70) NOT NULL, place_of_residence NVARCHAR(70) NOT NULL,
 						body_which_issued_doc NVARCHAR (256) NOT NULL, series NVARCHAR(2) DEFAULT('MP') NOT NULL, pass_num INT NOT NULL,
+						CONSTRAINT [CK_PassIsValid] CHECK ([fullname] <> N'' AND 
+														   [place_of_residence] <> N'' AND
+														   [body_which_issued_doc] <> N'' AND
+														   [series] <> N'' AND
+														   [pass_num] <> N'')
 					  );
-CREATE TABLE city (PK_city_id INT PRIMARY KEY IDENTITY, [name] NVARCHAR(256) NOT NULL);
-CREATE TABLE street (PK_street_id INT PRIMARY KEY IDENTITY, FK_city_id INT REFERENCES city(PK_city_id), house_num SMALLINT NOT NULL, porch SMALLINT NOT NULL, [floor] SMALLINT NOT NULL);
+CREATE TABLE city (PK_city_id INT PRIMARY KEY IDENTITY, [name] NVARCHAR(256) NOT NULL,
+				   CONSTRAINT [CK_CityIsValid] CHECK ([name] <> N'')
+				   );
+CREATE TABLE street (PK_street_id INT PRIMARY KEY IDENTITY, FK_city_id INT REFERENCES city(PK_city_id), house_num SMALLINT NOT NULL, porch SMALLINT NOT NULL, [floor] SMALLINT NOT NULL,
+					 CONSTRAINT [CK_StreetIsValid] CHECK ([house_num] <> N'' AND
+														  [porch] <> N'' AND
+														  [floor] <> N'')
+					);
 CREATE TABLE customers (
-						 PK_customer_id INT PRIMARY KEY IDENTITY, FK_city_id INT REFERENCES city(PK_city_id), [name] NVARCHAR(30) NOT NULL, phone NVARCHAR(12) NOT NULL
+						 PK_customer_id INT PRIMARY KEY IDENTITY, FK_city_id INT REFERENCES city(PK_city_id), [name] NVARCHAR(30) NOT NULL, phone NVARCHAR(12) NOT NULL,
+						 CONSTRAINT [CK_CustIsValid] CHECK ([name] <> N'' AND
+															[phone] <> N'')
 					   );
 CREATE TABLE orders (
 						PK_order_id INT PRIMARY KEY IDENTITY, FK_component_type INT REFERENCES components(PK_component_id)
@@ -177,7 +198,6 @@ INSERT INTO employees(fullname, post, salary)
 VALUES ('John Track Lir', 'Accountant', 500),
 	   ('Stephan King Sir', 'Accountant', 1000);
 SELECT * FROM employees;
-
 --INSERT INTO passport
 --VALUES ('John Track Lir', 'Kolesnikova 5', 'Frunzenskoe RUVD', 123);
 

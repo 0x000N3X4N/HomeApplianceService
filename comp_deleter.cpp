@@ -22,21 +22,20 @@ void CCompDeleter::showWindow(QTableView* hTbPriceList) {
   //TODO: @arg: std::move
   // pass as rvalue ref
   // FIXME
-  CCompsTraits::get_comps().get()->clear();
-  CCompsTraits::get_comps().upd(*m_pUi->comp_type_cmbBox);
+  CCompsTraits::get_comps().upd(*m_pUi->comp_name_cmbBox);
   this->show();
 }
 
 void CCompDeleter::on_accept_deleter_btn_clicked() {
   QString sQuery = QString("DELETE FROM components "
                            "WHERE title = '%1'")
-                           .arg(m_pUi->comp_type_cmbBox->currentText());
+                           .arg(m_pUi->comp_name_cmbBox->currentText());
 
   if (m_hQuery->executeSqlQuery(sQuery)) {
-    CCompsTraits::get_comps().rm(m_pUi->comp_type_cmbBox->currentText());
+    CCompsTraits::get_comps().rm(m_pUi->comp_name_cmbBox->currentText());
 
     QMessageBox::information(this, "Success",
-                             "Component was successfully removed!");
+                             "Component'" + m_pUi->comp_name_cmbBox->currentText() + "' was successfully removed!");
 
     sQuery = "SELECT title AS 'Title',"
              "specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date' "
@@ -52,11 +51,12 @@ void CCompDeleter::on_accept_deleter_btn_clicked() {
     hFilterModel->setDynamicSortFilter(true);
     hFilterModel->setSourceModel(hModel);
     m_hTbPriceList->setModel(hFilterModel);
-    CCompsTraits::get_comps().upd(*m_pUi->comp_type_cmbBox);
+    CCompsTraits::get_comps().upd(*m_pUi->comp_name_cmbBox);
   } else
     QMessageBox::critical(this, "Error!", "Please check your connection to database!");
 }
 
 void CCompDeleter::clearUi() {
-  m_pUi->comp_type_cmbBox->clear();
+  CCompsTraits::get_comps().get()->clear();
+  m_pUi->comp_name_cmbBox->clear();
 }

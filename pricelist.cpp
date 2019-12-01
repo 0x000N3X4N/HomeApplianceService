@@ -42,7 +42,7 @@ CPriceList::CPriceList(QWidget *parent) :
                  if (m_hQuery->executeSqlQuery("SELECT * FROM components_type;")) {
                    while (m_hQuery->next()) {
                      auto comp = std::make_shared<CCompsTraits::comp<>>(m_hQuery->parse_value(1).toString(),
-                                                                       m_hQuery->parse_value(0).toUInt());
+                                                                        m_hQuery->parse_value(0).toUInt());
                      CCompsTraits::get_comps().get()->push_back(comp);
                    }
 
@@ -65,23 +65,38 @@ CPriceList::CPriceList(QWidget *parent) :
         m_hQuery->clear();
         if (m_hQuery->executeSqlQuery("SELECT PK_component_id, title FROM components;"))
         {
-          PCOM::CComponents<>::CompsT _comps;
           while (m_hQuery->next()) {
-            std::shared_ptr<PCOM::comp<>> t = std::make_shared<PCOM::comp<>>("1" , 1);
-            QString title_qstr = m_hQuery->parse_value(1).toString();
-            size_t id = m_hQuery->parse_value(0).toUInt();
-            _comps.push_back(std::make_shared<PCOM::comp<>>(title_qstr , id));
+            auto comp = std::make_shared<PCOM::comp<>>(m_hQuery->parse_value(1).toString(),
+                                                       m_hQuery->parse_value(0).toUInt());
+            CCompsTraits::get_comps().get()->push_back(comp);
           }
 
           emit showCompDeleter(m_pUi->pricelist_tbv);
         }
+        //TODO: improve err handling
         else throw std::invalid_argument("CPriceList::CPriceList : Error execute query!");
       }
       catch(...) {
         QMessageBox::critical(this, "Error!", "CPriceList::CPriceList : Unexpected error!");
       }
     } else if (action_name_qstr.compare("Delete component type", Qt::CaseInsensitive) == 0) {
-      emit showCompTypeDeleter(m_pUi->comp_Ty_tbv);
+      try {
+        m_hQuery->clear();
+        if (m_hQuery->executeSqlQuery("SELECT * FROM components_type;"))
+        {
+          while (m_hQuery->next()) {
+            auto comp = std::make_shared<PCOM::comp<>>(m_hQuery->parse_value(1).toString(),
+                                                       m_hQuery->parse_value(0).toUInt());
+            CCompsTraits::get_comps().get()->push_back(comp);
+          }
+
+          emit showCompTypeDeleter(m_pUi->comp_Ty_tbv);
+        }
+        else throw std::invalid_argument("CPriceList::CPriceList : Error execute query!");
+      }
+      catch(...) {
+        QMessageBox::critical(this, "Error!", "CPriceList::CPriceList : Unexpected error!");
+      }
     }
   });
 #pragma endregion

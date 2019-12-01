@@ -31,7 +31,7 @@
      <property name="title">
       <string>Configuration</string>
      </property>
-     <widget class="QLabel" name="comp_type_l">
+     <widget class="QLabel" name="comp_name_l">
       <property name="geometry">
        <rect>
         <x>11</x>
@@ -44,7 +44,7 @@
        <string>Component tite:</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comp_type_cmbBox">
+     <widget class="QComboBox" name="comp_name_cmbBox">
       <property name="geometry">
        <rect>
         <x>104</x>

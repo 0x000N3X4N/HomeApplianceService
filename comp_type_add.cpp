@@ -49,6 +49,7 @@ void CComp_TyAdd::on_add_type_btn_clicked() {
 }
 
 void CComp_TyAdd::clearUi() {
+  CCompsTraits::get_comps().get()->clear();
   m_pUi->product_type_lEdit->clear();
 }
 

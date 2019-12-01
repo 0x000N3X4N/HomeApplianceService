@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QMessageBox>
 #include <QTableView>
+#include "component.h"
 #include "libs/ODBCConnector/query_controller.h"
 #include "libs/ODBCConnector/ODBCW.h"
 
@@ -13,7 +14,7 @@ namespace Ui {
   class comp_type_add_wnd;
 }
 
-class CComp_TyAdd : public QDialog {
+class CComp_TyAdd : public QDialog, public PCOM::CCompsTraits {
   Q_OBJECT
 
 public:
