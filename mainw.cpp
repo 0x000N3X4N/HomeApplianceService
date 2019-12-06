@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
   m_pPriceListWindow = new CPriceList();
   m_pRecord = new CRecord();
   m_pEditor = new CEditor();
+  m_pEmployees = new CEmployees();
   m_pStatistic = new CStatistic();
 
 #pragma region Signals/Slots
@@ -30,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
   connect(this, &MainWindow::showStatistic,
           m_pStatistic, [=]() { m_pStatistic->show(); });
+  connect(this, &MainWindow::showEmployees,
+          m_pEmployees, &CEmployees::showWindow);
 #pragma enregion
   /////
 #pragma region Initialize fields of class
@@ -53,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
   delete m_pUi;
+  delete m_pEmployees;
   delete m_pPriceListWindow;
   delete m_pEditor;
   delete m_pRecord;
@@ -125,6 +129,7 @@ void MainWindow::on_add_order_btn_clicked() {
                                          std::default_delete<double[]>());
     std::vector<QString> equipment_name;
     int ecx = 0; // counter
+
     while (m_hQuery->next()) {
       pPriceList[ecx] = m_hQuery->parse_value(0).toDouble();
       equipment_name.push_back(m_hQuery->parse_value(1).toString());
@@ -146,4 +151,26 @@ void MainWindow::on_edit_btn_clicked() {
 
 void MainWindow::on_statistic_btn_clicked() {
   emit showStatistic();
+}
+
+void MainWindow::on_employees_btn_clicked() {
+  try {
+    m_hQuery->executeSqlQuery("SELECT fullname AS 'Fullname', post AS 'Post', "
+                              "salary AS 'Salary', working_hours AS 'Working hours' "
+                              "FROM employees;");
+
+    if (!m_hQuery->isSelect())
+      throw std::invalid_argument("Error, can't execute employee query!");
+
+    QSqlQueryModel* hEmpQModel = new QSqlQueryModel();
+    QSortFilterProxyModel* hEmpFilterModel = new QSortFilterProxyModel();
+    hEmpQModel->setQuery(m_hQuery->getQuery());
+    hEmpFilterModel->setDynamicSortFilter(true);
+    hEmpFilterModel->setSourceModel(hEmpQModel);
+
+    emit showEmployees(hEmpFilterModel);
+  } catch(std::invalid_argument& e) {
+    QMessageBox::critical(this, e.what(), e.what());
+    return;
+  }
 }

@@ -30,6 +30,9 @@ SOURCES += \
   comp_deleter.cpp \
   comp_type_add.cpp \
   comp_type_deleter.cpp \
+  employee_add.cpp \
+  employee_deleter.cpp \
+  employees.cpp \
   libs/ODBCConnector/ODBCW.cpp \
   libs/ODBCConnector/query_controller.cpp \
         main.cpp \
@@ -46,6 +49,9 @@ HEADERS += \
     comp_type_add.h \
     comp_type_deleter.h \
     component.h \
+    employee_add.h \
+    employee_deleter.h \
+    employees.h \
     libs/ODBCConnector/ODBCW.h \
     libs/ODBCConnector/query_controller.h \
     record.h \
@@ -59,6 +65,9 @@ FORMS += \
     comp_deleter.ui \
     comp_type_add.ui \
     comp_type_deleter.ui \
+    employee_add.ui \
+    employee_deleter.ui \
+    employees.ui \
     record.ui \
     pricelist.ui \
     mainwindow.ui \

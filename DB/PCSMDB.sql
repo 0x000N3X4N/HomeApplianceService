@@ -23,9 +23,9 @@ CREATE TABLE components (
 						  ON DELETE CASCADE, title VARCHAR(256) NOT NULL, specifications VARCHAR(MAX) NOT NULL, price MONEY NOT NULL,
 						  release_date INT NOT NULL, 
 						  CONSTRAINT [CK_CompIsValid] CHECK ([title] <> N'' AND 
-															  [specifications] <> N'' AND
-															  [price] <> N'' AND
-															  [release_date] <> N'')
+															 [specifications] <> N'' AND
+															 [price] <> N'' AND
+															 [release_date] <> N'')
 						);
 CREATE TABLE employees (
 						 PK_employee_id INT PRIMARY KEY IDENTITY, fullname NVARCHAR(70) NOT NULL, post NVARCHAR(70) NOT NULL,
@@ -58,7 +58,8 @@ CREATE TABLE customers (
 CREATE TABLE orders (
 						PK_order_id INT PRIMARY KEY IDENTITY, FK_component_type INT REFERENCES components(PK_component_id)
 						ON DELETE CASCADE, FK_employee_id INT REFERENCES employees(PK_employee_id) ON DELETE CASCADE, 
-						FK_customer_id INT REFERENCES customers(PK_customer_id) ON DELETE CASCADE, acceptance_date DATE NOT NULL DEFAULT(GETDATE())
+						FK_customer_id INT REFERENCES customers(PK_customer_id) ON DELETE CASCADE, acceptance_date DATE NOT NULL DEFAULT(GETDATE()),
+						price MONEY NOT NULL, comp_count INT NOT NULL
 					);
 
 --/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -194,9 +195,9 @@ VALUES ('1', 'Dell SE2419H', 'Разрешение\1920x1080' + CHAR(0xA) +
 
 SELECT * FROM components;
 SELECT * FROM components_type;
-INSERT INTO employees(fullname, post, salary)
-VALUES ('John Track Lir', 'Accountant', 500),
-	   ('Stephan King Sir', 'Accountant', 1000);
+INSERT INTO employees
+VALUES ('John Trac1k Lir', 'Accountant', 500, 1),
+	   ('Stephan Ki1ng Sir', 'Accountant', 1000, 2);
 SELECT * FROM employees;
 --INSERT INTO passport
 --VALUES ('John Track Lir', 'Kolesnikova 5', 'Frunzenskoe RUVD', 123);

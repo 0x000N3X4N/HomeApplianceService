@@ -52,7 +52,7 @@ void CRecord::priceListChanged(QTableView* pTbOrders, CQueryController* hQuery,
   std::for_each(m_pPriceListHandler->m_nameList.begin(), m_pPriceListHandler->m_nameList.end(),
                 [&](QString& name) { m_pUi->name_comboBox->addItem(name); });
   m_pUi->total_value_label->setText(QString::number(it->second[0]));
-#pragma comment endregion
+#pragma endregion
 
   m_total = it->second[0];
   m_prevTotal = m_total;

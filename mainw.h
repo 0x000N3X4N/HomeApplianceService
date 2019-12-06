@@ -10,6 +10,7 @@
 #include "record.h"
 #include "editor.h"
 #include "statistic.h"
+#include "employees.h"
 #include "libs/ODBCConnector/ODBCW.h"
 #include "libs/ODBCConnector/query_controller.h"
 
@@ -31,6 +32,7 @@ signals:
   void showAddOrder();
   void showEditor(QTableView* tb_orders, CQueryController* hQuery);
   void showStatistic();
+  void showEmployees(QSortFilterProxyModel* res_qsql);
   void tbSendPriceList(QSortFilterProxyModel* hFModelComp,
                        QSortFilterProxyModel* hFModelCompType);
   void sendPriceList(QTableView* pTbOrders, CQueryController* hQuery,
@@ -43,6 +45,7 @@ private slots:
   void on_add_order_btn_clicked();
   void on_edit_btn_clicked();
   void on_statistic_btn_clicked();
+  void on_employees_btn_clicked();
 
 private:
   Ui::MainWindow* m_pUi;
@@ -50,6 +53,7 @@ private:
   CEditor* m_pEditor;
   CRecord* m_pRecord;
   CStatistic* m_pStatistic;
+  CEmployees* m_pEmployees;
   CODBCW* m_hDb;
   CQueryController* m_hQuery; // query handler
   QSqlQueryModel* m_hModel;
