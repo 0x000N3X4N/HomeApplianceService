@@ -193,12 +193,11 @@ VALUES ('1', 'Dell SE2419H', 'Разрешение\1920x1080' + CHAR(0xA) +
 																'Толщина транзистора\7 нм'                                           + CHAR(0xA) +
 																'Многопоточность ядра\true '                                         + CHAR(0xA), '411.72', '2019');
 
-SELECT * FROM components;
-SELECT * FROM components_type;
+
 INSERT INTO employees
 VALUES ('John Track Lir', 'Accountant', 500, 1),
 	   ('Stephan King Sir', 'Accountant', 1000, 2);
-SELECT * FROM employees;
+
 
 INSERT INTO city
 VALUES ('Минск'),
@@ -207,13 +206,24 @@ VALUES ('Минск'),
 	   ('Витебск'),
 	   ('Гродно'),
 	   ('Брест');
-SELECT * FROM city;
+
 
 INSERT INTO street
 VALUES ('1', '1337', '2', '3'),
 	   ('6', '123', '4', '3');
 
+
+INSERT INTO customers
+VALUES ('1', 'Jeff', '+1234567'),
+       ('2', 'G.A.', '+4522156');
+
+
+SELECT * FROM components;
+SELECT * FROM components_type;
+SELECT * FROM employees;
+SELECT * FROM city;
 SELECT * FROM street;
+SELECT * FROM customers;
 
 --INSERT INTO passport
 --VALUES ('John Track Lir', 'Kolesnikova 5', 'Frunzenskoe RUVD', 123);
