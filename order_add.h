@@ -11,32 +11,29 @@
 
 
 namespace Ui {
-  class RecordWindow;
+  class OrderAddWindow;
 }
 
-class CRecord : public QDialog {
+class COrderAdd : public QDialog {
   Q_OBJECT
 
 public:
-  explicit CRecord(QWidget* parent = nullptr);
-  ~CRecord();
+  explicit COrderAdd(QWidget* parent = nullptr);
+  ~COrderAdd();
 
 public slots:
   void showWindow();
-  void priceListChanged(QTableView* pTbOrders, CQueryController* hQuery,
-                        std::shared_ptr<double[]> priceList,
-                        std::vector<QString> aEquipmentName);
 
 private slots:
   void on_name_comboBox_currentIndexChanged(int index);
   void on_accept_btn_clicked();
   void on_status_comboBox_currentIndexChanged(int index);
-  void on_guarantee_dial_valueChanged(int value);
-  void on_guarantee_dial_sliderReleased();
-  void on_RecordWindow_finished(int result);
+//  void on_guarantee_dial_valueChanged(int value);
+//  void on_guarantee_dial_sliderReleased();
+//  void on_RecordWindow_finished(int result);
 
 private:
-  Ui::RecordWindow* m_pUi;
+  Ui::OrderAddWindow* m_pUi;
   CQueryController* m_hQuery;
   struct priceListHandler;
   priceListHandler* m_pPriceListHandler;

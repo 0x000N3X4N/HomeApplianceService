@@ -45,7 +45,7 @@ void CEmployees::on_delete_employee_btn_clicked() {
         ++ecx;
       }
 
-      emit showEmplDel(pFN_qstr, ecx);
+      emit showEmplDel(pFN_qstr, ecx, m_pUi->employees_tb);
     }
     else
       throw std::invalid_argument("Error, query for select employees not executed!");

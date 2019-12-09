@@ -30,7 +30,7 @@ void CEmployeeAdd::on_submit_btn_clicked() {
     QString query_qstr = QString("INSERT INTO employees"
                          " VALUES ('%1', '%2', '%3', '%4');").arg(empl_name_qstr,
                                                                 m_pUi->post_le->text(),
-                                                                QString::number(m_pUi->price_dsBox->value()),
+                                                                QString::number(m_pUi->salary_dsBox->value()),
                                                                 QString::number(m_pUi->working_hours_sBox->value()));
 
     if (query_ctrl.executeSqlQuery(query_qstr)) {
@@ -69,6 +69,6 @@ void CEmployeeAdd::on_submit_btn_clicked() {
 void CEmployeeAdd::clearUi() {
   m_pUi->fullname_le->clear();
   m_pUi->post_le->clear();
-  m_pUi->price_dsBox->setValue(0);
+  m_pUi->salary_dsBox->setValue(0);
   m_pUi->working_hours_sBox->setValue(8);
 }

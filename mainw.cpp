@@ -8,31 +8,35 @@ MainWindow::MainWindow(QWidget *parent) :
 {
   m_pUi->setupUi(this);
   m_pPriceListWindow = new CPriceList();
-  m_pRecord = new CRecord();
+  m_pRecord = new COrderAdd();
   m_pEditor = new CEditor();
   m_pEmployees = new CEmployees();
   m_pStatistic = new CStatistic();
+  m_pCustomers = new CCustomers();
 
 #pragma region Signals/Slots
   connect(this, &MainWindow::showPriceList,
           m_pPriceListWindow, [=]() { m_pPriceListWindow->show(); });
 
+  connect(this, &MainWindow::tbSendPriceList,
+          m_pPriceListWindow, &CPriceList::setTablePriceList);
+
   connect(this, &MainWindow::showAddOrder,
-          m_pRecord, &CRecord::showWindow);
+          m_pRecord, &COrderAdd::showWindow);
 
   connect(this, &MainWindow::showEditor,
           m_pEditor, &CEditor::showWindow);
 
-  connect(this, &MainWindow::tbSendPriceList,
-          m_pPriceListWindow, &CPriceList::setTablePriceList);
-
-  connect(this, &MainWindow::sendPriceList,
-          m_pRecord, &CRecord::priceListChanged);
-
   connect(this, &MainWindow::showStatistic,
           m_pStatistic, [=]() { m_pStatistic->show(); });
+
   connect(this, &MainWindow::showEmployees,
           m_pEmployees, &CEmployees::showWindow);
+
+  connect(this, &MainWindow::showCustomers,
+          m_pCustomers, &CCustomers::showWindow);
+
+
 #pragma enregion
   /////
 #pragma region Initialize fields of class
@@ -136,7 +140,6 @@ void MainWindow::on_add_order_btn_clicked() {
       ecx++;
     }
 
-    emit sendPriceList(m_pUi->tb_orders, m_hQuery, pPriceList, equipment_name);
   } catch(std::invalid_argument& e) {
     QMessageBox::critical(this, e.what(), e.what());
     return;
@@ -169,6 +172,27 @@ void MainWindow::on_employees_btn_clicked() {
     hEmpFilterModel->setSourceModel(hEmpQModel);
 
     emit showEmployees(hEmpFilterModel);
+  } catch(std::invalid_argument& e) {
+    QMessageBox::critical(this, e.what(), e.what());
+    return;
+  }
+}
+
+void MainWindow::on_customers_btn_clicked() {
+  try {
+    m_hQuery->executeSqlQuery("SELECT name AS 'Name', phone AS 'Phone' "
+                              "FROM customers;");
+
+    if (!m_hQuery->isSelect())
+      throw std::invalid_argument("Error, can't execute customers query!");
+
+    QSqlQueryModel* hCustQModel = new QSqlQueryModel();
+    QSortFilterProxyModel* hCustFilterModel = new QSortFilterProxyModel();
+    hCustQModel->setQuery(m_hQuery->getQuery());
+    hCustFilterModel->setDynamicSortFilter(true);
+    hCustFilterModel->setSourceModel(hCustQModel);
+
+    emit showCustomers(hCustFilterModel);
   } catch(std::invalid_argument& e) {
     QMessageBox::critical(this, e.what(), e.what());
     return;

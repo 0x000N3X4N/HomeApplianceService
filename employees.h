@@ -23,7 +23,7 @@ public:
 
 signals:
   void showEmplAdd(QTableView* hTbEmployees);
-  void showEmplDel(QString* pFN, size_t sz);
+  void showEmplDel(QString* pFN, size_t sz, QTableView* tb_ptr);
 
 public slots:
   void showWindow(QSortFilterProxyModel* query_qsfpm_ptr);

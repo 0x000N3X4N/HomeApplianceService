@@ -3,6 +3,8 @@
 
 
 #include <QDialog>
+#include <QTableView>
+#include "libs/ODBCConnector/query_controller.h"
 
 
 namespace Ui {
@@ -18,10 +20,15 @@ public:
   ~CEmployeeDel();
 
 public slots:
-  void showWindow(QString* pFN, size_t sz);
+  void showWindow(QString* pFN, size_t sz, QTableView* tb_ptr);
+
+private slots:
+  void on_submit_btn_clicked();
+  void clearUi();
 
 private:
   Ui::EmployeeDeleterWindow* m_pUi;
+  QTableView* m_tb_ptr;
 };
 
 

@@ -1,15 +1,15 @@
-﻿#include "record.h"
-#include "ui_record.h"
+﻿#include "order_add.h"
+#include "ui_order_add.h"
 
 
-struct CRecord::priceListHandler {
+struct COrderAdd::priceListHandler {
   std::vector<QString> m_nameList;
   std::shared_ptr<double[]> m_pPriceList;
 };
 
-CRecord::CRecord(QWidget *parent) :
+COrderAdd::COrderAdd(QWidget *parent) :
   QDialog(parent),
-  m_pUi(new Ui::RecordWindow)
+  m_pUi(new Ui::OrderAddWindow)
 {
   m_pUi->setupUi(this);
   m_pPriceListHandler = new priceListHandler();
@@ -31,43 +31,23 @@ CRecord::CRecord(QWidget *parent) :
 
 }
 
-CRecord::~CRecord() {
+COrderAdd::~COrderAdd() {
   delete m_pUi;
   delete m_pPriceListHandler;
 }
 
-void CRecord::showWindow() { this->show(); }
+void COrderAdd::showWindow() { this->show(); }
 
-void CRecord::priceListChanged(QTableView* pTbOrders, CQueryController* hQuery,
-                              std::shared_ptr<double[]> priceList,
-                              std::vector<QString> aEquipmentName) {
-  m_hQuery = hQuery;
-  m_pTbOrders = pTbOrders;
-  m_pPriceListHandler->m_pPriceList = priceList;
-  m_pPriceListHandler->m_nameList = aEquipmentName;
-  m_priceListStructure[m_pPriceListHandler->m_nameList] = m_pPriceListHandler->m_pPriceList;
-
-#pragma region
-  auto it = m_priceListStructure.begin();
-  std::for_each(m_pPriceListHandler->m_nameList.begin(), m_pPriceListHandler->m_nameList.end(),
-                [&](QString& name) { m_pUi->name_comboBox->addItem(name); });
-  m_pUi->total_value_label->setText(QString::number(it->second[0]));
-#pragma endregion
-
-  m_total = it->second[0];
-  m_prevTotal = m_total;
+void COrderAdd::on_name_comboBox_currentIndexChanged(int index) {
+//  if (!m_priceListStructure.empty()) {
+//    m_map_it = m_priceListStructure.begin();
+//    m_pUi->total_value_label->setText(QString::number(m_total));
+//    m_pUi->guarantee_dial->setValue(0);
+//    m_prevTotal = m_total;
+//  }
 }
 
-void CRecord::on_name_comboBox_currentIndexChanged(int index) {
-  if (!m_priceListStructure.empty()) {
-    m_map_it = m_priceListStructure.begin();
-    m_pUi->total_value_label->setText(QString::number(m_total));
-    m_pUi->guarantee_dial->setValue(0);
-    m_prevTotal = m_total;
-  }
-}
-
-void CRecord::on_accept_btn_clicked() {
+void COrderAdd::on_accept_btn_clicked() {
   QString sQuery;
   if (m_pUi->complete_dateEdit->isEnabled())
     sQuery = QString("INSERT INTO `home_appliance_service`.`order`"
@@ -112,31 +92,31 @@ void CRecord::on_accept_btn_clicked() {
                                          "Please check your connection to database!");
 }
 
-void CRecord::on_status_comboBox_currentIndexChanged(int index) {
+void COrderAdd::on_status_comboBox_currentIndexChanged(int index) {
   (index == 2) ? m_pUi->complete_dateEdit->setEnabled(true)
                : m_pUi->complete_dateEdit->setEnabled(false);
 }
 
-void CRecord::on_guarantee_dial_valueChanged(int value) {
-  m_pUi->year_guarantee_count_label->setText(QString::number(value));
-  m_guarantee = value * 10;
-#ifdef QT_DEBUG
-  qDebug() << "[on_guarantee_dial_valueChanged] Guarantee value changed to: " << m_guarantee;
-#endif
-}
+//void COrderAdd::on_guarantee_dial_valueChanged(int value) {
+//  m_pUi->year_guarantee_count_label->setText(QString::number(value));
+//  m_guarantee = value * 10;
+//#ifdef QT_DEBUG
+//  qDebug() << "[on_guarantee_dial_valueChanged] Guarantee value changed to: " << m_guarantee;
+//#endif
+//}
 
-void CRecord::on_guarantee_dial_sliderReleased() {
-  m_total = m_prevTotal + m_guarantee;
-  m_pUi->total_value_label->setText(QString::number(m_total));
-#ifdef QT_DEBUG
-  qDebug() << "[on_guarantee_dial_sliderReleased] m_total: " << m_total;
-#endif
-}
+//void COrderAdd::on_guarantee_dial_sliderReleased() {
+//  m_total = m_prevTotal + m_guarantee;
+//  m_pUi->total_value_label->setText(QString::number(m_total));
+//#ifdef QT_DEBUG
+//  qDebug() << "[on_guarantee_dial_sliderReleased] m_total: " << m_total;
+//#endif
+//}
 
-void CRecord::on_RecordWindow_finished(int result) {
-  m_pUi->name_comboBox->clear();
-  m_pUi->type_repair_comboBox->setCurrentIndex(0);
-  m_pUi->completed_order_name_lEdit->clear();
-  m_pUi->status_comboBox->setCurrentIndex(0);
-  m_priceListStructure.clear();
-}
+//void COrderAdd::on_RecordWindow_finished(int result) {
+//  m_pUi->name_comboBox->clear();
+//  m_pUi->type_repair_comboBox->setCurrentIndex(0);
+//  m_pUi->completed_order_name_lEdit->clear();
+//  m_pUi->status_comboBox->setCurrentIndex(0);
+//  m_priceListStructure.clear();
+//}

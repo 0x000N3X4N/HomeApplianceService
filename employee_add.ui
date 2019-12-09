@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>370</width>
-    <height>241</height>
+    <height>240</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>370</width>
-    <height>241</height>
+    <height>240</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -79,7 +79,7 @@
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <widget class="QLabel" name="price_l">
+        <widget class="QLabel" name="salary_l">
          <property name="font">
           <font>
            <family>Lucida Handwriting</family>
@@ -89,10 +89,10 @@
           </font>
          </property>
          <property name="text">
-          <string>Price:</string>
+          <string>Salary:</string>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="price_dsBox"/>
+        <widget class="QDoubleSpinBox" name="salary_dsBox"/>
        </widget>
       </item>
       <item>

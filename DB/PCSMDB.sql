@@ -51,7 +51,7 @@ CREATE TABLE street (PK_street_id INT PRIMARY KEY IDENTITY, FK_city_id INT REFER
 														  [floor] <> N'')
 					);
 CREATE TABLE customers (
-						 PK_customer_id INT PRIMARY KEY IDENTITY, FK_city_id INT REFERENCES city(PK_city_id), [name] NVARCHAR(30) NOT NULL, phone NVARCHAR(12) NOT NULL,
+						 PK_customer_id INT PRIMARY KEY IDENTITY, FK_street_id INT REFERENCES street(PK_street_id), [name] NVARCHAR(30) NOT NULL, phone NVARCHAR(12) NOT NULL,
 						 CONSTRAINT [CK_CustIsValid] CHECK ([name] <> N'' AND
 															[phone] <> N'')
 					   );
@@ -196,9 +196,25 @@ VALUES ('1', 'Dell SE2419H', 'Разрешение\1920x1080' + CHAR(0xA) +
 SELECT * FROM components;
 SELECT * FROM components_type;
 INSERT INTO employees
-VALUES ('John Trac1k Lir', 'Accountant', 500, 1),
-	   ('Stephan Ki1ng Sir', 'Accountant', 1000, 2);
+VALUES ('John Track Lir', 'Accountant', 500, 1),
+	   ('Stephan King Sir', 'Accountant', 1000, 2);
 SELECT * FROM employees;
+
+INSERT INTO city
+VALUES ('Минск'),
+	   ('Гомель'),
+	   ('Могилёв'),
+	   ('Витебск'),
+	   ('Гродно'),
+	   ('Брест');
+SELECT * FROM city;
+
+INSERT INTO street
+VALUES ('1', '1337', '2', '3'),
+	   ('6', '123', '4', '3');
+
+SELECT * FROM street;
+
 --INSERT INTO passport
 --VALUES ('John Track Lir', 'Kolesnikova 5', 'Frunzenskoe RUVD', 123);
 

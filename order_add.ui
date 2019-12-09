@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RecordWindow</class>
- <widget class="QDialog" name="RecordWindow">
+ <class>OrderAddWindow</class>
+ <widget class="QDialog" name="OrderAddWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -79,9 +79,9 @@
      <item>
       <layout class="QHBoxLayout" name="name_hLayout">
        <item>
-        <widget class="QLabel" name="name_label">
+        <widget class="QLabel" name="name_l">
          <property name="text">
-          <string>Name of laptop:</string>
+          <string>Name of component:</string>
          </property>
         </widget>
        </item>
@@ -203,14 +203,14 @@
      <item>
       <layout class="QHBoxLayout" name="guarantee_hLabel">
        <item>
-        <widget class="QLabel" name="guarantee_label">
+        <widget class="QLabel" name="comp_cnt_l">
          <property name="text">
-          <string>Guarantee:</string>
+          <string>Components count:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QDial" name="guarantee_dial">
+        <widget class="QDial" name="comp_cnt_dial">
          <property name="mouseTracking">
           <bool>false</bool>
          </property>

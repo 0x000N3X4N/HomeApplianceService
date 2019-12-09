@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>EmployeesWindow</class>
- <widget class="QWidget" name="EmployeesWindow">
+ <class>CustomersWindow</class>
+ <widget class="QWidget" name="CustomersWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,17 +17,17 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Employees</string>
+   <string>Customers</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QGroupBox" name="employees_gBox">
+    <widget class="QGroupBox" name="customers_gBox">
      <property name="title">
-      <string>Employees</string>
+      <string>Customers</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QTableView" name="employees_tb">
+       <widget class="QTableView" name="customers_tb">
         <property name="sortingEnabled">
          <bool>false</bool>
         </property>
@@ -38,9 +38,9 @@
         <property name="title">
          <string>Controls</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
-          <widget class="QPushButton" name="add_employee_btn">
+          <widget class="QPushButton" name="add_customer_btn">
            <property name="styleSheet">
             <string notr="true">border-radius: 20px;
 border-width: 3px;</string>
@@ -61,7 +61,7 @@ border-width: 3px;</string>
           </widget>
          </item>
          <item>
-          <spacer name="verticalSpacer">
+          <spacer name="verticalSpacer_7">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -74,7 +74,7 @@ border-width: 3px;</string>
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="delete_employee_btn">
+          <widget class="QPushButton" name="delete_customer_btn">
            <property name="styleSheet">
             <string notr="true">border-radius: 20px;
 border-width: 3px;</string>
