@@ -4,7 +4,9 @@
 
 #include <QDialog>
 #include <QTableView>
+#include <QMessageBox>
 #include <map>
+#include "libs/ODBCConnector/query_controller.h"
 
 
 namespace Ui {
@@ -20,11 +22,14 @@ public:
   ~CCustomerAdd();
 
 public slots:
-  void showWindow(QTableView* cust_tb_ptr, std::map<QString, size_t>* city_map);
+  void showWindow(QTableView* cust_tb_ptr, std::map<QString, size_t> city_map);
+
+private slots:
+  void on_submit_btn_clicked();
 
 private:
   Ui::CustomerAddWindow* m_pUi;
-  std::map<QString, size_t>* m_city_map;
+  std::map<QString, size_t> m_city_map;
   QTableView* m_pCust_tb;
 };
 

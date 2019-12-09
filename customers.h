@@ -26,7 +26,7 @@ private slots:
   void on_add_customer_btn_clicked();
 
 signals:
-  void showCustomerAdd(QTableView* cust_tb_ptr, std::map<QString, size_t>* city_map);
+  void showCustomerAdd(QTableView* cust_tb_ptr, std::map<QString, size_t> city_map);
 
 private:
   Ui::CustomersWindow* m_pUi;

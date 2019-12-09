@@ -45,8 +45,9 @@ CREATE TABLE passport (
 CREATE TABLE city (PK_city_id INT PRIMARY KEY IDENTITY, [name] NVARCHAR(256) NOT NULL,
 				   CONSTRAINT [CK_CityIsValid] CHECK ([name] <> N'')
 				   );
-CREATE TABLE street (PK_street_id INT PRIMARY KEY IDENTITY, FK_city_id INT REFERENCES city(PK_city_id), house_num SMALLINT NOT NULL, porch SMALLINT NOT NULL, [floor] SMALLINT NOT NULL,
-					 CONSTRAINT [CK_StreetIsValid] CHECK ([house_num] <> N'' AND
+CREATE TABLE street (PK_street_id INT PRIMARY KEY IDENTITY, FK_city_id INT REFERENCES city(PK_city_id), [name] NVARCHAR(50) NOT NULL, house_num SMALLINT NOT NULL, porch SMALLINT NOT NULL, [floor] SMALLINT NOT NULL,
+					 CONSTRAINT [CK_StreetIsValid] CHECK ([name] <> N'' AND
+														  [house_num] <> N'' AND
 														  [porch] <> N'' AND
 														  [floor] <> N'')
 					);
@@ -209,8 +210,8 @@ VALUES ('Минск'),
 
 
 INSERT INTO street
-VALUES ('1', '1337', '2', '3'),
-	   ('6', '123', '4', '3');
+VALUES ('1', 'Автозоводская', '1337', '2', '3'),
+	   ('6', 'Матусевича', '123', '4', '3');
 
 
 INSERT INTO customers

@@ -37,7 +37,7 @@ void CCustomers::on_add_customer_btn_clicked() {
       while(query.next())
         city_map[query.parse_value(1).toString()] = query.parse_value(0).toUInt();
 
-      emit showCustomerAdd(m_pUi->customers_tb, &city_map);
+      emit showCustomerAdd(m_pUi->customers_tb, city_map);
     }
     else
       throw std::invalid_argument("Error, query for SELECT city not executed!");

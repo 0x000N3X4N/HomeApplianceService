@@ -1,11 +1,14 @@
 #ifndef CUSTOMER_DELETER_H
 #define CUSTOMER_DELETER_H
 
+
 #include <QDialog>
 
+
 namespace Ui {
-  class CCustomerDel;
+  class CustomerDeleterWIndow;
 }
+
 
 class CCustomerDel : public QDialog
 {
@@ -16,7 +19,8 @@ public:
   ~CCustomerDel();
 
 private:
-  Ui::CCustomerDel *ui;
+  Ui::CustomerDeleterWIndow* m_pUi;
 };
+
 
 #endif // CUSTOMER_DELETER_H
