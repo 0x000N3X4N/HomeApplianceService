@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
   m_pUi->setupUi(this);
   m_pPriceListWindow = new CPriceList();
-  m_pRecord = new COrderAdd();
+  m_pOrderAdd = new COrderAdd();
   m_pEditor = new CEditor();
   m_pEmployees = new CEmployees();
   m_pStatistic = new CStatistic();
@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
           m_pPriceListWindow, &CPriceList::setTablePriceList);
 
   connect(this, &MainWindow::showAddOrder,
-          m_pRecord, &COrderAdd::showWindow);
+          m_pOrderAdd, &COrderAdd::showWindow);
 
   connect(this, &MainWindow::showEditor,
           m_pEditor, &CEditor::showWindow);
@@ -63,7 +63,7 @@ MainWindow::~MainWindow() {
   delete m_pEmployees;
   delete m_pPriceListWindow;
   delete m_pEditor;
-  delete m_pRecord;
+  delete m_pOrderAdd;
   delete m_pStatistic;
   delete m_hQuery;
   delete m_hModel;
@@ -72,11 +72,11 @@ MainWindow::~MainWindow() {
 
 void MainWindow::initTbOrders() {
   m_hFilterModel->setDynamicSortFilter(true);
-  m_hQuery->executeSqlQuery("SELECT id_order AS 'Id', "
-    "name AS 'Name', type AS 'Type', acceptance_date AS 'Accept date', "
-    "completion_date AS 'Complete date', total AS 'Total', "
-    "status AS 'Status', completed_surname AS 'Surname' "
-    "FROM laptop_maintenance_service.order");
+  m_hQuery->executeSqlQuery("SELECT C.title AS 'Title', O.comp_count AS 'Count of components', "
+                            "O.acceptance_date AS 'Acceptance date', O.price AS 'Price'"
+                            " FROM orders O"
+                            " JOIN components C"
+                            " ON O.FK_component_id = C.PK_component_id;");
   m_hModel->setQuery(m_hQuery->getQuery());
   m_hFilterModel->setSourceModel(m_hModel);
   m_pUi->tb_orders->setModel(m_hFilterModel);
@@ -123,29 +123,40 @@ void MainWindow::on_price_btn_clicked() {
 
 void MainWindow::on_add_order_btn_clicked() {
   try {
-    m_hQuery->executeSqlQuery("SELECT price AS 'Price', name FROM pricelist");
+    if (m_hQuery->executeSqlQuery("SELECT PK_component_id, "
+                                  "title, price FROM components;"))
+    {
 
-    if (!m_hQuery->isSelect())
-      throw std::invalid_argument("Error, pricelist doesn't contain prices!");
+      if (!m_hQuery->isSelect())
+        throw std::invalid_argument("Error, SELECT comps doesn't contain prices! LastError: [" +
+                                    m_hQuery->getQuery().lastError().text().toStdString() + "]");
 
-    size_t sizeOfPriceList = m_hQuery->size();
-    std::shared_ptr<double[]> pPriceList(new double[sizeOfPriceList],
-                                         std::default_delete<double[]>());
-    std::vector<QString> equipment_name;
-    int ecx = 0; // counter
+      std::vector<std::tuple<size_t, QString, double>> vCompsV;
 
-    while (m_hQuery->next()) {
-      pPriceList[ecx] = m_hQuery->parse_value(0).toDouble();
-      equipment_name.push_back(m_hQuery->parse_value(1).toString());
-      ecx++;
+      while (m_hQuery->next())
+        vCompsV.push_back(std::make_tuple(m_hQuery->parse_value(0).toUInt(),
+                                          m_hQuery->parse_value(1).toString(),
+                                          m_hQuery->parse_value(2).toDouble()));
+      m_hQuery->clear();
+
+      //TODO: employees, customers
+      if (m_hQuery->executeSqlQuery("SELECT PK_component_id, "
+                                    "title, price FROM components;"))
+
+      emit showAddOrder(m_pUi->tb_orders, vCompsV);
     }
-
+    else
+      throw std::invalid_argument("Error from: MainWindow::on_add_order_btn_clicked. LastError: [" +
+                                  m_hQuery->getQuery().lastError().text().toStdString() + "]");
   } catch(std::invalid_argument& e) {
     QMessageBox::critical(this, e.what(), e.what());
     return;
   }
-
-  emit showAddOrder();
+  catch(...) {
+    QMessageBox::critical(this, "Error!", "MainWindow::on_add_order_btn_clicked : Unexpected error! LastError: [" +
+                          m_hQuery->getQuery().lastError().text() + "]");
+    return;
+  }
 }
 
 void MainWindow::on_edit_btn_clicked() {

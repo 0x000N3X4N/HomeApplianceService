@@ -6,147 +6,250 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>353</width>
-    <height>474</height>
+    <width>450</width>
+    <height>410</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>353</width>
-    <height>474</height>
+    <width>450</width>
+    <height>350</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>353</width>
-    <height>474</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Add record</string>
   </property>
-  <widget class="QFrame" name="accept_frame">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>412</y>
-     <width>337</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QPushButton" name="accept_btn">
-    <property name="geometry">
-     <rect>
-      <x>122</x>
-      <y>10</y>
-      <width>80</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Accept order</string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QGroupBox" name="order_info_gBox">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>0</y>
-     <width>337</width>
-     <height>401</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Order Info</string>
-   </property>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>14</x>
-      <y>24</y>
-      <width>311</width>
-      <height>368</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <layout class="QHBoxLayout" name="name_hLayout">
-       <item>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QGroupBox" name="order_info_gBox">
+     <property name="title">
+      <string>Order Info</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QSplitter" name="splitter">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
         <widget class="QLabel" name="name_l">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <italic>true</italic>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(170, 85, 255);</string>
+         </property>
          <property name="text">
           <string>Name of component:</string>
          </property>
         </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="name_comboBox"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="type_of_repairhLayout">
-       <item>
-        <widget class="QLabel" name="type_label">
+        <widget class="QComboBox" name="name_cBox"/>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSplitter" name="splitter_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <widget class="QLabel" name="employee_l">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <italic>true</italic>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(170, 85, 255);</string>
+         </property>
          <property name="text">
-          <string>Type of repair:</string>
+          <string>Employee name:</string>
          </property>
         </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="type_repair_comboBox"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="acceptance_date_hLayout">
-       <item>
-        <widget class="QLabel" name="accept_date_label">
+        <widget class="QComboBox" name="employee_cBox"/>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSplitter" name="splitter_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <widget class="QLabel" name="cust_l">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <italic>true</italic>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(170, 85, 255);</string>
+         </property>
          <property name="text">
-          <string>Acceptance date:</string>
+          <string>Customer name:</string>
          </property>
         </widget>
-       </item>
-       <item>
-        <widget class="QDateEdit" name="accept_dateEdit"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="completion_date_hLayout">
-       <item>
-        <widget class="QLabel" name="complete_date_label">
-         <property name="text">
-          <string>Completion date:</string>
+        <widget class="QComboBox" name="cust_cBox"/>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="comp_cnt_l">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <italic>true</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(170, 85, 255);</string>
+          </property>
+          <property name="text">
+           <string>Components count:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDial" name="comp_cnt_dial">
+          <property name="mouseTracking">
+           <bool>false</bool>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::ClickFocus</enum>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>10</number>
+          </property>
+          <property name="tracking">
+           <bool>true</bool>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="invertedAppearance">
+           <bool>false</bool>
+          </property>
+          <property name="invertedControls">
+           <bool>true</bool>
+          </property>
+          <property name="wrapping">
+           <bool>false</bool>
+          </property>
+          <property name="notchesVisible">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="cnt_l">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <italic>true</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(170, 85, 255);</string>
+          </property>
+          <property name="text">
+           <string>Count:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="cnt_val_l">
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+            <weight>75</weight>
+            <italic>true</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="acceptance_date_hLayout">
+        <item>
+         <widget class="QLabel" name="accept_date_label">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <italic>true</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(170, 85, 255);</string>
+          </property>
+          <property name="text">
+           <string>Acceptance date:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDateEdit" name="accept_dateEdit"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QSplitter" name="splitter_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <widget class="QLabel" name="total_l">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <italic>true</italic>
+           <bold>true</bold>
+          </font>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDateEdit" name="complete_dateEdit">
-         <property name="enabled">
-          <bool>false</bool>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(170, 85, 255);</string>
          </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="total_hLayout">
-       <item>
-        <widget class="QLabel" name="total_label">
          <property name="text">
           <string>Total:</string>
          </property>
         </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="total_value_label">
+        <widget class="QLabel" name="total_val_l">
          <property name="font">
           <font>
            <pointsize>20</pointsize>
@@ -165,118 +268,47 @@
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="status_hLayout">
-       <item>
-        <widget class="QLabel" name="status_label">
-         <property name="text">
-          <string>Status:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="status_comboBox"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="completed_order_name_hLayout">
-       <item>
-        <widget class="QLabel" name="completed_order_name_label">
-         <property name="text">
-          <string>Completed the order:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="completed_order_name_lEdit">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="guarantee_hLabel">
-       <item>
-        <widget class="QLabel" name="comp_cnt_l">
-         <property name="text">
-          <string>Components count:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDial" name="comp_cnt_dial">
-         <property name="mouseTracking">
-          <bool>false</bool>
-         </property>
-         <property name="focusPolicy">
-          <enum>Qt::ClickFocus</enum>
-         </property>
-         <property name="maximum">
-          <number>10</number>
-         </property>
-         <property name="tracking">
-          <bool>true</bool>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-         <property name="invertedControls">
-          <bool>true</bool>
-         </property>
-         <property name="wrapping">
-          <bool>false</bool>
-         </property>
-         <property name="notchesVisible">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="year_guarantee_hLayout">
-       <item>
-        <widget class="QLabel" name="year_guarantee_label">
-         <property name="text">
-          <string>Year guarantee: </string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="year_guarantee_count_label">
+        <widget class="QLabel" name="symb_l">
          <property name="font">
           <font>
+           <family>Verdana</family>
            <pointsize>20</pointsize>
            <weight>75</weight>
-           <italic>true</italic>
            <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">color: rgb(0, 255, 0);</string>
+          <string notr="true">color: rgb(255, 0, 0);</string>
          </property>
          <property name="text">
-          <string>0</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <string>$</string>
          </property>
         </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
-  </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="accept_frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QPushButton" name="accept_btn">
+        <property name="text">
+         <string>Accept order</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

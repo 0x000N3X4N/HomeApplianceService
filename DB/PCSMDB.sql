@@ -45,7 +45,8 @@ CREATE TABLE passport (
 CREATE TABLE city (PK_city_id INT PRIMARY KEY IDENTITY, [name] NVARCHAR(256) NOT NULL,
 				   CONSTRAINT [CK_CityIsValid] CHECK ([name] <> N'')
 				   );
-CREATE TABLE street (PK_street_id INT PRIMARY KEY IDENTITY, FK_city_id INT REFERENCES city(PK_city_id), [name] NVARCHAR(50) NOT NULL, house_num SMALLINT NOT NULL, porch SMALLINT NOT NULL, [floor] SMALLINT NOT NULL,
+CREATE TABLE street (PK_street_id INT PRIMARY KEY IDENTITY, FK_city_id INT REFERENCES city(PK_city_id), [name] NVARCHAR(50) NOT NULL, 
+					 house_num SMALLINT NOT NULL, porch SMALLINT NOT NULL, [floor] SMALLINT NOT NULL,
 					 CONSTRAINT [CK_StreetIsValid] CHECK ([name] <> N'' AND
 														  [house_num] <> N'' AND
 														  [porch] <> N'' AND
@@ -57,10 +58,10 @@ CREATE TABLE customers (
 															[phone] <> N'')
 					   );
 CREATE TABLE orders (
-						PK_order_id INT PRIMARY KEY IDENTITY, FK_component_type INT REFERENCES components(PK_component_id)
+						PK_order_id INT PRIMARY KEY IDENTITY, FK_component_id INT REFERENCES components(PK_component_id)
 						ON DELETE CASCADE, FK_employee_id INT REFERENCES employees(PK_employee_id) ON DELETE CASCADE, 
 						FK_customer_id INT REFERENCES customers(PK_customer_id) ON DELETE CASCADE, acceptance_date DATE NOT NULL DEFAULT(GETDATE()),
-						price MONEY NOT NULL, comp_count INT NOT NULL
+						comp_count INT NOT NULL, price MONEY NOT NULl
 					);
 
 --/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -219,12 +220,21 @@ VALUES ('1', 'Jeff', '+1234567'),
        ('2', 'G.A.', '+4522156');
 
 
+INSERT INTO orders
+VALUES ('1', '2', '2', '2001-04-04', '4', 1022.3);
+
+
 SELECT * FROM components;
 SELECT * FROM components_type;
 SELECT * FROM employees;
 SELECT * FROM city;
 SELECT * FROM street;
 SELECT * FROM customers;
+SELECT * FROM orders;
+--SELECT C.title AS 'Title', O.comp_count AS 'Count of components', O.acceptance_date AS 'Acceptance date', O.price AS 'Price'
+--FROM orders O
+--JOIN components C
+--ON O.FK_component_id = C.PK_component_id;
 
 --INSERT INTO passport
 --VALUES ('John Track Lir', 'Kolesnikova 5', 'Frunzenskoe RUVD', 123);

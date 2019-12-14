@@ -30,11 +30,12 @@ public:
 
 signals:
   void showPriceList();
-  void showAddOrder();
-  void showEditor(QTableView* tb_orders, CQueryController* hQuery);
+  void showEditor(QTableView* ptb_orders, CQueryController* hQuery);
   void showStatistic();
   void showEmployees(QSortFilterProxyModel* res_qsfpm);
   void showCustomers(QSortFilterProxyModel* res_qsfpm);
+  void showAddOrder(QTableView* ptb_orders,
+                    std::vector<std::tuple<size_t, QString, double>> vCompsV);
   void tbSendPriceList(QSortFilterProxyModel* hFModelComp,
                        QSortFilterProxyModel* hFModelCompType);
 
@@ -51,7 +52,7 @@ private:
   Ui::MainWindow* m_pUi;
   CPriceList* m_pPriceListWindow;
   CEditor* m_pEditor;
-  COrderAdd* m_pRecord;
+  COrderAdd* m_pOrderAdd;
   CStatistic* m_pStatistic;
   CEmployees* m_pEmployees;
   CCustomers* m_pCustomers;

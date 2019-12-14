@@ -14,6 +14,7 @@ namespace Ui {
   class OrderAddWindow;
 }
 
+
 class COrderAdd : public QDialog {
   Q_OBJECT
 
@@ -22,29 +23,24 @@ public:
   ~COrderAdd();
 
 public slots:
-  void showWindow();
+  void showWindow(QTableView* ptb_orders,
+                  std::vector<std::tuple<size_t, QString, double>> vCompsV);
 
 private slots:
-  void on_name_comboBox_currentIndexChanged(int index);
   void on_accept_btn_clicked();
-  void on_status_comboBox_currentIndexChanged(int index);
-//  void on_guarantee_dial_valueChanged(int value);
-//  void on_guarantee_dial_sliderReleased();
-//  void on_RecordWindow_finished(int result);
+  void clearForm();
+  void on_name_cBox_currentIndexChanged(int index);
+  void on_comp_cnt_dial_valueChanged(int value);
 
 private:
+  double fetch_price(QString key_qstr);
+
   Ui::OrderAddWindow* m_pUi;
+  std::vector<std::tuple<size_t, QString, double>> m_vCompsV;
   CQueryController* m_hQuery;
-  struct priceListHandler;
-  priceListHandler* m_pPriceListHandler;
-  std::map<std::vector<QString>,
-           std::shared_ptr<double[]>> m_priceListStructure;
-  std::map<std::vector<QString>,
-           std::shared_ptr<double[]>>::iterator m_map_it;
   QTableView* m_pTbOrders;
   double m_total;
-  double m_prevTotal;
-  int m_guarantee;
 };
+
 
 #endif // RECORD_H
