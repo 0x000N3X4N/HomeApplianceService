@@ -35,7 +35,8 @@ signals:
   void showEmployees(QSortFilterProxyModel* res_qsfpm);
   void showCustomers(QSortFilterProxyModel* res_qsfpm);
   void showAddOrder(QTableView* ptb_orders,
-                    std::vector<std::tuple<size_t, QString, double>> vCompsV);
+                    std::vector<std::tuple<size_t, QString, double>> vCompsV,
+                    std::map<QString, size_t> employees_map, std::map<QString, size_t> cust_map);
   void tbSendPriceList(QSortFilterProxyModel* hFModelComp,
                        QSortFilterProxyModel* hFModelCompType);
 

@@ -72,11 +72,15 @@ MainWindow::~MainWindow() {
 
 void MainWindow::initTbOrders() {
   m_hFilterModel->setDynamicSortFilter(true);
-  m_hQuery->executeSqlQuery("SELECT C.title AS 'Title', O.comp_count AS 'Count of components', "
-                            "O.acceptance_date AS 'Acceptance date', O.price AS 'Price'"
-                            " FROM orders O"
-                            " JOIN components C"
-                            " ON O.FK_component_id = C.PK_component_id;");
+
+  //TODO: err handling
+  m_hQuery->executeSqlQuery("SELECT C.title AS 'Title', E.fullname AS 'Employee ', O.comp_count AS 'Count of components', "
+                            "O.acceptance_date AS 'Acceptance date', O.price AS 'Price' "
+                            "FROM orders O "
+                            "JOIN components C "
+                            "ON O.FK_component_id = C.PK_component_id "
+                            "JOIN employees E "
+                            "ON o.FK_employee_id = e.PK_employee_id;");
   m_hModel->setQuery(m_hQuery->getQuery());
   m_hFilterModel->setSourceModel(m_hModel);
   m_pUi->tb_orders->setModel(m_hFilterModel);
@@ -132,6 +136,7 @@ void MainWindow::on_add_order_btn_clicked() {
                                     m_hQuery->getQuery().lastError().text().toStdString() + "]");
 
       std::vector<std::tuple<size_t, QString, double>> vCompsV;
+      std::map<QString, size_t> empl_map, cust_map;
 
       while (m_hQuery->next())
         vCompsV.push_back(std::make_tuple(m_hQuery->parse_value(0).toUInt(),
@@ -139,11 +144,29 @@ void MainWindow::on_add_order_btn_clicked() {
                                           m_hQuery->parse_value(2).toDouble()));
       m_hQuery->clear();
 
-      //TODO: employees, customers
-      if (m_hQuery->executeSqlQuery("SELECT PK_component_id, "
-                                    "title, price FROM components;"))
+      if (m_hQuery->executeSqlQuery("SELECT PK_employee_id, "
+                                    "fullname FROM employees;")) {
+        while (m_hQuery->next())
+          empl_map[m_hQuery->parse_value(1).toString()] = m_hQuery->parse_value(0).toUInt();
 
-      emit showAddOrder(m_pUi->tb_orders, vCompsV);
+        m_hQuery->clear();
+
+        if (m_hQuery->executeSqlQuery("SELECT PK_customer_id, "
+                                      "[name] FROM customers;")) {
+          while (m_hQuery->next())
+            cust_map[m_hQuery->parse_value(1).toString()] = m_hQuery->parse_value(0).toUInt();
+
+          emit showAddOrder(m_pUi->tb_orders, vCompsV, empl_map, cust_map);
+        }
+        else
+          throw std::invalid_argument("Error from: MainWindow::on_add_order_btn_clicked. LastError: [" +
+                                      m_hQuery->getQuery().lastError().text().toStdString() + "]");
+      }
+      else
+        throw std::invalid_argument("Error from: MainWindow::on_add_order_btn_clicked. LastError: [" +
+                                    m_hQuery->getQuery().lastError().text().toStdString() + "]");
+
+
     }
     else
       throw std::invalid_argument("Error from: MainWindow::on_add_order_btn_clicked. LastError: [" +

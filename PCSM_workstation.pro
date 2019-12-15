@@ -40,6 +40,7 @@ SOURCES += \
   libs/ODBCConnector/query_controller.cpp \
         main.cpp \
   order_add.cpp \
+  order_deleter.cpp \
     pricelist.cpp \
     mainw.cpp \
     editor.cpp \
@@ -61,6 +62,7 @@ HEADERS += \
     libs/ODBCConnector/ODBCW.h \
     libs/ODBCConnector/query_controller.h \
     order_add.h \
+    order_deleter.h \
     pricelist.h \
     mainw.h \
     editor.h \
@@ -78,6 +80,7 @@ FORMS += \
     employee_deleter.ui \
     employees.ui \
     order_add.ui \
+    order_deleter.ui \
     pricelist.ui \
     mainwindow.ui \
     editor.ui \

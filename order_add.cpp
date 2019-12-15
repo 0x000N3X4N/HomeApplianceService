@@ -24,72 +24,102 @@ COrderAdd::~COrderAdd() {
 }
 
 void COrderAdd::showWindow(QTableView* ptb_orders,
-                           std::vector<std::tuple<size_t, QString, double>> vCompsV)
+                           std::vector<std::tuple<size_t, QString, double>> vCompsV,
+                           std::map<QString, size_t> employees_map, std::map<QString, size_t> cust_map)
 {
   m_pTbOrders = ptb_orders;
   m_vCompsV = vCompsV;
+  m_employees_map = employees_map;
+  m_cust_map = cust_map;
 
-  for (auto it = vCompsV.begin(); it != vCompsV.end(); it++)
-    m_pUi->name_cBox->addItem(std::get<1>(*it));
+  fillInParams();
 
   show();
 }
 
+
+void COrderAdd::fillInParams() {
+  for (auto it = m_vCompsV.begin(); it != m_vCompsV.end(); it++)
+    m_pUi->comp_cBox->addItem(std::get<1>(*it));
+
+  for (auto it = m_employees_map.begin(); it != m_employees_map.end(); it++)
+    m_pUi->employee_cBox->addItem(it->first);
+
+  for (auto it = m_cust_map.begin(); it != m_cust_map.end(); it++)
+    m_pUi->cust_cBox->addItem(it->first);
+}
+
 void COrderAdd::on_accept_btn_clicked() {
-//  QString sQuery;
-//  if (m_pUi->complete_dateEdit->isEnabled())
-//    sQuery = QString("INSERT INTO `home_appliance_service`.`order`"
-//                     "(name, type, acceptance_date, completion_date, total, status, completed_surname)"
-//                     "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7')")
-//                     .arg(m_pUi->name_comboBox->currentText(), m_pUi->type_repair_comboBox->currentText(),
-//                          m_pUi->accept_dateEdit->date().toString("yyyy-MM-dd"),
-//                          m_pUi->complete_dateEdit->date().toString("yyyy-MM-dd"),
-//                          QString::number(m_total), m_pUi->status_comboBox->currentText(),
-//                          m_pUi->completed_order_name_lEdit->text());
+  CQueryController query_ctrl(CODBCW::getInstance());
 
-//  else
-//    sQuery = QString("INSERT INTO `home_appliance_service`.`order`("
-//                     "name, type, acceptance_date, total, status, completed_surname)"
-//                     "VALUES ('%1', '%2', '%3', '%4', '%5', '%6')")
-//                     .arg(m_pUi->name_comboBox->currentText(),
-//                          m_pUi->type_repair_comboBox->currentText(),
-//                          m_pUi->accept_dateEdit->date().toString("yyyy-MM-dd"),
-//                          m_pUi->total_value_label->text(),
-//                          m_pUi->status_comboBox->currentText(),
-//                          m_pUi->completed_order_name_lEdit->text());
+  try {
 
-//  if (m_hQuery->executeSqlQuery(sQuery)) {
-//    m_hQuery->clear();
-//    QMessageBox::information(this, "Successfully!", "Order has been success added!");
+    QString comp_curr_text = m_pUi->comp_cBox->currentText();
+    size_t comp_id = 0;
 
-//    m_hQuery->executeSqlQuery(
-//            "SELECT id_order AS 'Id', name AS 'Name', type AS 'Type', "
-//            "acceptance_date AS 'Accept_date', completion_date AS 'Complete_date', "
-//            "total AS 'Total', status AS 'Status', completed_surname AS 'Surname' "
-//            "FROM home_appliance_service.order"
-//          );
+    for (auto o : m_vCompsV)
+      if (std::get<1>(o) == comp_curr_text)
+        comp_id = std::get<0>(o);
 
-//    //TODO: refactor
-//    QSqlQueryModel* hModel = new QSqlQueryModel();
-//    QSortFilterProxyModel* hFilterModel = new QSortFilterProxyModel();
-//    hModel->setQuery(m_hQuery->getQuery());
-//    hFilterModel->setSourceModel(hModel);
-//    m_pTbOrders->setModel(hFilterModel);
-//  } else
-//    QMessageBox::critical(this, "Error", "Cannnot add order to database\r\n"
-//                                         "Please check your connection to database!");
+    auto cust_it = m_cust_map.find(m_pUi->cust_cBox->currentText()),
+         empl_it = m_employees_map.find(m_pUi->employee_cBox->currentText());
+
+    QString query_qstr = QString("INSERT INTO orders"
+                         " VALUES ('%1', '%2', '%3', '%4', '%5', '%6');").arg(QString::number(comp_id),
+                                                                QString::number(empl_it->second),
+                                                                QString::number(cust_it->second),
+                                                                m_pUi->accept_dateEdit->date().toString("yyyy-MM-dd"),
+                                                                QString::number(m_pUi->comp_cnt_dial->value()),
+                                                                QString::number(m_total));
+    qDebug() << query_qstr;
+    if (query_ctrl.executeSqlQuery(query_qstr)) {
+      QMessageBox::information(this, "Success!", "Order was succesfully added!");
+
+      query_ctrl.clear();
+
+      if (query_ctrl.executeSqlQuery("SELECT C.title AS 'Title', E.fullname AS 'Employee ', O.comp_count AS 'Count of components', "
+                                     "O.acceptance_date AS 'Acceptance date', O.price AS 'Price' "
+                                     "FROM orders O "
+                                     "JOIN components C "
+                                     "ON O.FK_component_id = C.PK_component_id "
+                                     "JOIN employees E "
+                                     "ON o.FK_employee_id = e.PK_employee_id;"))
+      {
+        QSqlQueryModel* hOrdersQModel = new QSqlQueryModel();
+        QSortFilterProxyModel* hOrdersFilterModel = new QSortFilterProxyModel();
+        hOrdersQModel->setQuery(query_ctrl.getQuery());
+        hOrdersFilterModel->setDynamicSortFilter(true);
+        hOrdersFilterModel->setSourceModel(hOrdersQModel);
+        m_pTbOrders->setModel(hOrdersFilterModel);
+      }
+      else
+        throw std::invalid_argument("Error on SELECT statement from `orders` table from COrderAdd::on_accept_btn_clicked."
+                                    "LastError: [" + query_ctrl.getQuery().lastError().text().toStdString() + "]");
+    }
+    else
+      throw std::invalid_argument("Error on INSERT statement from `orders` table from COrderAdd::on_accept_btn_clicked."
+                                  "LastError: [" + query_ctrl.getQuery().lastError().text().toStdString() + "]");
+  }
+  catch(std::invalid_argument& e) {
+    QMessageBox::critical(this, e.what(), e.what());
+    return;
+  }
+  catch(...) {
+    QMessageBox::critical(this, "Error!", "COrderAdd::on_accept_btn_clicked : Unexpected error! LastError: [" +
+                          query_ctrl.getQuery().lastError().text() + "]");
+  }
 }
 
 void COrderAdd::clearForm() {
   m_vCompsV.clear();
-  m_pUi->name_cBox->clear();
+  m_pUi->comp_cBox->clear();
   m_pUi->comp_cnt_dial->setValue(0);
   m_pUi->total_val_l->setText("");
 }
 
-void COrderAdd::on_name_cBox_currentIndexChanged(int index) {
+void COrderAdd::on_comp_cBox_currentIndexChanged(int index) {
   if (!m_vCompsV.empty()) {
-    m_total = fetch_price(m_pUi->name_cBox->itemText(index)) * m_pUi->comp_cnt_dial->value();
+    m_total = fetch_price(m_pUi->comp_cBox->itemText(index)) * m_pUi->comp_cnt_dial->value();
     m_pUi->total_val_l->setText(QString::number(m_total));
   }
 }
@@ -97,7 +127,7 @@ void COrderAdd::on_name_cBox_currentIndexChanged(int index) {
 void COrderAdd::on_comp_cnt_dial_valueChanged(int value) {
   m_pUi->cnt_val_l->setText(QString::number(value));
   if (!m_vCompsV.empty()) {
-    m_total = fetch_price(m_pUi->name_cBox->currentText()) * value;
+    m_total = fetch_price(m_pUi->comp_cBox->currentText()) * value;
     m_pUi->total_val_l->setText(QString::number(m_total));
   }
 }
@@ -109,3 +139,4 @@ double COrderAdd::fetch_price(QString key_qstr) {
 
   return 0;
 }
+
