@@ -71,7 +71,7 @@ void COrderAdd::on_accept_btn_clicked() {
                                                                 m_pUi->accept_dateEdit->date().toString("yyyy-MM-dd"),
                                                                 QString::number(m_pUi->comp_cnt_dial->value()),
                                                                 QString::number(m_total));
-    qDebug() << query_qstr;
+
     if (query_ctrl.executeSqlQuery(query_qstr)) {
       QMessageBox::information(this, "Success!", "Order was succesfully added!");
 

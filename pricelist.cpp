@@ -54,7 +54,6 @@ CPriceList::CPriceList(QWidget *parent) :
                }
 
             } else if (action_name_qstr.compare("Add component type", Qt::CaseInsensitive) == 0) {
-              //TODO: add component type with global 'comps'
               emit showCompTypeAdd(m_pUi->comp_Ty_tbv);
             }
           });

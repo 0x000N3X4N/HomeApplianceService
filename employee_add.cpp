@@ -24,8 +24,9 @@ void CEmployeeAdd::showWindow(QTableView* employees_tb_ptr) {
 }
 
 void CEmployeeAdd::on_submit_btn_clicked() {
+  CQueryController query_ctrl(CODBCW::getInstance());
+
   try {
-    CQueryController query_ctrl(CODBCW::getInstance());
     QString empl_name_qstr = m_pUi->fullname_le->text();
     QString query_qstr = QString("INSERT INTO employees"
                          " VALUES ('%1', '%2', '%3', '%4');").arg(empl_name_qstr,
@@ -50,19 +51,22 @@ void CEmployeeAdd::on_submit_btn_clicked() {
         m_pEmployeesTb->setModel(hEmpFilterModel);
       }
       else
-        throw std::invalid_argument("Error, query for select employees not executed!");
+        throw std::invalid_argument("Error, query for select employees not executed! LastError: [" +
+                                    query_ctrl.getQuery().lastError().text().toStdString() + "]");
 
       clearUi();
     }
     else
-      throw std::invalid_argument("Error, query for employees not executed!");
+      throw std::invalid_argument("Error, query for employees not executed! LastError: [" +
+                                  query_ctrl.getQuery().lastError().text().toStdString() + "]");
   }
   catch(std::invalid_argument& e) {
     QMessageBox::critical(this, e.what(), e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CEmployeeAdd::on_submit_btn_clicked : Unexpected error!");
+    QMessageBox::critical(this, "Error!", "CEmployeeAdd::on_submit_btn_clicked : Unexpected error! LastError: [" +
+                          query_ctrl.getQuery().lastError().text() + "]");
   }
 }
 

@@ -21,6 +21,8 @@ CEmployees::CEmployees(QWidget *parent) :
 
 CEmployees::~CEmployees() {
   delete m_pUi;
+  delete m_pEmpl_add;
+  delete m_pEmpl_del;
 }
 
 void CEmployees::showWindow(QSortFilterProxyModel* query_qsfpm_ptr) {
@@ -33,8 +35,9 @@ void CEmployees::on_add_employee_btn_clicked() {
 }
 
 void CEmployees::on_delete_employee_btn_clicked() {
+  CQueryController query(CODBCW::getInstance());
+
   try {
-    CQueryController query(CODBCW::getInstance());
 
     if (query.executeSqlQuery("SELECT fullname FROM employees;")) {
       size_t ecx = 0;
@@ -48,13 +51,15 @@ void CEmployees::on_delete_employee_btn_clicked() {
       emit showEmplDel(pFN_qstr, ecx, m_pUi->employees_tb);
     }
     else
-      throw std::invalid_argument("Error, query for select employees not executed!");
+      throw std::invalid_argument("Error, query for select employees not executed! LastError: [" +
+                                  query.getQuery().lastError().text().toStdString() + "]");
   }
   catch(std::invalid_argument& e) {
     QMessageBox::critical(this, e.what(), e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CEmployees::on_delete_employee_btn_clicked : Unexpected error!");
+    QMessageBox::critical(this, "Error!", "CEmployees::on_delete_employee_btn_clicked : Unexpected error! LastError: [" +
+                          query.getQuery().lastError().text() + "]");
   }
 }

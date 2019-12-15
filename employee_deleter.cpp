@@ -16,6 +16,7 @@ CEmployeeDel::CEmployeeDel(QWidget *parent) :
 
 CEmployeeDel::~CEmployeeDel() {
   delete m_pUi;
+  delete m_tb_ptr;
 }
 
 void CEmployeeDel::showWindow(QString* pFN, size_t sz, QTableView* tb_ptr) {
@@ -27,8 +28,9 @@ void CEmployeeDel::showWindow(QString* pFN, size_t sz, QTableView* tb_ptr) {
 }
 
 void CEmployeeDel::on_submit_btn_clicked() {
+  CQueryController query(CODBCW::getInstance());
+
   try {
-    CQueryController query(CODBCW::getInstance());
     QString query_qstr = QString("DELETE FROM employees WHERE fullname = '%1';").arg(m_pUi->fullname_cBox->currentText());
 
     if (query.executeSqlQuery(query_qstr)) {
@@ -47,10 +49,12 @@ void CEmployeeDel::on_submit_btn_clicked() {
         m_tb_ptr->setModel(hEmpFilterModel);
       }
       else
-        throw std::invalid_argument("CEmployeeDel::on_submit_btn_clicked : Error execute SELECT query!");
+        throw std::invalid_argument("CEmployeeDel::on_submit_btn_clicked : Error execute SELECT query! LastError: [" +
+                                    query.getQuery().lastError().text().toStdString() + "]");
     }
     else
-      throw std::invalid_argument("CEmployeeDel::on_submit_btn_clicked : Error execute DELETE query!");
+      throw std::invalid_argument("CEmployeeDel::on_submit_btn_clicked : Error execute DELETE query! LastError: [" +
+                                  query.getQuery().lastError().text().toStdString() + "]");
 
     clearUi();
   }
@@ -59,7 +63,8 @@ void CEmployeeDel::on_submit_btn_clicked() {
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CEmployeeDel::on_submit_btn_clicked : Unexpected error!");
+    QMessageBox::critical(this, "Error!", "CEmployeeDel::on_submit_btn_clicked : Unexpected error! LastError: [" +
+                          query.getQuery().lastError().text() + "]");
   }
 }
 

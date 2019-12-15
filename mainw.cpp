@@ -68,6 +68,7 @@ MainWindow::~MainWindow() {
   delete m_hQuery;
   delete m_hModel;
   delete m_hFilterModel;
+  delete m_pCustomers;
 }
 
 void MainWindow::initTbOrders() {

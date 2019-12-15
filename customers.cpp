@@ -73,7 +73,7 @@ void CCustomers::on_delete_customer_btn_clicked() {
       emit showCustomerDel(m_pUi->customers_tb, vCust);
     }
     else
-      throw std::invalid_argument("Error, query for SELECT city not executed! LastError: [" +
+      throw std::invalid_argument("Error, query for SELECT customers not executed! LastError: [" +
                                   query.getQuery().lastError().text().toStdString() + "]");
   }
   catch(std::invalid_argument& e) {
@@ -81,7 +81,7 @@ void CCustomers::on_delete_customer_btn_clicked() {
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CCustomers::on_add_customer_btn_clicked : Unexpected error! LastError: [" +
+    QMessageBox::critical(this, "Error!", "CCustomers::on_delete_customer_btn_clicked : Unexpected error! LastError: [" +
                           query.getQuery().lastError().text() + "]");
   }
 }
