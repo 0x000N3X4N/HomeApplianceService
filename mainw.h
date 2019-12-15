@@ -9,6 +9,7 @@
 #include "customers.h"
 #include "pricelist.h"
 #include "order_add.h"
+#include "order_deleter.h"
 #include "editor.h"
 #include "statistic.h"
 #include "employees.h"
@@ -37,6 +38,13 @@ signals:
   void showAddOrder(QTableView* ptb_orders,
                     std::vector<std::tuple<size_t, QString, double>> vCompsV,
                     std::map<QString, size_t> employees_map, std::map<QString, size_t> cust_map);
+  void showDelOrder(QTableView* tb_ptr,
+                    std::tuple <
+                                   std::vector<QString>, // order title
+                                   std::vector<QString>, // order employeer
+                                   std::vector<QString>, // order acceptance date
+                                   std::vector<QString>  // order price
+                               > o_struct);
   void tbSendPriceList(QSortFilterProxyModel* hFModelComp,
                        QSortFilterProxyModel* hFModelCompType);
 
@@ -48,12 +56,14 @@ private slots:
   void on_statistic_btn_clicked();
   void on_employees_btn_clicked();
   void on_customers_btn_clicked();
+  void on_del_order_btn_clicked();
 
 private:
   Ui::MainWindow* m_pUi;
   CPriceList* m_pPriceListWindow;
   CEditor* m_pEditor;
   COrderAdd* m_pOrderAdd;
+  COrderDel* m_pOrderDeleter;
   CStatistic* m_pStatistic;
   CEmployees* m_pEmployees;
   CCustomers* m_pCustomers;

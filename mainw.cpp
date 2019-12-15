@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
   m_pEmployees = new CEmployees();
   m_pStatistic = new CStatistic();
   m_pCustomers = new CCustomers();
+  m_pOrderDeleter = new COrderDel();
 
 #pragma region Signals/Slots
   connect(this, &MainWindow::showPriceList,
@@ -36,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(this, &MainWindow::showCustomers,
           m_pCustomers, &CCustomers::showWindow);
 
+  connect(this, &MainWindow::showDelOrder,
+          m_pOrderDeleter, &COrderDel::showWindow);
 
 #pragma enregion
   /////
@@ -108,7 +111,8 @@ void MainWindow::on_price_btn_clicked() {
     m_hQuery->clear();
 
     if (!m_hQuery->executeSqlQuery("SELECT component_type AS 'Component type' FROM components_type;"))
-      throw std::invalid_argument("Error, query for pricelist not executed!");
+      throw std::invalid_argument("Error, query for pricelist not executed!  LastError: [" +
+                                  m_hQuery->getQuery().lastError().text().toStdString() + "]");
 
     hCompTypeQModel->setQuery(m_hQuery->getQuery());
     hCompTyFilterModel->setDynamicSortFilter(true);
@@ -198,7 +202,8 @@ void MainWindow::on_employees_btn_clicked() {
                               "FROM employees;");
 
     if (!m_hQuery->isSelect())
-      throw std::invalid_argument("Error, can't execute employee query!");
+      throw std::invalid_argument("Error, can't execute employee query! LastError: [" +
+                                  m_hQuery->getQuery().lastError().text().toStdString() + "]");
 
     QSqlQueryModel* hEmpQModel = new QSqlQueryModel();
     QSortFilterProxyModel* hEmpFilterModel = new QSortFilterProxyModel();
@@ -211,25 +216,79 @@ void MainWindow::on_employees_btn_clicked() {
     QMessageBox::critical(this, e.what(), e.what());
     return;
   }
+  catch(...) {
+    QMessageBox::critical(this, "Error!", "MainWindow::on_employees_btn_clicked : Unexpected error! LastError: [" +
+                          m_hQuery->getQuery().lastError().text() + "]");
+    return;
+  }
 }
 
 void MainWindow::on_customers_btn_clicked() {
   try {
-    m_hQuery->executeSqlQuery("SELECT name AS 'Name', phone AS 'Phone' "
-                              "FROM customers;");
+    if (m_hQuery->executeSqlQuery("SELECT name AS 'Name', phone AS 'Phone' "
+                                  "FROM customers;")) {
+      QSqlQueryModel* hCustQModel = new QSqlQueryModel();
+      QSortFilterProxyModel* hCustFilterModel = new QSortFilterProxyModel();
+      hCustQModel->setQuery(m_hQuery->getQuery());
+      hCustFilterModel->setDynamicSortFilter(true);
+      hCustFilterModel->setSourceModel(hCustQModel);
 
-    if (!m_hQuery->isSelect())
-      throw std::invalid_argument("Error, can't execute customers query!");
-
-    QSqlQueryModel* hCustQModel = new QSqlQueryModel();
-    QSortFilterProxyModel* hCustFilterModel = new QSortFilterProxyModel();
-    hCustQModel->setQuery(m_hQuery->getQuery());
-    hCustFilterModel->setDynamicSortFilter(true);
-    hCustFilterModel->setSourceModel(hCustQModel);
-
-    emit showCustomers(hCustFilterModel);
+      emit showCustomers(hCustFilterModel);
+    }
+    else
+      throw std::invalid_argument("Error, can't execute customers query!  LastError: [" +
+                                  m_hQuery->getQuery().lastError().text().toStdString() + "]");
   } catch(std::invalid_argument& e) {
     QMessageBox::critical(this, e.what(), e.what());
+    return;
+  }
+  catch(...) {
+    QMessageBox::critical(this, "Error!", "MainWindow::on_customers_btn_clicked : Unexpected error! LastError: [" +
+                          m_hQuery->getQuery().lastError().text() + "]");
+    return;
+  }
+}
+
+void MainWindow::on_del_order_btn_clicked() {
+  try {
+    std::tuple <
+                 std::vector<QString>, // order title
+                 std::vector<QString>, // order employeer
+                 std::vector<QString>, // order acceptance date
+                 std::vector<QString>  // order price
+               > o_struct;
+    std::vector<QString> vOrders, vEmpl, vAcceptDate, vPrices;
+
+    if (m_hQuery->executeSqlQuery("SELECT C.title AS 'Title', E.fullname AS 'Employee ', "
+                                  "O.acceptance_date AS 'Acceptance date', O.price AS 'Price' "
+                                  "FROM orders O "
+                                  "JOIN components C "
+                                  "ON O.FK_component_id = C.PK_component_id "
+                                  "JOIN employees E "
+                                  "ON o.FK_employee_id = e.PK_employee_id;"))
+    {
+      while(m_hQuery->next()) {
+        vOrders.push_back(m_hQuery->parse_value(0).toString());
+        vEmpl.push_back(m_hQuery->parse_value(1).toString());
+        vAcceptDate.push_back(m_hQuery->parse_value(2).toString());
+        vPrices.push_back(m_hQuery->parse_value(3).toString());
+      }
+
+      o_struct = std::make_tuple(vOrders, vEmpl, vAcceptDate, vPrices);
+
+      emit showDelOrder(m_pUi->tb_orders, o_struct);
+    }
+    else
+      throw std::invalid_argument("Error, can't execute orders query!  LastError: [" +
+                                  m_hQuery->getQuery().lastError().text().toStdString() + "]");
+
+  } catch(std::invalid_argument& e) {
+    QMessageBox::critical(this, e.what(), e.what());
+    return;
+  }
+  catch(...) {
+    QMessageBox::critical(this, "Error!", "MainWindow::on_del_order_btn_clicked : Unexpected error! LastError: [" +
+                          m_hQuery->getQuery().lastError().text() + "]");
     return;
   }
 }
