@@ -72,6 +72,7 @@ void CCompAdd::on_add_service_btn_clicked() {
     QMessageBox::critical(this, "Error!", e.what());
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CCompAdd::on_add_service_btn_clicked : Unexpected error!");
+    QMessageBox::critical(this, "Error!", "CCompAdd::on_add_service_btn_clicked : Unexpected error! LastError: [" +
+                          m_hQuery->getQuery().lastError().text() + "]");
   }
 }

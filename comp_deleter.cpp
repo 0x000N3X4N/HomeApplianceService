@@ -35,7 +35,7 @@ void CCompDeleter::on_accept_deleter_btn_clicked() {
     CCompsTraits::get_comps().rm(m_pUi->comp_name_cmbBox->currentText());
 
     QMessageBox::information(this, "Success",
-                             "Component'" + m_pUi->comp_name_cmbBox->currentText() + "' was successfully removed!");
+                             "Component '" + m_pUi->comp_name_cmbBox->currentText() + "' was successfully removed!");
 
     sQuery = "SELECT title AS 'Title',"
              "specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date' "

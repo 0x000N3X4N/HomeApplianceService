@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>969</width>
-    <height>392</height>
+    <height>479</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -23,165 +23,272 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>CRM LaptopMaintenanceService</string>
+   <string>PC Sales Manager Workstation</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
-     <widget class="QFrame" name="button_bar_frame">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QFrame" name="main_menu_fr">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QPushButton" name="add_order_btn">
-           <property name="styleSheet">
-            <string notr="true">border-radius: 20px;
+        <widget class="QFrame" name="button_bar_frame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QPushButton" name="customers_btn">
+              <property name="styleSheet">
+               <string notr="true">border-radius: 20px;
 border-width: 3px;</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="res.qrc">
-             <normaloff>:/resources/img/add_btn_icon.png</normaloff>:/resources/img/add_btn_icon.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>64</width>
-             <height>64</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="edit_btn">
-           <property name="styleSheet">
-            <string notr="true">border-radius: 20px;
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="res.qrc">
+                <normaloff>:/resources/img/customers_icon_btn.png</normaloff>:/resources/img/customers_icon_btn.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>64</width>
+                <height>64</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="employees_btn">
+              <property name="styleSheet">
+               <string notr="true">border-radius: 20px;
 border-width: 3px;</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="res.qrc">
-             <normaloff>:/resources/img/edit_btn_icon.png</normaloff>:/resources/img/edit_btn_icon.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>64</width>
-             <height>64</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="statistic_btn">
-           <property name="styleSheet">
-            <string notr="true">border-radius: 20px;
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="res.qrc">
+                <normaloff>:/resources/img/employees_icon_btn.png</normaloff>:/resources/img/employees_icon_btn.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>64</width>
+                <height>64</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="edit_btn">
+              <property name="styleSheet">
+               <string notr="true">border-radius: 20px;
 border-width: 3px;</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="res.qrc">
-             <normaloff>:/resources/img/statistic_btn_icon.png</normaloff>:/resources/img/statistic_btn_icon.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>64</width>
-             <height>64</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="price_btn">
-           <property name="styleSheet">
-            <string notr="true">padding: 0px;
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="res.qrc">
+                <normaloff>:/resources/img/edit_btn_icon.png</normaloff>:/resources/img/edit_btn_icon.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>64</width>
+                <height>64</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="statistic_btn">
+              <property name="styleSheet">
+               <string notr="true">border-radius: 20px;
+border-width: 3px;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="res.qrc">
+                <normaloff>:/resources/img/statistic_btn_icon.png</normaloff>:/resources/img/statistic_btn_icon.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>64</width>
+                <height>64</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="price_btn">
+              <property name="styleSheet">
+               <string notr="true">padding: 0px;
 border-radius: 20px;
 background-color: #19232D ;
 border-width: 3px;</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="res.qrc">
-             <normaloff>:/resources/img/price_btn_icon.png</normaloff>:/resources/img/price_btn_icon.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>64</width>
-             <height>64</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-        </layout>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="res.qrc">
+                <normaloff>:/resources/img/price_btn_icon.png</normaloff>:/resources/img/price_btn_icon.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>64</width>
+                <height>64</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout_3"/>
-    </item>
-    <item row="2" column="1">
-     <widget class="QGroupBox" name="order_gBox">
-      <property name="title">
-       <string>Orders</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QTableView" name="tb_orders"/>
+        <widget class="QGroupBox" name="order_gBox">
+         <property name="title">
+          <string>Orders</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QTableView" name="tb_orders"/>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="ctrls_gBox">
+            <property name="title">
+             <string>Controls</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QPushButton" name="add_order_btn">
+               <property name="styleSheet">
+                <string notr="true">border-radius: 20px;
+border-width: 3px;</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="res.qrc">
+                 <normaloff>:/resources/img/add_btn_icon.png</normaloff>:/resources/img/add_btn_icon.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>64</width>
+                 <height>64</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="del_order_btn">
+               <property name="styleSheet">
+                <string notr="true">border-radius: 20px;
+border-width: 3px;</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="res.qrc">
+                 <normaloff>:/resources/img/delete_btn_icon.png</normaloff>:/resources/img/delete_btn_icon.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>64</width>
+                 <height>64</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </widget>
