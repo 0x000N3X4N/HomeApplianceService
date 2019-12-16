@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent) :
   m_pUi->setupUi(this);
   m_pPriceListWindow = new CPriceList();
   m_pOrderAdd = new COrderAdd();
-  m_pEditor = new CEditor();
   m_pEmployees = new CEmployees();
   m_pStatistic = new CStatistic();
   m_pCustomers = new CCustomers();
@@ -24,9 +23,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
   connect(this, &MainWindow::showAddOrder,
           m_pOrderAdd, &COrderAdd::showWindow);
-
-  connect(this, &MainWindow::showEditor,
-          m_pEditor, &CEditor::showWindow);
 
   connect(this, &MainWindow::showStatistic,
           m_pStatistic, [=]() { m_pStatistic->show(); });
@@ -65,7 +61,6 @@ MainWindow::~MainWindow() {
   delete m_pUi;
   delete m_pEmployees;
   delete m_pPriceListWindow;
-  delete m_pEditor;
   delete m_pOrderAdd;
   delete m_pStatistic;
   delete m_hQuery;
@@ -185,10 +180,6 @@ void MainWindow::on_add_order_btn_clicked() {
                           m_hQuery->getQuery().lastError().text() + "]");
     return;
   }
-}
-
-void MainWindow::on_edit_btn_clicked() {
-  emit showEditor(m_pUi->tb_orders, m_hQuery);
 }
 
 void MainWindow::on_statistic_btn_clicked() {

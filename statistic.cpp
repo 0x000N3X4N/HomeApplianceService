@@ -10,8 +10,12 @@ CStatistic::CStatistic(QWidget *parent) :
   m_hQuery = new CQueryController(CODBCW::getInstance());
   m_hModel = new QSqlQueryModel();
   m_hFilterModel = new QSortFilterProxyModel();
-  m_pUi->accept_dateEdit->setCalendarPopup(true);
-  m_pUi->accept_dateEdit->setDate(QDate::currentDate());
+  m_pUi->from_de->setCalendarPopup(true);
+  m_pUi->from_de->setDate(QDate::currentDate());
+  m_pUi->to_de->setCalendarPopup(true);
+  m_pUi->to_de->setDate(QDate::currentDate());
+  m_pUi->tb_stats->horizontalHeader()
+                  ->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 CStatistic::~CStatistic() {
@@ -22,13 +26,9 @@ CStatistic::~CStatistic() {
 }
 
 void CStatistic::on_done_btn_clicked() {
-  QString sQuery = QString("SELECT id_order AS 'Id', "
-                           "name AS 'Name', type AS 'Type', acceptance_date AS 'Accept date', "
-                           "completion_date AS 'Complete date', total AS 'Total', "
-                           "status AS 'Status', completed_surname AS 'Surname' "
-                           "FROM home_appliance_service.order "
-                           "WHERE acceptance_date = '%1'")
-                           .arg(m_pUi->accept_dateEdit->date().toString("yyyy-MM-dd"));
+  QString sQuery = QString("EXEC [stats] '%1','%2'")
+                           .arg(m_pUi->from_de->date().toString("yyyy-MM-dd"),
+                                m_pUi->to_de->date().toString("yyyy-MM-dd"));
 
   m_hQuery->executeSqlQuery(sQuery);
 

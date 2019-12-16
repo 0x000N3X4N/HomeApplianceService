@@ -10,7 +10,6 @@
 #include "pricelist.h"
 #include "order_add.h"
 #include "order_deleter.h"
-#include "editor.h"
 #include "statistic.h"
 #include "employees.h"
 #include "libs/ODBCConnector/ODBCW.h"
@@ -31,7 +30,6 @@ public:
 
 signals:
   void showPriceList();
-  void showEditor(QTableView* ptb_orders, CQueryController* hQuery);
   void showStatistic();
   void showEmployees(QSortFilterProxyModel* res_qsfpm);
   void showCustomers(QSortFilterProxyModel* res_qsfpm);
@@ -52,7 +50,6 @@ signals:
 private slots:
   void on_price_btn_clicked();
   void on_add_order_btn_clicked();
-  void on_edit_btn_clicked();
   void on_statistic_btn_clicked();
   void on_employees_btn_clicked();
   void on_customers_btn_clicked();
@@ -61,7 +58,6 @@ private slots:
 private:
   Ui::MainWindow* m_pUi;
   CPriceList* m_pPriceListWindow;
-  CEditor* m_pEditor;
   COrderAdd* m_pOrderAdd;
   COrderDel* m_pOrderDeleter;
   CStatistic* m_pStatistic;

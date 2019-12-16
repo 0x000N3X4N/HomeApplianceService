@@ -10,6 +10,7 @@ namespace Ui {
   class StatisticWindow;
 }
 
+
 class CStatistic : public QDialog {
   Q_OBJECT
 

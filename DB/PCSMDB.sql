@@ -236,6 +236,41 @@ SELECT * FROM orders;
 --JOIN components C
 --ON O.FK_component_id = C.PK_component_id;
 
+--SELECT C.title AS 'Title', E.fullname AS 'Employee ', 
+--                                  O.acceptance_date AS 'Acceptance date', O.price AS 'Price' 
+--                                  FROM orders O 
+--                                  JOIN components C 
+--                                  ON O.FK_component_id = C.PK_component_id 
+--                                  JOIN employees E 
+--                                  ON o.FK_employee_id = e.PK_employee_id;
+
+DELETE FROM orders
+WHERE (
+	    FK_component_id = (SELECT C.PK_component_id
+			               FROM components C 
+						   WHERE C.title = 'AMD Ryzen 5 3600') AND
+		FK_employee_id =  (SELECT E.PK_employee_id
+						   FROM employees E
+						   WHERE E.fullname = 'Stephan King Sir') AND
+	    price = 1646.88 AND
+		acceptance_date = '2019-12-15')
+
+GO
+CREATE PROC [stats]
+@from_date DATE, @to_date DATE
+AS
+BEGIN
+	SELECT C.title AS 'Title', O.comp_count AS 'Count of components', O.acceptance_date AS 'Acceptance date', O.price AS 'Price'
+	FROM orders O
+	JOIN components C
+	ON O.FK_component_id = C.PK_component_id
+	WHERE O.acceptance_date
+	BETWEEN @from_date AND @to_date;
+END
+
+GO
+EXEC [stats] '2001-04-01','2001-04-05'
+
 --INSERT INTO passport
 --VALUES ('John Track Lir', 'Kolesnikova 5', 'Frunzenskoe RUVD', 123);
 

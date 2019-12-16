@@ -2,11 +2,12 @@
     <qresource prefix="/">
         <file>resources/img/add_btn_icon.png</file>
         <file>resources/img/price_btn_icon.png</file>
-        <file>resources/img/edit_btn_icon.png</file>
         <file>resources/img/statistic_btn_icon.png</file>
         <file>resources/img/delete_btn_icon.png</file>
         <file>resources/img/customers_icon_btn.png</file>
         <file>resources/img/employees_icon_btn.png</file>
+        <file>resources/img/export_btn_icon.png</file>
+        <file>resources/img/search_icon_btn.png</file>
     </qresource>
     <qresource prefix="/qss_icons">
         <file alias="up_arrow_disabled.png">resources/img/theme/up_arrow_disabled.png</file>

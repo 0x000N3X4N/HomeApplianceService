@@ -43,7 +43,6 @@ SOURCES += \
   order_deleter.cpp \
     pricelist.cpp \
     mainw.cpp \
-    editor.cpp \
     comp_add.cpp \
     statistic.cpp
 
@@ -65,7 +64,6 @@ HEADERS += \
     order_deleter.h \
     pricelist.h \
     mainw.h \
-    editor.h \
     comp_add.h \
     statistic.h
 
@@ -83,7 +81,6 @@ FORMS += \
     order_deleter.ui \
     pricelist.ui \
     mainwindow.ui \
-    editor.ui \
     comp_add.ui \
     statistic.ui
 

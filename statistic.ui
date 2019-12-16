@@ -18,81 +18,73 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>487</width>
-    <height>305</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Statistic</string>
   </property>
-  <widget class="QFrame" name="toolbar_frame">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>461</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>7</y>
-      <width>441</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="stats_hLayout">
-     <item>
-      <widget class="QLabel" name="accept_date_label">
-       <property name="text">
-        <string>Acceptance date:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDateEdit" name="accept_dateEdit"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="done_btn">
-       <property name="text">
-        <string>Done</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QGroupBox" name="statistic_gBox">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>54</y>
-     <width>461</width>
-     <height>241</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Statistic</string>
-   </property>
-   <widget class="QTableView" name="tb_stats">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>441</width>
-      <height>201</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QFrame" name="toolbar_frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="stats_hLayout">
+        <item>
+         <widget class="QLabel" name="from_date_l">
+          <property name="text">
+           <string>From date:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDateEdit" name="from_de"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="done_btn">
+          <property name="text">
+           <string>Done</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QSplitter" name="splitter">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <widget class="QLabel" name="to_date_l">
+         <property name="text">
+          <string>To date:</string>
+         </property>
+        </widget>
+        <widget class="QDateEdit" name="to_de"/>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="statistic_gBox">
+     <property name="title">
+      <string>Statistic</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QTableView" name="tb_stats"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
