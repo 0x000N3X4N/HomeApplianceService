@@ -12,6 +12,7 @@
 #include "order_deleter.h"
 #include "statistic.h"
 #include "employees.h"
+#include "export.h"
 #include "libs/ODBCConnector/ODBCW.h"
 #include "libs/ODBCConnector/query_controller.h"
 
@@ -45,7 +46,7 @@ signals:
                                > o_struct);
   void tbSendPriceList(QSortFilterProxyModel* hFModelComp,
                        QSortFilterProxyModel* hFModelCompType);
-
+  void showExport(QTableView* orders_tb_ptr);
 
 private slots:
   void on_price_btn_clicked();
@@ -54,6 +55,8 @@ private slots:
   void on_employees_btn_clicked();
   void on_customers_btn_clicked();
   void on_del_order_btn_clicked();
+
+  void on_export_btn_clicked();
 
 private:
   Ui::MainWindow* m_pUi;
@@ -64,6 +67,7 @@ private:
   CEmployees* m_pEmployees;
   CCustomers* m_pCustomers;
   CODBCW* m_hDb;
+  CExport* m_pExport;
   CQueryController* m_hQuery; // query handler
   QSqlQueryModel* m_hModel;
   QSortFilterProxyModel* m_hFilterModel;

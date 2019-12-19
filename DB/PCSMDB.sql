@@ -271,6 +271,15 @@ END
 GO
 EXEC [stats] '2001-04-01','2001-04-05'
 
+GO
+CREATE VIEW test_
+@rrr INT
+AS
+	SELECT * FROM orders WHERE FK_component_id = @rrr;
+
+GO
+SELECT * FROM test_;
+
 --INSERT INTO passport
 --VALUES ('John Track Lir', 'Kolesnikova 5', 'Frunzenskoe RUVD', 123);
 

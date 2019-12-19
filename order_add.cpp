@@ -49,6 +49,50 @@ void COrderAdd::fillInParams() {
     m_pUi->cust_cBox->addItem(it->first);
 }
 
+bool COrderAdd::genPaycheck(QString title, size_t cnt, double price, double sum) {
+  auto num = rand_uint64();
+  QString out = QDir::currentPath() + "/paychecks/" + QString::number(num) +
+      ".html";
+  QString in = QDir::currentPath() + "/paychecks/paycheck.html";
+  qDebug() << out;
+  qDebug() << in;
+
+  QFile fPaycheckIn(QDir::currentPath() + "/paychecks/paycheck.html"),
+        fPaycheckOut(QDir::currentPath() + "/paychecks/" + QString::number(num) +
+                     ".html");
+
+  if (!fPaycheckIn.open(QIODevice::ReadOnly | QIODevice::Text))
+    return false;
+
+  QTextStream tsPaycheckIn(&fPaycheckIn);
+  auto body = tsPaycheckIn.readAll();
+  body.replace(QString("%NUM%"), QString::number(num));
+  body.replace(QString("%CURR_DATE%"), QDate::currentDate().toString("yyyy-MM-dd"));
+  body.replace(QString("%TITLE%"), title);
+  body.replace(QString("%CNT%"), QString::number(cnt));
+  body.replace(QString("%PRICE%"), QString::number(price));
+  body.replace(QString("%SUM%"), QString::number(sum));
+
+  if (fPaycheckOut.open(QIODevice::WriteOnly)) {
+    QTextStream tsPaycheckOut(&fPaycheckOut);
+    tsPaycheckOut << body;
+
+    fPaycheckOut.close();
+  }
+
+  fPaycheckIn.close();
+  return true;
+}
+
+uint64_t COrderAdd::rand_uint64() {
+  uint64_t r = 0;
+
+  for (int i = 0; i < 64; i += 30) {
+    r = r * ((uint64_t)RAND_MAX + 1) + rand();
+  }
+  return r;
+}
+
 void COrderAdd::on_accept_btn_clicked() {
   CQueryController query_ctrl(CODBCW::getInstance());
 
@@ -56,10 +100,13 @@ void COrderAdd::on_accept_btn_clicked() {
 
     QString comp_curr_text = m_pUi->comp_cBox->currentText();
     size_t comp_id = 0;
+    double price = 0;
 
     for (auto o : m_vCompsV)
-      if (std::get<1>(o) == comp_curr_text)
+      if (std::get<1>(o) == comp_curr_text) {
         comp_id = std::get<0>(o);
+        price = std::get<2>(o);
+      }
 
     auto cust_it = m_cust_map.find(m_pUi->cust_cBox->currentText()),
          empl_it = m_employees_map.find(m_pUi->employee_cBox->currentText());
@@ -85,6 +132,12 @@ void COrderAdd::on_accept_btn_clicked() {
                                      "JOIN employees E "
                                      "ON o.FK_employee_id = e.PK_employee_id;"))
       {
+        if (genPaycheck(m_pUi->comp_cBox->currentText(), m_pUi->comp_cnt_dial->value(), price, m_total))
+          QMessageBox::information(this, "Success!", "Paycheck was successfully generated to: \"" +
+                                                     QDir::currentPath() + "/paychecks\" folder!");
+        else
+          QMessageBox::critical(this, "Error", "Can't generate paycheck!");
+
         QSqlQueryModel* hOrdersQModel = new QSqlQueryModel();
         QSortFilterProxyModel* hOrdersFilterModel = new QSortFilterProxyModel();
         hOrdersQModel->setQuery(query_ctrl.getQuery());

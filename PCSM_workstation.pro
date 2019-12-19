@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-INCLUDEPATH += x:/libs/cpp/boost/v1.71/
+INCLUDEPATH += x:/libs/cpp/boost/v1.70/
 
 SOURCES += \
   comp_deleter.cpp \
@@ -36,6 +36,7 @@ SOURCES += \
   employee_add.cpp \
   employee_deleter.cpp \
   employees.cpp \
+  export.cpp \
   libs/ODBCConnector/ODBCW.cpp \
   libs/ODBCConnector/query_controller.cpp \
         main.cpp \
@@ -58,6 +59,7 @@ HEADERS += \
     employee_add.h \
     employee_deleter.h \
     employees.h \
+    export.h \
     libs/ODBCConnector/ODBCW.h \
     libs/ODBCConnector/query_controller.h \
     order_add.h \
@@ -77,6 +79,7 @@ FORMS += \
     employee_add.ui \
     employee_deleter.ui \
     employees.ui \
+    export.ui \
     order_add.ui \
     order_deleter.ui \
     pricelist.ui \
