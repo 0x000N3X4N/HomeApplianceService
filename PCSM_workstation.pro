@@ -45,6 +45,7 @@ SOURCES += \
     pricelist.cpp \
     mainw.cpp \
     comp_add.cpp \
+  search.cpp \
     statistic.cpp
 
 HEADERS += \
@@ -67,6 +68,7 @@ HEADERS += \
     pricelist.h \
     mainw.h \
     comp_add.h \
+    search.h \
     statistic.h
 
 FORMS += \
@@ -85,6 +87,7 @@ FORMS += \
     pricelist.ui \
     mainwindow.ui \
     comp_add.ui \
+    search.ui \
     statistic.ui
 
 RESOURCES += res.qrc
