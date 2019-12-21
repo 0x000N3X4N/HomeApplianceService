@@ -271,6 +271,63 @@ END
 GO
 EXEC [stats] '2001-04-01','2001-04-05'
 
+GO
+CREATE PROC [search]
+@title VARCHAR(256), @price_start MONEY, @price_end MONEY, @year_start INT, @year_end INT
+AS
+BEGIN
+	IF (@price_start <> -1 AND @title <> N'' AND @year_start <> -1)
+	BEGIN
+		SELECT title AS 'Title', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
+		FROM components
+		WHERE @title = title AND price BETWEEN @price_start AND @price_end AND release_date BETWEEN @year_start AND @year_end;
+	END
+	ELSE IF (@price_start <> -1 AND @title <> N'' AND @year_start = -1)
+	BEGIN
+		SELECT title AS 'Title', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
+		FROM components
+		WHERE @title = title AND price BETWEEN @price_start AND @price_end;
+	END
+	ELSE IF (@price_start <> -1 AND @title = N'' AND @year_start = -1)
+	BEGIN
+		SELECT title AS 'Title', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
+		FROM components
+		WHERE price BETWEEN @price_start AND @price_end;
+	END
+	ELSE IF (@price_start = -1 AND @title = N'' AND @year_start = -1)
+	BEGIN
+		SELECT title AS 'Title', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
+		FROM components;
+	END
+	ELSE IF (@title <> N'' AND @price_start = -1 AND @year_start = -1)
+	BEGIN
+		SELECT title AS 'Title', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
+		FROM components
+		WHERE @title = title;
+	END
+	ELSE IF (@year_start <> -1 AND @price_start = -1 AND @title = N'')
+	BEGIN
+		SELECT title AS 'Title', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
+		FROM components
+		WHERE release_date BETWEEN @year_start AND @year_end;
+	END	
+	ELSE IF (@year_start <> -1 AND @price_start <> -1 AND @title = N'')
+	BEGIN
+		SELECT title AS 'Title', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
+		FROM components
+		WHERE price BETWEEN @price_start AND @price_end AND release_date BETWEEN @year_start AND @year_end;
+	END	
+	ELSE IF (@year_start <> -1 AND @price_start = -1 AND @title <> N'')
+	BEGIN
+		SELECT title AS 'Title', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
+		FROM components
+		WHERE @title = title AND release_date BETWEEN @year_start AND @year_end;
+	END	
+END
+
+GO
+EXEC [search] 'Intel Core i5-9400F', 0, 500, 0, 2020
+
 --INSERT INTO passport
 --VALUES ('John Track Lir', 'Kolesnikova 5', 'Frunzenskoe RUVD', 123);
 

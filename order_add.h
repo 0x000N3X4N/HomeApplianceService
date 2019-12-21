@@ -36,6 +36,8 @@ private slots:
 private:
   double fetch_price(QString key_qstr);
   void fillInParams();
+  bool genPaycheck(QString title, size_t cnt, double price, double sum);
+  uint64_t rand_uint64();
 
   Ui::OrderAddWindow* m_pUi;
   std::vector<std::tuple<size_t, QString, double>> m_vCompsV;

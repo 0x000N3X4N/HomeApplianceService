@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
   m_pStatistic = new CStatistic();
   m_pCustomers = new CCustomers();
   m_pOrderDeleter = new COrderDel();
+  m_pExport = new CExport();
 
 #pragma region Signals/Slots
   connect(this, &MainWindow::showPriceList,
@@ -35,6 +36,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
   connect(this, &MainWindow::showDelOrder,
           m_pOrderDeleter, &COrderDel::showWindow);
+
+  connect(this, &MainWindow::showExport,
+          m_pExport, &CExport::showWindow);
 
 #pragma enregion
   /////
@@ -282,4 +286,8 @@ void MainWindow::on_del_order_btn_clicked() {
                           m_hQuery->getQuery().lastError().text() + "]");
     return;
   }
+}
+
+void MainWindow::on_export_btn_clicked() {
+  emit showExport(m_pUi->tb_orders);
 }
