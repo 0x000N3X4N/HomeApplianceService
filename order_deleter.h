@@ -30,7 +30,6 @@ public slots:
 
 private slots:
   void clearUi();
-
   void on_accept_btn_clicked();
 
 private:

@@ -13,6 +13,7 @@
 #include "statistic.h"
 #include "employees.h"
 #include "export.h"
+#include "search.h"
 #include "libs/ODBCConnector/ODBCW.h"
 #include "libs/ODBCConnector/query_controller.h"
 
@@ -55,7 +56,6 @@ private slots:
   void on_employees_btn_clicked();
   void on_customers_btn_clicked();
   void on_del_order_btn_clicked();
-
   void on_export_btn_clicked();
 
 private:
@@ -68,6 +68,7 @@ private:
   CCustomers* m_pCustomers;
   CODBCW* m_hDb;
   CExport* m_pExport;
+  CSearch* m_pSearch;
   CQueryController* m_hQuery; // query handler
   QSqlQueryModel* m_hModel;
   QSortFilterProxyModel* m_hFilterModel;

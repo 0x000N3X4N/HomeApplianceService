@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Search</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -28,7 +28,11 @@
     </widget>
    </item>
    <item>
-    <widget class="QTableView" name="search_res_tbv"/>
+    <widget class="QTableView" name="search_res_tbv">
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

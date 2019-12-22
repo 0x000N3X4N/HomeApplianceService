@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-INCLUDEPATH += x:/libs/cpp/boost/v1.70/
+INCLUDEPATH += x:/libs/cpp/boost/v1.71/
 
 SOURCES += \
   comp_deleter.cpp \

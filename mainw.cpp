@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
   m_pCustomers = new CCustomers();
   m_pOrderDeleter = new COrderDel();
   m_pExport = new CExport();
+  m_pSearch = new CSearch();
 
 #pragma region Signals/Slots
   connect(this, &MainWindow::showPriceList,
@@ -40,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(this, &MainWindow::showExport,
           m_pExport, &CExport::showWindow);
 
+  connect(m_pUi->search_btn, &QPushButton::clicked,
+          m_pSearch, [this](){m_pSearch->show();});
 #pragma enregion
   /////
 #pragma region Initialize fields of class
@@ -291,3 +294,4 @@ void MainWindow::on_del_order_btn_clicked() {
 void MainWindow::on_export_btn_clicked() {
   emit showExport(m_pUi->tb_orders);
 }
+
