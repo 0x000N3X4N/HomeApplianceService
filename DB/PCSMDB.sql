@@ -100,8 +100,6 @@ VALUES ('1', 'Dell SE2419H', 'Разрешение\1920x1080' + CHAR(0xA) +
 		('1', 'LG 24MK600M-B', 'Диагональ\23.8"' + CHAR(0xA) +
 							    'Соотношение сторон\16:9 ' + CHAR(0xA) +
 								'Разрешение\1920x1080' + CHAR(0xA) +
-								'Тип\домашний/офисный' + CHAR(0xA) +
-								'Матрица\IPS' + CHAR(0xA) +
 								'Расширенный динамический диапазон (HDR)\false' + CHAR(0xA) + 
 								'Поверхность экрана\матовая' + CHAR(0xA) + 
 								'Сенсорный экран\false' + CHAR(0xA) +
@@ -112,7 +110,7 @@ VALUES ('1', 'Dell SE2419H', 'Разрешение\1920x1080' + CHAR(0xA) +
 								'Контрастность\1 000 :1' + CHAR(0xA) +
 								'Время отклика (GtG)\5 мс' + CHAR(0xA) +
 								'Угол обзора по горизонтали\178 °' + CHAR(0xA) +
-								'Угол обзора по вертикали\178 °' + CHAR(0xA), '308.88', '2018'),
+								'Угол обзора по вертикали\178 °', '308.88', '2018'),
 
 		('2', 'Gigabyte Aorus GeForce RTX 2060 Super 8GB GDDR6', 'Интерфейс\PCI Express x16 3.0' + CHAR(0xA) +
 																 'Производитель графического процессора\NVIDIA' + CHAR(0xA) +
@@ -278,15 +276,17 @@ AS
 BEGIN
 	IF (@price_start <> -1 AND @title <> N'' AND @year_start <> -1)
 	BEGIN
-		SELECT title AS 'Title', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
+		SELECT title AS 'Title', component_type AS 'Component type', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
 		FROM components
-		WHERE @title = title AND price BETWEEN @price_start AND @price_end AND release_date BETWEEN @year_start AND @year_end;
+		JOIN components_type
+		ON FK_type_code = PK_component_type_id
+		WHERE title LIKE @title AND price BETWEEN @price_start AND @price_end AND release_date BETWEEN @year_start AND @year_end;
 	END
 	ELSE IF (@price_start <> -1 AND @title <> N'' AND @year_start = -1)
 	BEGIN
 		SELECT title AS 'Title', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
 		FROM components
-		WHERE @title = title AND price BETWEEN @price_start AND @price_end;
+		WHERE title LIKE @title AND price BETWEEN @price_start AND @price_end;
 	END
 	ELSE IF (@price_start <> -1 AND @title = N'' AND @year_start = -1)
 	BEGIN
@@ -303,7 +303,7 @@ BEGIN
 	BEGIN
 		SELECT title AS 'Title', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
 		FROM components
-		WHERE @title = title;
+		WHERE title LIKE @title;
 	END
 	ELSE IF (@year_start <> -1 AND @price_start = -1 AND @title = N'')
 	BEGIN
@@ -321,13 +321,12 @@ BEGIN
 	BEGIN
 		SELECT title AS 'Title', specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date'
 		FROM components
-		WHERE @title = title AND release_date BETWEEN @year_start AND @year_end;
+		WHERE title LIKE @title AND release_date BETWEEN @year_start AND @year_end;
 	END	
 END
 
 GO
-EXEC [search] 'Intel Core i5-9400F', 0, 500, 0, 2020
-
+EXEC [search] '%', '0', '500', '0', '2020'
 --INSERT INTO passport
 --VALUES ('John Track Lir', 'Kolesnikova 5', 'Frunzenskoe RUVD', 123);
 
