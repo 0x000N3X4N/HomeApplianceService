@@ -24,6 +24,14 @@
       <property name="text">
        <string>Search</string>
       </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="cmp_btn">
+      <property name="text">
+       <string>Compare</string>
+      </property>
      </widget>
     </widget>
    </item>

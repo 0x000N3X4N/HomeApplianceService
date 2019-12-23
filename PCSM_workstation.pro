@@ -30,6 +30,7 @@ SOURCES += \
   comp_deleter.cpp \
   comp_type_add.cpp \
   comp_type_deleter.cpp \
+  compare.cpp \
   customer_add.cpp \
   customer_deleter.cpp \
   customers.cpp \
@@ -53,6 +54,7 @@ HEADERS += \
     comp_deleter.h \
     comp_type_add.h \
     comp_type_deleter.h \
+    compare.h \
     component.h \
     customer_add.h \
     customer_deleter.h \
@@ -75,6 +77,7 @@ FORMS += \
     comp_deleter.ui \
     comp_type_add.ui \
     comp_type_deleter.ui \
+    compare.ui \
     customer_add.ui \
     customer_deleter.ui \
     customers.ui \

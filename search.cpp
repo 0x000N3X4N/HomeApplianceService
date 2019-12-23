@@ -6,11 +6,18 @@ CSearch::CSearch(QWidget *parent) :
   QWidget(parent),
   m_pUi(new Ui::SearchWindow)
 {
+  m_hCmp = new CCompare();
+
   m_pUi->setupUi(this);
   m_pUi->search_res_tbv->horizontalHeader()
       ->setSectionResizeMode(QHeaderView::Stretch);
   //TODO: investigate why sorting doesn't work
   m_pUi->search_res_tbv->setSortingEnabled(true);
+
+  connect(m_pUi->query_le, &QLineEdit::returnPressed,
+          this, &CSearch::on_search_btn_clicked);
+  connect(this, &CSearch::showCompareWindow,
+          m_hCmp, &CCompare::showWindow);
 }
 
 CSearch::~CSearch()
@@ -178,57 +185,117 @@ QString CSearch::parse_search_qeury(QString query_title, QStringList price, QStr
   bool isPreValidQTitle = query_title != "";
 
   if (isPreValidPrice && isPreValidYear && isPreValidQTitle)
-    return QString("SELECT title AS 'Title', specifications AS 'Specifications', "
+    return QString("SELECT title AS 'Title', component_type AS 'Component type', specifications AS 'Specifications', "
                    "price AS 'Price', release_date AS 'Release date' "
                    "FROM components "
+                   "JOIN components_type "
+                   "ON FK_type_code = PK_component_type_id "
                    "WHERE title LIKE '%1' AND price BETWEEN %2 AND %3 "
                    "AND release_date BETWEEN %4 AND %5;")
                    .arg(query_title, price[0], price[1], year[0], year[1]);
   else if (isPreValidQTitle && isPreValidPrice && !isPreValidYear)
-    return QString("SELECT title AS 'Title', "
+    return QString("SELECT title AS 'Title', component_type AS 'Component type', "
                    "specifications AS 'Specifications', "
                    "price AS 'Price', release_date AS 'Release date' "
                    "FROM components "
+                   "JOIN components_type "
+                   "ON FK_type_code = PK_component_type_id "
                    "WHERE title LIKE '%1' AND price "
                    "BETWEEN %2 AND %3;")
                    .arg(query_title, price[0], price[1]);
   else if (isPreValidPrice && !isPreValidQTitle && !isPreValidYear)
-    return QString("SELECT title AS 'Title', "
+    return QString("SELECT title AS 'Title', component_type AS 'Component type', "
                    "specifications AS 'Specifications', price AS 'Price', "
                    "release_date AS 'Release date' "
                    "FROM components "
+                   "JOIN components_type "
+                   "ON FK_type_code = PK_component_type_id "
                    "WHERE price BETWEEN %1 AND %2;")
                    .arg(price[0], price[1]);
   else if(!isPreValidPrice && !isPreValidQTitle && !isPreValidYear)
-    return QString("SELECT title AS 'Title', specifications AS 'Specifications',"
+    return QString("SELECT title AS 'Title', component_type AS 'Component type', specifications AS 'Specifications',"
                    " price AS 'Price', release_date AS 'Release date' "
-                   "FROM components;");
+                   "FROM components "
+                   "JOIN components_type "
+                   "ON FK_type_code = PK_component_type_id;");
   else if(isPreValidQTitle && !isPreValidPrice && !isPreValidYear)
-    return QString("SELECT title AS 'Title', specifications AS 'Specifications', "
+    return QString("SELECT title AS 'Title', component_type AS 'Component type', specifications AS 'Specifications', "
                    "price AS 'Price', release_date AS 'Release date' "
                    "FROM components "
+                   "JOIN components_type "
+                   "ON FK_type_code = PK_component_type_id "
                    "WHERE title LIKE '%1';")
                    .arg(query_title);
   else if(isPreValidYear && !isPreValidQTitle && !isPreValidPrice)
-    return QString("SELECT title AS 'Title', specifications AS 'Specifications', "
+    return QString("SELECT title AS 'Title', component_type AS 'Component type', specifications AS 'Specifications', "
                    "price AS 'Price', release_date AS 'Release date' "
                    "FROM components "
+                   "JOIN components_type "
+                   "ON FK_type_code = PK_component_type_id "
                    "WHERE release_date BETWEEN %1 AND %2;")
                    .arg(year[0], year[1]);
   else if(isPreValidYear && isPreValidPrice && !isPreValidQTitle)
-    return QString("SELECT title AS 'Title', specifications AS 'Specifications', "
+    return QString("SELECT title AS 'Title', component_type AS 'Component type', specifications AS 'Specifications', "
                    "price AS 'Price', release_date AS 'Release date' "
                    "FROM components "
+                   "JOIN components_type "
+                   "ON FK_type_code = PK_component_type_id "
                    "WHERE price BETWEEN %1 AND %2 AND "
                    "release_date BETWEEN %3 AND %4;")
                    .arg(price[0], price[1], year[0], year[1]);
   else if(isPreValidYear && isPreValidQTitle && !isPreValidPrice)
-    return QString("SELECT title AS 'Title', specifications AS 'Specifications', "
+    return QString("SELECT title AS 'Title', component_type AS 'Component type', specifications AS 'Specifications', "
                    "price AS 'Price', release_date AS 'Release date' "
                    "FROM components "
+                   "JOIN components_type "
+                   "ON FK_type_code = PK_component_type_id "
                    "WHERE title LIKE '%1' AND release_date BETWEEN "
                    "%2 AND %3;")
                    .arg(query_title, year[0], year[1]);
 
   return QString();
+}
+
+void CSearch::on_cmp_btn_clicked() {
+  try {
+    QItemSelectionModel* select = m_pUi->search_res_tbv->selectionModel();
+    QAbstractItemModel* search_res_AIM = m_pUi->search_res_tbv->model();
+    std::map<QString, QStringList> cmp_item_map;
+
+    if (select->hasSelection()) {
+      QModelIndexList idx_list = select->selectedIndexes();
+      if (idx_list.count() > 5 && idx_list.count() == 0)
+        throw std::invalid_argument("Error, too many rows are selected for compare or it's 0!");
+
+      QString comp_type = search_res_AIM->data(search_res_AIM->
+                                               index(idx_list[0].row(), idx_list[0].column() + 1)).toString();
+      //validate selected model
+      for (auto i = 0; i < idx_list.count(); i++) {
+        if (idx_list[i].column() > 0)
+          throw std::invalid_argument("Error, invalid column selected!");
+        else if (comp_type != search_res_AIM->data(search_res_AIM->
+                                      index(idx_list[i].row(), idx_list[i].column() + 1)).toString())
+          throw std::invalid_argument("Error, component types are different!");
+
+        auto title_qstr = idx_list[i].data().toString();
+        auto spec_qstr = search_res_AIM->data(search_res_AIM->index(idx_list[i].row(), idx_list[i].column() + 2)).toString();
+        qDebug() << "[" << idx_list[i].row() << ";" << idx_list[i].column() << "]"
+                 << "data: " << title_qstr << "specifications: " <<
+                    spec_qstr;
+
+        auto spec_qstr_list = spec_qstr.split('\n');
+        spec_qstr_list.sort();
+        cmp_item_map[title_qstr] = spec_qstr_list;
+      }
+
+      emit showCompareWindow(cmp_item_map);
+    }
+  }
+  catch(const std::invalid_argument& e) {
+    QMessageBox::critical(this, e.what(), e.what());
+    return;
+  }
+  catch(...) {
+    QMessageBox::critical(this, "Error!", "CSearch::on_cmp_btn_clicked : Unexpected error!");
+  }
 }

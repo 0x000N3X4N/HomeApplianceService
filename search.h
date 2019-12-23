@@ -4,6 +4,7 @@
 
 #include <QWidget>
 #include <QStack>
+#include "compare.h"
 #include "libs/ODBCConnector/query_controller.h"
 
 
@@ -125,12 +126,16 @@ public:
 
 private slots:
   void on_search_btn_clicked();
+  void on_cmp_btn_clicked();
+
+signals:
+  void showCompareWindow(std::map<QString, QStringList> cmp_item_map);
 
 private:
   bool isOnlyDigits(std::string str);
   QString parse_search_qeury(QString query_title, QStringList price, QStringList year);
 
-//  CQueryController* query_ctrl;
+  CCompare* m_hCmp;
   Ui::SearchWindow* m_pUi;
 };
 
