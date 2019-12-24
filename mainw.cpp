@@ -46,7 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
 #pragma enregion
   /////
 #pragma region Initialize fields of class
-  m_hDb = &CODBCW::getInstance();
+  size_t i = 0;
+  m_hDb = &CODBCW::getInstance("", nullptr, &i);
 
 #ifdef QT_DEBUG
   qDebug() << "Database handle set at: " << m_hDb;

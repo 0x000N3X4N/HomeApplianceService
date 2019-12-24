@@ -7,7 +7,8 @@ CStatistic::CStatistic(QWidget *parent) :
   m_pUi(new Ui::StatisticWindow)
 {
   m_pUi->setupUi(this);
-  m_hQuery = new CQueryController(CODBCW::getInstance());
+  size_t i = 0;
+  m_hQuery = new CQueryController(CQueryController(CODBCW::getInstance("", nullptr, &i)));
   m_hModel = new QSqlQueryModel();
   m_hFilterModel = new QSortFilterProxyModel();
   m_pUi->from_de->setCalendarPopup(true);

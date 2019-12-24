@@ -24,10 +24,10 @@ public:
 
 private slots:
   void clearUi();
+  void on_add_comp_btn_clicked();
 
 public slots:
   void showWindow(QTableView* hTbPriceList);
-  void on_add_service_btn_clicked();
 
 private:
   Ui::ServiceAddWindow* m_pUi;

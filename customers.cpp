@@ -33,7 +33,8 @@ void CCustomers::showWindow(QSortFilterProxyModel* res_qsfpm) {
 }
 
 void CCustomers::on_add_customer_btn_clicked() {
-  CQueryController query(CODBCW::getInstance());
+  size_t i = 0;
+  CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   try {
     std::map<QString, size_t> city_map;
@@ -59,7 +60,8 @@ void CCustomers::on_add_customer_btn_clicked() {
 }
 
 void CCustomers::on_delete_customer_btn_clicked() {
-  CQueryController query(CODBCW::getInstance());
+  size_t i = 0;
+  CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   try {
     std::vector<QString> vCust;

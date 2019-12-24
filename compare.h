@@ -3,6 +3,7 @@
 
 
 #include <QWidget>
+#include <QDebug>
 #include <QLabel>
 
 
@@ -16,10 +17,14 @@ class CCompare : public QWidget {
 
 public:
   explicit CCompare(QWidget *parent = nullptr);
-  ~CCompare();
+  ~CCompare() override;
 
 public slots:
   void showWindow(std::map<QString, QStringList> cmp_item_map);
+  void clearWidgets(QLayout* layout);
+
+protected:
+  void closeEvent(QCloseEvent *event) override;
 
 private:
   Ui::CompareWindow* m_pUi;

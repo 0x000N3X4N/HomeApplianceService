@@ -7,7 +7,8 @@ CCompDeleter::CCompDeleter(QWidget *parent) :
   m_pUi(new Ui::CompDeleterWindow)
 {
   m_pUi->setupUi(this);
-  m_hQuery = new CQueryController(CODBCW::getInstance());
+  size_t i = 0;
+  m_hQuery = new CQueryController(CQueryController(CODBCW::getInstance("", nullptr, &i)));
   QWidget::connect(this, &CCompDeleter::finished,
           this, &CCompDeleter::CCompDeleter::clearUi);
 }

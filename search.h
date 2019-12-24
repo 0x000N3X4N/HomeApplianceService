@@ -26,6 +26,10 @@ namespace QueryParamsKeywords {
   constexpr auto COUNT = 2;
 }
 
+namespace CMP {
+  constexpr auto MAX = 7;
+}
+
 namespace QPK = QueryParamsKeywords;
 
 struct Params {
@@ -133,7 +137,8 @@ signals:
 
 private:
   bool isOnlyDigits(std::string str);
-  QString parse_search_qeury(QString query_title, QStringList price, QStringList year);
+  QString parse_search_qeury(QString query_title, QStringList price,
+                             QStringList year);
 
   CCompare* m_hCmp;
   Ui::SearchWindow* m_pUi;

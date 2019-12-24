@@ -7,7 +7,8 @@ CComp_TyAdd::CComp_TyAdd(QWidget* parent) :
   m_pUi(new Ui::comp_type_add_wnd)
 {
   m_pUi->setupUi(this);
-  m_query_sptr = std::make_shared<CQueryController>(CODBCW::getInstance());
+  size_t i = 0;
+  m_query_sptr = std::make_shared<CQueryController>(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   connect(this, &CComp_TyAdd::finished,
           this, &CComp_TyAdd::clearUi);

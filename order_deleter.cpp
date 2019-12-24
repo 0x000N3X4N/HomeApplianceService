@@ -58,7 +58,8 @@ void COrderDel::clearUi() {
 }
 
 void COrderDel::on_accept_btn_clicked() {
-  CQueryController query_ctrl(CODBCW::getInstance());
+  size_t i = 0;
+  CQueryController query_ctrl(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   try {
     QString ordersQ = QString("DELETE FROM orders "

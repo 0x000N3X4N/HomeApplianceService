@@ -24,7 +24,8 @@ void CEmployeeAdd::showWindow(QTableView* employees_tb_ptr) {
 }
 
 void CEmployeeAdd::on_submit_btn_clicked() {
-  CQueryController query_ctrl(CODBCW::getInstance());
+  size_t i = 0;
+  CQueryController query_ctrl(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   try {
     QString empl_name_qstr = m_pUi->fullname_le->text();

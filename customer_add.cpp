@@ -29,7 +29,8 @@ void CCustomerAdd::showWindow(QTableView* cust_tb_ptr,
 
 void CCustomerAdd::on_submit_btn_clicked() {
   try {
-    CQueryController query(CODBCW::getInstance());
+    std::size_t i = 0;
+    CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
     auto it = m_city_map.find(m_pUi->city_cBox->currentText());
     auto street_qstr = m_pUi->street_le->text();

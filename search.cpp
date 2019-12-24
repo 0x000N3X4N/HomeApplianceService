@@ -27,7 +27,8 @@ CSearch::~CSearch()
 
 void CSearch::on_search_btn_clicked() {
   auto query = m_pUi->query_le->text();
-  CQueryController query_ctrl(CODBCW::getInstance());
+  size_t i = 0;
+  CQueryController query_ctrl(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   try {
     QueryTyper query_typer;
@@ -264,7 +265,7 @@ void CSearch::on_cmp_btn_clicked() {
 
     if (select->hasSelection()) {
       QModelIndexList idx_list = select->selectedIndexes();
-      if (idx_list.count() > 5 && idx_list.count() == 0)
+      if (idx_list.count() > CMP::MAX && idx_list.count() == 0)
         throw std::invalid_argument("Error, too many rows are selected for compare or it's 0!");
 
       QString comp_type = search_res_AIM->data(search_res_AIM->
@@ -283,7 +284,7 @@ void CSearch::on_cmp_btn_clicked() {
                  << "data: " << title_qstr << "specifications: " <<
                     spec_qstr;
 
-        auto spec_qstr_list = spec_qstr.split('\n');
+        auto spec_qstr_list = spec_qstr.split(';');
         spec_qstr_list.sort();
         cmp_item_map[title_qstr] = spec_qstr_list;
       }

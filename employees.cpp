@@ -35,7 +35,8 @@ void CEmployees::on_add_employee_btn_clicked() {
 }
 
 void CEmployees::on_delete_employee_btn_clicked() {
-  CQueryController query(CODBCW::getInstance());
+  size_t i = 0;
+  CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   try {
 

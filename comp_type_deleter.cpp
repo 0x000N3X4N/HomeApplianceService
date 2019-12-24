@@ -8,7 +8,8 @@ CComp_TyDeleter::CComp_TyDeleter(QWidget* parent) :
 {
   m_pUi->setupUi(this);
   m_pTbCompType = new QTableView();
-  m_hQuery = new CQueryController(CODBCW::getInstance());
+  size_t i = 0;
+  m_hQuery = new CQueryController(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   connect(this, &CComp_TyDeleter::finished,
           this, &CComp_TyDeleter::clearUi);

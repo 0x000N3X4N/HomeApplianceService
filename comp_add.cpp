@@ -7,7 +7,8 @@ CCompAdd::CCompAdd(QWidget *parent) :
   m_pUi(new Ui::ServiceAddWindow)
 {
   m_pUi->setupUi(this);
-  m_hQuery = new CQueryController(CODBCW::getInstance());
+  size_t i = 0;
+  m_hQuery = new CQueryController(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
 
   QWidget::connect(this, &CCompAdd::finished,
@@ -36,7 +37,7 @@ void CCompAdd::showWindow(QTableView* hTbPriceList) {
   this->show();
 }
 
-void CCompAdd::on_add_service_btn_clicked() {
+void CCompAdd::on_add_comp_btn_clicked() {
   auto it = CCompsTraits::get_comps().find(m_pUi->component_type_comboBox->currentText());
 
   QString sQuery = QString("INSERT INTO components "
@@ -46,7 +47,7 @@ void CCompAdd::on_add_service_btn_clicked() {
                                 m_pUi->spec_lEdit->text(),
                                 QString::number(m_pUi->price_dSpinBox->value()),
                                 QString::number(m_pUi->release_date_dEdit->date().year()));
-
+qDebug() << sQuery;
   try {
     if (m_hQuery->executeSqlQuery(sQuery)) {
       QMessageBox::information(this, "Success!", "Component '" + m_pUi->component_name_lEdit->text()

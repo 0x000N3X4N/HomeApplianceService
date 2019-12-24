@@ -7,7 +7,8 @@ CPriceList::CPriceList(QWidget *parent) :
   m_pUi(new Ui::PriceListWindow)
 {
   m_pUi->setupUi(this);
-  m_hQuery = new CQueryController(CODBCW::getInstance());
+  size_t i = 0;
+  m_hQuery = new CQueryController(CQueryController(CODBCW::getInstance("", nullptr, &i)));
   m_comp_add_ptr = new CCompAdd();
   m_CompTyAdd_ptr = new CComp_TyAdd();
   m_pServiceDeleter = new CCompDeleter();

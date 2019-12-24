@@ -24,13 +24,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-INCLUDEPATH += x:/libs/cpp/boost/v1.71/
+INCLUDEPATH += x:/libs/cpp/boost/v1.70/
 
 SOURCES += \
   comp_deleter.cpp \
   comp_type_add.cpp \
   comp_type_deleter.cpp \
   compare.cpp \
+  connection.cpp \
   customer_add.cpp \
   customer_deleter.cpp \
   customers.cpp \
@@ -56,6 +57,7 @@ HEADERS += \
     comp_type_deleter.h \
     compare.h \
     component.h \
+    connection.h \
     customer_add.h \
     customer_deleter.h \
     customers.h \
@@ -78,6 +80,7 @@ FORMS += \
     comp_type_add.ui \
     comp_type_deleter.ui \
     compare.ui \
+    connection.ui \
     customer_add.ui \
     customer_deleter.ui \
     customers.ui \

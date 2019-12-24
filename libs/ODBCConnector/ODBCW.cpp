@@ -1,22 +1,33 @@
 ﻿#include "ODBCW.h"
 
 
-CODBCW::CODBCW() {
-  try {
-    QString host_qstr = QHostInfo::localHostName(), connection_qstr;
-    db = QSqlDatabase::addDatabase("QODBC");
-    connection_qstr = QString("DRIVER={SQL Server};Server=%1;Database=PCSMDB;Uid=sa;Port=1433;Pwd=sa;")
-                      .arg(host_qstr);
+CODBCW::CODBCW(QString host_qstr, QLabel* status_l, std::size_t* isOpen) {
+  *isOpen = 0;
 
-    db.setDatabaseName(connection_qstr);
+  try {
+    QString connection_qstr;
+    db = QSqlDatabase::addDatabase("QODBC");
+
+    QString db_path = QDir::toNativeSeparators(QDir::currentPath()) + "\\DB\\PCSMDB.mdf";
+    qDebug() << db_path;
+    QString connStr = "DRIVER={SQL Server};SERVER=%1;AttachDbFilename=%2;Database=PCSMDB;Trusted_Connection=Yes;";
+    db.setDatabaseName(connStr.arg(host_qstr).arg(db_path));
+
+    status_l->setStyleSheet("color: rgb(255, 255, 0);");
+    status_l->setText("connecting...");
     status = db.open();
 
     if (!status) {
+      status_l->setStyleSheet("color: rgb(255, 0, 0);");
       //TODO: debug info macro
       qDebug() << db.lastError();
-      qFatal( "Failed to connect." );
-    } else
+      qFatal( db.lastError().text().toUtf8() );
+    } else {
+      *isOpen = 1;
+      status_l->setStyleSheet("color: rgb(0, 255, 0);");
+      status_l->setText("Success!");
       qDebug() << "Successfully connected to database!";
+    }
   }
   catch(...) {
     //TODO: error handling
@@ -24,8 +35,8 @@ CODBCW::CODBCW() {
   }
 }
 
-CODBCW& CODBCW::getInstance() {
-  static CODBCW instance;
+CODBCW& CODBCW::getInstance(QString host_qstr, QLabel* status_l, std::size_t* isOpen) {
+  static CODBCW instance(host_qstr, status_l, isOpen);
   return instance;
 }
 

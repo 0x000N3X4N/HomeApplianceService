@@ -28,7 +28,8 @@ void CEmployeeDel::showWindow(QString* pFN, size_t sz, QTableView* tb_ptr) {
 }
 
 void CEmployeeDel::on_submit_btn_clicked() {
-  CQueryController query(CODBCW::getInstance());
+  size_t i = 0;
+  CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   try {
     QString query_qstr = QString("DELETE FROM employees WHERE fullname = '%1';").arg(m_pUi->fullname_cBox->currentText());

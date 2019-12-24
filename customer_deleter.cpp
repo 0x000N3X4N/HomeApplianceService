@@ -34,7 +34,8 @@ void CCustomerDel::clearUi() {
 }
 
 void CCustomerDel::on_submit_btn_clicked() {
-  CQueryController query(CODBCW::getInstance());
+  size_t i = 0;
+  CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   try {
     auto customer_name = m_pUi->fullname_cBox->currentText();
@@ -87,7 +88,8 @@ void CCustomerDel::updateUi() {
 }
 
 void CCustomerDel::fillFN() {
-  CQueryController query(CODBCW::getInstance());
+  size_t i = 0;
+  CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   try {
     if (query.executeSqlQuery("SELECT [name] FROM customers;"))
