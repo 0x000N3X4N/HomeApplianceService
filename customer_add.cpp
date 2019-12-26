@@ -75,7 +75,7 @@ void CCustomerAdd::on_submit_btn_clicked() {
             hCustQSModel->setSourceModel(hCustQModel);
             m_pCust_tb->setModel(hCustQSModel);
 
-            QMessageBox::information(this, "Success!", "Customer '" + cust_name_qstr + "' was succesfully added!");
+            CMsgBox::show(QMessageBox::Information, this, "Success!", "Customer '" + cust_name_qstr + "' was succesfully added!");
           }
           else
             throw std::invalid_argument("Error, query for SELECT FROM 'customers' not executed! [" +
@@ -95,10 +95,10 @@ void CCustomerAdd::on_submit_btn_clicked() {
                                   query.getQuery().lastError().text().toStdString() + "]");
   }
   catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, e.what(), e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CCustomerAdd::on_submit_btn_clicked : Unexpected error!");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CCustomerAdd::on_submit_btn_clicked : Unexpected error!");
   }
 }

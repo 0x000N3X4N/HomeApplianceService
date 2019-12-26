@@ -5,6 +5,7 @@
 #include <QWidget>
 #include "customer_add.h"
 #include "customer_deleter.h"
+#include "PCSM_msg_box.h"
 #include "libs/ODBCConnector/query_controller.h"
 
 
@@ -18,6 +19,7 @@ class CCustomers : public QWidget {
 
 public:
   explicit CCustomers(QWidget *parent = nullptr);
+  CCustomerDel* getCustDel() const;
   ~CCustomers();
 
 public slots:

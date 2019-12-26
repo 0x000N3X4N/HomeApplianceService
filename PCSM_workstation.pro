@@ -8,7 +8,7 @@ QT       += core gui sql network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = LaptopMaintenanceService
+TARGET = PC_Sales_Manager_Workstation
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-INCLUDEPATH += x:/libs/cpp/boost/v1.70/
+INCLUDEPATH += x:/libs/cpp/boost/v1.71/
 
 SOURCES += \
   comp_deleter.cpp \
@@ -52,6 +52,7 @@ SOURCES += \
 
 HEADERS += \
     PCSM_base_types.h \
+    PCSM_msg_box.h \
     comp_deleter.h \
     comp_type_add.h \
     comp_type_deleter.h \

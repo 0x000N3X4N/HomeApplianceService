@@ -8,7 +8,9 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QHostInfo>
+#include <QApplication>
 #include <QLabel>
+#include "PCSM_msg_box.h"
 #include "boost/noncopyable.hpp"
 
 

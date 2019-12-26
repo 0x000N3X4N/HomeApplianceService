@@ -6,6 +6,7 @@
 #include <QTableView>
 #include <QMessageBox>
 #include "PCSM_base_types.h"
+#include "PCSM_msg_box.h"
 #include "component.h"
 #include "libs/ODBCConnector/query_controller.h"
 
@@ -25,6 +26,9 @@ public:
 public slots:
   void showWindow(QTableView* hTbPriceList);
   void on_accept_deleter_btn_clicked();
+
+signals:
+  void updOrders();
 
 private:
   void clearUi();

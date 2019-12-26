@@ -48,7 +48,7 @@ void CCustomerDel::on_submit_btn_clicked() {
       if (query.executeSqlQuery("SELECT name AS 'Name', phone AS 'Phone' "
                                 "FROM customers;"))
       {
-        QMessageBox::information(this, "Success!", "Customer '" + customer_name + "' was succesfully deleted!");
+        CMsgBox::show(QMessageBox::Information, this, "Success!", "Customer '" + customer_name + "' was succesfully deleted!");
 
         QSqlQueryModel* hCustQModel = new QSqlQueryModel();
         QSortFilterProxyModel* hCustFilterModel = new QSortFilterProxyModel();
@@ -57,6 +57,8 @@ void CCustomerDel::on_submit_btn_clicked() {
         hCustFilterModel->setSourceModel(hCustQModel);
 
         m_pCustTb->setModel(hCustFilterModel);
+
+        emit updOrders();
       }
       else
         throw std::invalid_argument("Error, query for SELECT customers not executed! LastError: [" +
@@ -69,12 +71,12 @@ void CCustomerDel::on_submit_btn_clicked() {
     updateUi();
   }
   catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CCustomerDel::on_submit_btn_clicked : Unexpected error! LastError: [" +
-                          query.getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CCustomerDel::on_submit_btn_clicked : Unexpected error! LastError: [" +
+                  query.getQuery().lastError().text() + "]");
   }
 }
 
@@ -100,10 +102,10 @@ void CCustomerDel::fillFN() {
                                   query.getQuery().lastError().text().toStdString() + "]");
   }
   catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CCustomerDel::fillFN : Unexpected error! LastError: [" +
-                          query.getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CCustomerDel::fillFN : Unexpected error! LastError: [" +
+                  query.getQuery().lastError().text() + "]");
   }
 }

@@ -93,7 +93,7 @@ void COrderDel::on_accept_btn_clicked() {
                                      "JOIN employees E "
                                      "ON o.FK_employee_id = e.PK_employee_id;"))
       {
-        QMessageBox::information(this, "Success!", "Order was successfilly deleted!");
+        CMsgBox::show(QMessageBox::Information, this, "Success!", "Order was successfilly deleted!");
 
         QSqlQueryModel* hOrdersQModel = new QSqlQueryModel();
         QSortFilterProxyModel* hOrdersFilterModel = new QSortFilterProxyModel();
@@ -111,12 +111,12 @@ void COrderDel::on_accept_btn_clicked() {
       throw std::invalid_argument("Error, can't execute DELETE FROM `orders` query!  LastError: [" +
                                   query_ctrl.getQuery().lastError().text().toStdString() + "]");
   } catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "COrderDel::on_accept_btn_clicked : Unexpected error! LastError: [" +
-                          query_ctrl.getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "COrderDel::on_accept_btn_clicked : Unexpected error! LastError: [" +
+                  query_ctrl.getQuery().lastError().text() + "]");
     return;
   }
 }

@@ -65,7 +65,11 @@
           <string>Phone:</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="phone_le"/>
+        <widget class="QLineEdit" name="phone_le">
+         <property name="maxLength">
+          <number>12</number>
+         </property>
+        </widget>
        </widget>
       </item>
       <item>

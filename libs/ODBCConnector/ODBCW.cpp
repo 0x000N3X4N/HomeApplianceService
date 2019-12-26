@@ -15,13 +15,13 @@ CODBCW::CODBCW(QString host_qstr, QLabel* status_l, std::size_t* isOpen) {
 
     status_l->setStyleSheet("color: rgb(255, 255, 0);");
     status_l->setText("connecting...");
+    //TODO: multithreading
     status = db.open();
 
     if (!status) {
       status_l->setStyleSheet("color: rgb(255, 0, 0);");
-      //TODO: debug info macro
-      qDebug() << db.lastError();
-      qFatal( db.lastError().text().toUtf8() );
+      CMsgBox::show(QMessageBox::Critical, nullptr, "Connection error!", db.lastError().text());
+      exit(-1);
     } else {
       *isOpen = 1;
       status_l->setStyleSheet("color: rgb(0, 255, 0);");
@@ -30,8 +30,7 @@ CODBCW::CODBCW(QString host_qstr, QLabel* status_l, std::size_t* isOpen) {
     }
   }
   catch(...) {
-    //TODO: error handling
-//    QMessageBox::critical(this, "Error!", "CODBCW::CODBCW : Unexpected error!");
+    CMsgBox::show(QMessageBox::Critical, nullptr, "Error!", "CODBCW::CODBCW : Unexpected error!");
   }
 }
 

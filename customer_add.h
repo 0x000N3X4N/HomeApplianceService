@@ -6,6 +6,7 @@
 #include <QTableView>
 #include <QMessageBox>
 #include <map>
+#include "PCSM_msg_box.h"
 #include "libs/ODBCConnector/query_controller.h"
 
 

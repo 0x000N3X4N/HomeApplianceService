@@ -4,6 +4,7 @@
 
 #include <QWidget>
 #include <QTableView>
+#include "PCSM_msg_box.h"
 #include "libs/ODBCConnector/query_controller.h"
 #include "employee_add.h"
 #include "employee_deleter.h"
@@ -19,6 +20,7 @@ class CEmployees : public QWidget {
 
 public:
   explicit CEmployees(QWidget *parent = nullptr);
+  CEmployeeDel* getEmplDel() const;
   ~CEmployees();
 
 signals:

@@ -36,7 +36,7 @@ void CEmployeeAdd::on_submit_btn_clicked() {
                                                                 QString::number(m_pUi->working_hours_sBox->value()));
 
     if (query_ctrl.executeSqlQuery(query_qstr)) {
-      QMessageBox::information(this, "Success!", "Employee '" + empl_name_qstr + "' was succesfully added!");
+      CMsgBox::show(QMessageBox::Information, this, "Success!", "Employee '" + empl_name_qstr + "' was succesfully added!");
 
       query_ctrl.clear();
 
@@ -62,12 +62,12 @@ void CEmployeeAdd::on_submit_btn_clicked() {
                                   query_ctrl.getQuery().lastError().text().toStdString() + "]");
   }
   catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CEmployeeAdd::on_submit_btn_clicked : Unexpected error! LastError: [" +
-                          query_ctrl.getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CEmployeeAdd::on_submit_btn_clicked : Unexpected error! LastError: [" +
+                  query_ctrl.getQuery().lastError().text() + "]");
   }
 }
 

@@ -14,6 +14,7 @@
 #include "employees.h"
 #include "export.h"
 #include "search.h"
+#include "PCSM_msg_box.h"
 #include "libs/ODBCConnector/ODBCW.h"
 #include "libs/ODBCConnector/query_controller.h"
 

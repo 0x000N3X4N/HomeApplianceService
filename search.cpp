@@ -162,12 +162,12 @@ void CSearch::on_search_btn_clicked() {
     }
   }
   catch(std::invalid_argument& e) {
-      QMessageBox::critical(this, e.what(), e.what());
-      return;
-    }
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
+    return;
+  }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CSearch::on_search_btn_clicked : Unexpected error! LastError: [" +
-                          query_ctrl.getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CSearch::on_search_btn_clicked : Unexpected error! LastError: [" +
+                  query_ctrl.getQuery().lastError().text() + "]");
     return;
   }
 }
@@ -293,10 +293,10 @@ void CSearch::on_cmp_btn_clicked() {
     }
   }
   catch(const std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CSearch::on_cmp_btn_clicked : Unexpected error!");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CSearch::on_cmp_btn_clicked : Unexpected error!");
   }
 }

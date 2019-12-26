@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include "PCSM_base_types.h"
 #include "component.h"
+#include "PCSM_msg_box.h"
 #include "libs/ODBCConnector/query_controller.h"
 
 

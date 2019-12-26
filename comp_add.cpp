@@ -50,8 +50,9 @@ void CCompAdd::on_add_comp_btn_clicked() {
 qDebug() << sQuery;
   try {
     if (m_hQuery->executeSqlQuery(sQuery)) {
-      QMessageBox::information(this, "Success!", "Component '" + m_pUi->component_name_lEdit->text()
-                                                               + "' was successfully added!");
+      CMsgBox::show(QMessageBox::Information, this, "Success!", "Component '" + m_pUi->component_name_lEdit->text()
+                    + "' was successfully added!");
+
       m_hQuery->clear();
       sQuery = "SELECT title AS 'Title', component_type AS 'Component type',"
                " specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date' "
@@ -70,10 +71,10 @@ qDebug() << sQuery;
                                   m_hQuery->getQuery().lastError().text().toStdString());
   }
   catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, "Error!", e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CCompAdd::on_add_service_btn_clicked : Unexpected error! LastError: [" +
-                          m_hQuery->getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CCompAdd::on_add_service_btn_clicked : Unexpected error! LastError: [" +
+                  m_hQuery->getQuery().lastError().text() + "]");
   }
 }

@@ -35,11 +35,11 @@ void CCompDeleter::on_accept_deleter_btn_clicked() {
   if (m_hQuery->executeSqlQuery(sQuery)) {
     CCompsTraits::get_comps().rm(m_pUi->comp_name_cmbBox->currentText());
 
-    QMessageBox::information(this, "Success",
-                             "Component '" + m_pUi->comp_name_cmbBox->currentText() + "' was successfully removed!");
+    CMsgBox::show(QMessageBox::Information, this, "Success",
+                  "Component '" + m_pUi->comp_name_cmbBox->currentText() + "' was successfully removed!");
 
-    sQuery = "SELECT title AS 'Title',"
-             "specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date' "
+    sQuery = "SELECT title AS 'Title', component_type AS 'Component type',"
+             " specifications AS 'Specifications', price AS 'Price', release_date AS 'Release date' "
              "FROM components "
              "JOIN components_type "
              "ON FK_type_code = PK_component_type_id;";
@@ -53,8 +53,10 @@ void CCompDeleter::on_accept_deleter_btn_clicked() {
     hFilterModel->setSourceModel(hModel);
     m_hTbPriceList->setModel(hFilterModel);
     CCompsTraits::get_comps().upd(*m_pUi->comp_name_cmbBox);
+
+    emit updOrders();
   } else
-    QMessageBox::critical(this, "Error!", "Please check your connection to database!");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "Please check your connection to database!");
 }
 
 void CCompDeleter::clearUi() {

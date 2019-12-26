@@ -19,6 +19,8 @@ CEmployees::CEmployees(QWidget *parent) :
   m_pUi->employees_tb->setSortingEnabled(true);
 }
 
+CEmployeeDel* CEmployees::getEmplDel() const { return m_pEmpl_del; }
+
 CEmployees::~CEmployees() {
   delete m_pUi;
   delete m_pEmpl_add;
@@ -56,11 +58,11 @@ void CEmployees::on_delete_employee_btn_clicked() {
                                   query.getQuery().lastError().text().toStdString() + "]");
   }
   catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CEmployees::on_delete_employee_btn_clicked : Unexpected error! LastError: [" +
-                          query.getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CEmployees::on_delete_employee_btn_clicked : Unexpected error! LastError: [" +
+                  query.getQuery().lastError().text() + "]");
   }
 }

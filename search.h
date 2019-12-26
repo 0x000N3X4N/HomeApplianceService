@@ -6,6 +6,7 @@
 #include <QStack>
 #include "compare.h"
 #include "libs/ODBCConnector/query_controller.h"
+#include "PCSM_msg_box.h"
 
 
 namespace Ui {

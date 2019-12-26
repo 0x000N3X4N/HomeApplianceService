@@ -121,7 +121,7 @@ void COrderAdd::on_accept_btn_clicked() {
                                                                 QString::number(m_total));
 
     if (query_ctrl.executeSqlQuery(query_qstr)) {
-      QMessageBox::information(this, "Success!", "Order was succesfully added!");
+      CMsgBox::show(QMessageBox::Information, this, "Success!", "Order was succesfully added!");
 
       query_ctrl.clear();
 
@@ -134,10 +134,10 @@ void COrderAdd::on_accept_btn_clicked() {
                                      "ON o.FK_employee_id = e.PK_employee_id;"))
       {
         if (genPaycheck(m_pUi->comp_cBox->currentText(), m_pUi->comp_cnt_dial->value(), price, m_total))
-          QMessageBox::information(this, "Success!", "Paycheck was successfully generated to: \"" +
-                                                     QDir::currentPath() + "/paychecks\" folder!");
+          CMsgBox::show(QMessageBox::Information, this, "Success!", "Paycheck was successfully generated to: \"" +
+                        QDir::currentPath() + "/paychecks\" folder!");
         else
-          QMessageBox::critical(this, "Error", "Can't generate paycheck!");
+          CMsgBox::show(QMessageBox::Information, this, "Error", "Can't generate paycheck!");
 
         QSqlQueryModel* hOrdersQModel = new QSqlQueryModel();
         QSortFilterProxyModel* hOrdersFilterModel = new QSortFilterProxyModel();
@@ -155,18 +155,20 @@ void COrderAdd::on_accept_btn_clicked() {
                                   "LastError: [" + query_ctrl.getQuery().lastError().text().toStdString() + "]");
   }
   catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "COrderAdd::on_accept_btn_clicked : Unexpected error! LastError: [" +
-                          query_ctrl.getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "COrderAdd::on_accept_btn_clicked : Unexpected error! LastError: [" +
+                  query_ctrl.getQuery().lastError().text() + "]");
   }
 }
 
 void COrderAdd::clearForm() {
   m_vCompsV.clear();
   m_pUi->comp_cBox->clear();
+  m_pUi->employee_cBox->clear();
+  m_pUi->cust_cBox->clear();
   m_pUi->comp_cnt_dial->setValue(0);
   m_pUi->total_val_l->setText("");
 }

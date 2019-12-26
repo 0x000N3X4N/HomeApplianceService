@@ -4,6 +4,7 @@
 
 #include <QDialog>
 #include <QTableView>
+#include "PCSM_msg_box.h"
 #include "libs/ODBCConnector/query_controller.h"
 
 
