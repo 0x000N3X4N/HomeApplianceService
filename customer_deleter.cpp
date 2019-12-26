@@ -34,49 +34,56 @@ void CCustomerDel::clearUi() {
 }
 
 void CCustomerDel::on_submit_btn_clicked() {
-  size_t i = 0;
-  CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
+  QMessageBox::StandardButton reply;
+  reply = QMessageBox::warning(this, "Warning!", "This action may delete order, are you sure? "
+                                                 "More information is available in the help.",
+                               QMessageBox::Yes | QMessageBox::No);
 
-  try {
-    auto customer_name = m_pUi->fullname_cBox->currentText();
-    QString del_custQ = QString("DELETE FROM customers WHERE [name] = '%1';")
-                        .arg(customer_name);
+  if (reply == QMessageBox::Yes) {
+    size_t i = 0;
+    CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
-    if (query.executeSqlQuery(del_custQ)) {
-      query.clear();
+    try {
+      auto customer_name = m_pUi->fullname_cBox->currentText();
+      QString del_custQ = QString("DELETE FROM customers WHERE [name] = '%1';")
+                          .arg(customer_name);
 
-      if (query.executeSqlQuery("SELECT name AS 'Name', phone AS 'Phone' "
-                                "FROM customers;"))
-      {
-        CMsgBox::show(QMessageBox::Information, this, "Success!", "Customer '" + customer_name + "' was succesfully deleted!");
+      if (query.executeSqlQuery(del_custQ)) {
+        query.clear();
 
-        QSqlQueryModel* hCustQModel = new QSqlQueryModel();
-        QSortFilterProxyModel* hCustFilterModel = new QSortFilterProxyModel();
-        hCustQModel->setQuery(query.getQuery());
-        hCustFilterModel->setDynamicSortFilter(true);
-        hCustFilterModel->setSourceModel(hCustQModel);
+        if (query.executeSqlQuery("SELECT name AS 'Name', phone AS 'Phone' "
+                                  "FROM customers;"))
+        {
+          CMsgBox::show(QMessageBox::Information, this, "Success!", "Customer '" + customer_name + "' was succesfully deleted!");
 
-        m_pCustTb->setModel(hCustFilterModel);
+          QSqlQueryModel* hCustQModel = new QSqlQueryModel();
+          QSortFilterProxyModel* hCustFilterModel = new QSortFilterProxyModel();
+          hCustQModel->setQuery(query.getQuery());
+          hCustFilterModel->setDynamicSortFilter(true);
+          hCustFilterModel->setSourceModel(hCustQModel);
 
-        emit updOrders();
+          m_pCustTb->setModel(hCustFilterModel);
+
+          emit updOrders();
+        }
+        else
+          throw std::invalid_argument("Error, query for SELECT customers not executed! LastError: [" +
+                                      query.getQuery().lastError().text().toStdString() + "]");
       }
       else
-        throw std::invalid_argument("Error, query for SELECT customers not executed! LastError: [" +
+        throw std::invalid_argument("Error, query for DELETE customer not executed! LastError: [" +
                                     query.getQuery().lastError().text().toStdString() + "]");
-    }
-    else
-      throw std::invalid_argument("Error, query for DELETE customer not executed! LastError: [" +
-                                  query.getQuery().lastError().text().toStdString() + "]");
 
-    updateUi();
-  }
-  catch(std::invalid_argument& e) {
-    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
-    return;
-  }
-  catch(...) {
-    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CCustomerDel::on_submit_btn_clicked : Unexpected error! LastError: [" +
-                  query.getQuery().lastError().text() + "]");
+      updateUi();
+    }
+    catch(std::invalid_argument& e) {
+      CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
+      return;
+    }
+    catch(...) {
+      CMsgBox::show(QMessageBox::Critical, this, "Error!", "CCustomerDel::on_submit_btn_clicked : Unexpected error! LastError: [" +
+                    query.getQuery().lastError().text() + "]");
+    }
   }
 }
 
