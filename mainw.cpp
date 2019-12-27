@@ -308,3 +308,9 @@ void MainWindow::on_export_btn_clicked() {
   emit showExport(m_pUi->tb_orders);
 }
 
+void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+  if (event->key() == 16777264)
+    QDesktopServices::openUrl(
+          QUrl::fromLocalFile(QDir::currentPath() + "/docs/chm/PC-Sales-Manager-Workstation.chm")
+          );
+}

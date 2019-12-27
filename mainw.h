@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <QtSql>
 #include <QMessageBox>
+#include <QDesktopServices>
+#include <QKeyEvent>
 #include "customers.h"
 #include "pricelist.h"
 #include "order_add.h"
@@ -58,6 +60,7 @@ private slots:
   void on_customers_btn_clicked();
   void on_del_order_btn_clicked();
   void on_export_btn_clicked();
+  void keyReleaseEvent(QKeyEvent *event);
 
 private:
   Ui::MainWindow* m_pUi;
