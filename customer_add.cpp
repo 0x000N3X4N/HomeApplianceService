@@ -8,6 +8,9 @@ CCustomerAdd::CCustomerAdd(QWidget *parent) :
 {
   m_pUi->setupUi(this);
   m_pUi->phone_le->setValidator(new QRegExpValidator(QRegExp("^[+][0-9]*")));
+
+  connect(this, &CCustomerAdd::finished,
+          this, &CCustomerAdd::clearUi);
 }
 
 CCustomerAdd::~CCustomerAdd()
@@ -101,4 +104,14 @@ void CCustomerAdd::on_submit_btn_clicked() {
   catch(...) {
     CMsgBox::show(QMessageBox::Critical, this, "Error!", "CCustomerAdd::on_submit_btn_clicked : Unexpected error!");
   }
+}
+
+void CCustomerAdd::clearUi() {
+  m_pUi->name_le->clear();
+  m_pUi->phone_le->clear();
+  m_pUi->street_le->clear();
+  m_pUi->city_cBox->clear();
+  m_pUi->house_num_sBox->setValue(0);
+  m_pUi->porch_sBox->setValue(0);
+  m_pUi->floor_sBox->setValue(0);
 }

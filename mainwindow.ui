@@ -90,7 +90,7 @@ border-width: 3px;</string>
             <item>
              <widget class="QPushButton" name="employees_btn">
               <property name="toolTip">
-               <string>Employeers</string>
+               <string>Employees</string>
               </property>
               <property name="styleSheet">
                <string notr="true">border-radius: 20px;
