@@ -1,0 +1,3 @@
+Before installing, please read file "ReadMe.txt", which is contained in the folder with the installer.
+Build Info: MSVC2017_x86, 12_23_2020. Developed by nexan_pro.
+Contact with me via telegram: @nexan_pro( http://t.me/nexan_pro ).
