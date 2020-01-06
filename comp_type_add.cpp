@@ -7,7 +7,8 @@ CComp_TyAdd::CComp_TyAdd(QWidget* parent) :
   m_pUi(new Ui::comp_type_add_wnd)
 {
   m_pUi->setupUi(this);
-  m_query_sptr = std::make_shared<CQueryController>(CODBCW::getInstance());
+  size_t i = 0;
+  m_query_sptr = std::make_shared<CQueryController>(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   connect(this, &CComp_TyAdd::finished,
           this, &CComp_TyAdd::clearUi);
@@ -22,9 +23,11 @@ void CComp_TyAdd::on_add_type_btn_clicked() {
     QString cm_ty_qstr = m_pUi->product_type_lEdit->text();
     if (!m_query_sptr->executeSqlQuery(QString("INSERT INTO components_type VALUES('%1');")
                                      .arg(cm_ty_qstr)))
-      throw std::invalid_argument("CComp_TyAdd::on_add_type_btn_clicked : " + m_query_sptr->getQuery().lastError().text().toStdString());
+      throw std::invalid_argument("CComp_TyAdd::on_add_type_btn_clicked : " +
+                                  m_query_sptr->getQuery().lastError().text().toStdString());
 
-    QMessageBox::information(this, "Component success added!", "Component type '" + cm_ty_qstr + "' was successfully added!");
+    CMsgBox::show(QMessageBox::Information, this, "Component success added!", "Component type '" +
+                  cm_ty_qstr + "' was successfully added!");
     m_query_sptr->clear();
 
     if (!m_query_sptr->executeSqlQuery("SELECT component_type AS 'Component type' FROM components_type;")) {
@@ -41,10 +44,10 @@ void CComp_TyAdd::on_add_type_btn_clicked() {
     }
   }
   catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, "Error!", e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CComp_TyAdd::on_add_type_btn_clicked : Unexpected error!");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CComp_TyAdd::on_add_type_btn_clicked : Unexpected error!");
   }
 }
 

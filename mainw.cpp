@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
   m_pCustomers = new CCustomers();
   m_pOrderDeleter = new COrderDel();
   m_pExport = new CExport();
+  m_pSearch = new CSearch();
 
 #pragma region Signals/Slots
   connect(this, &MainWindow::showPriceList,
@@ -25,6 +26,21 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(this, &MainWindow::showAddOrder,
           m_pOrderAdd, &COrderAdd::showWindow);
 
+  connect(this, &MainWindow::showDelOrder,
+          m_pOrderDeleter, &COrderDel::showWindow);
+
+  connect(m_pPriceListWindow->getCompTypeDel(), &CComp_TyDeleter::updOrders,
+          this, &MainWindow::initTbOrders);
+
+  connect(m_pPriceListWindow->getCompDel(), &CCompDeleter::updOrders,
+          this, &MainWindow::initTbOrders);
+
+  connect(m_pCustomers->getCustDel(), &CCustomerDel::updOrders,
+          this, &MainWindow::initTbOrders);
+
+  connect(m_pEmployees->getEmplDel(), &CEmployeeDel::updOrders,
+          this, &MainWindow::initTbOrders);
+
   connect(this, &MainWindow::showStatistic,
           m_pStatistic, [=]() { m_pStatistic->show(); });
 
@@ -34,16 +50,16 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(this, &MainWindow::showCustomers,
           m_pCustomers, &CCustomers::showWindow);
 
-  connect(this, &MainWindow::showDelOrder,
-          m_pOrderDeleter, &COrderDel::showWindow);
-
   connect(this, &MainWindow::showExport,
           m_pExport, &CExport::showWindow);
 
+  connect(m_pUi->search_btn, &QPushButton::clicked,
+          m_pSearch, [this](){m_pSearch->show();});
 #pragma enregion
   /////
 #pragma region Initialize fields of class
-  m_hDb = &CODBCW::getInstance();
+  size_t i = 0;
+  m_hDb = &CODBCW::getInstance("", nullptr, &i);
 
 #ifdef QT_DEBUG
   qDebug() << "Database handle set at: " << m_hDb;
@@ -121,11 +137,11 @@ void MainWindow::on_price_btn_clicked() {
     emit showPriceList();
   }
   catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "MainWindow::on_price_btn_clicked : Unexpected error!");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "MainWindow::on_price_btn_clicked : Unexpected error!");
   }
 }
 
@@ -176,12 +192,12 @@ void MainWindow::on_add_order_btn_clicked() {
       throw std::invalid_argument("Error from: MainWindow::on_add_order_btn_clicked. LastError: [" +
                                   m_hQuery->getQuery().lastError().text().toStdString() + "]");
   } catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "MainWindow::on_add_order_btn_clicked : Unexpected error! LastError: [" +
-                          m_hQuery->getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "MainWindow::on_add_order_btn_clicked : Unexpected error! LastError: [" +
+                  m_hQuery->getQuery().lastError().text() + "]");
     return;
   }
 }
@@ -208,12 +224,12 @@ void MainWindow::on_employees_btn_clicked() {
 
     emit showEmployees(hEmpFilterModel);
   } catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "MainWindow::on_employees_btn_clicked : Unexpected error! LastError: [" +
-                          m_hQuery->getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "MainWindow::on_employees_btn_clicked : Unexpected error! LastError: [" +
+                  m_hQuery->getQuery().lastError().text() + "]");
     return;
   }
 }
@@ -234,12 +250,12 @@ void MainWindow::on_customers_btn_clicked() {
       throw std::invalid_argument("Error, can't execute customers query!  LastError: [" +
                                   m_hQuery->getQuery().lastError().text().toStdString() + "]");
   } catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "MainWindow::on_customers_btn_clicked : Unexpected error! LastError: [" +
-                          m_hQuery->getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "MainWindow::on_customers_btn_clicked : Unexpected error! LastError: [" +
+                  m_hQuery->getQuery().lastError().text() + "]");
     return;
   }
 }
@@ -278,16 +294,23 @@ void MainWindow::on_del_order_btn_clicked() {
                                   m_hQuery->getQuery().lastError().text().toStdString() + "]");
 
   } catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "MainWindow::on_del_order_btn_clicked : Unexpected error! LastError: [" +
-                          m_hQuery->getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "MainWindow::on_del_order_btn_clicked : Unexpected error! LastError: [" +
+                  m_hQuery->getQuery().lastError().text() + "]");
     return;
   }
 }
 
 void MainWindow::on_export_btn_clicked() {
   emit showExport(m_pUi->tb_orders);
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+  if (event->key() == 16777264)
+    QDesktopServices::openUrl(
+          QUrl::fromLocalFile(QDir::currentPath() + "/docs/chm/PC-Sales-Manager-Workstation.chm")
+          );
 }

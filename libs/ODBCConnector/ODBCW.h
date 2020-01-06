@@ -8,6 +8,9 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QHostInfo>
+#include <QApplication>
+#include <QLabel>
+#include "PCSM_msg_box.h"
 #include "boost/noncopyable.hpp"
 
 
@@ -18,12 +21,12 @@
 
 class CODBCW : public boost::noncopyable {
 public:
-  static CODBCW& getInstance();
+  static CODBCW& getInstance(QString host_qstr, QLabel* status_l, std::size_t* isOpen);
   QString databaseName() const;
   void close();
   bool getStatus();
 private:
-  CODBCW();
+  CODBCW(QString host_qstr, QLabel* status_l, std::size_t* isOpen);
   ~CODBCW() = default;
 
   QSqlDatabase db;

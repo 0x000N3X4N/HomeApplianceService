@@ -8,6 +8,9 @@ CCustomerAdd::CCustomerAdd(QWidget *parent) :
 {
   m_pUi->setupUi(this);
   m_pUi->phone_le->setValidator(new QRegExpValidator(QRegExp("^[+][0-9]*")));
+
+  connect(this, &CCustomerAdd::finished,
+          this, &CCustomerAdd::clearUi);
 }
 
 CCustomerAdd::~CCustomerAdd()
@@ -29,7 +32,8 @@ void CCustomerAdd::showWindow(QTableView* cust_tb_ptr,
 
 void CCustomerAdd::on_submit_btn_clicked() {
   try {
-    CQueryController query(CODBCW::getInstance());
+    std::size_t i = 0;
+    CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
     auto it = m_city_map.find(m_pUi->city_cBox->currentText());
     auto street_qstr = m_pUi->street_le->text();
@@ -74,7 +78,7 @@ void CCustomerAdd::on_submit_btn_clicked() {
             hCustQSModel->setSourceModel(hCustQModel);
             m_pCust_tb->setModel(hCustQSModel);
 
-            QMessageBox::information(this, "Success!", "Customer '" + cust_name_qstr + "' was succesfully added!");
+            CMsgBox::show(QMessageBox::Information, this, "Success!", "Customer '" + cust_name_qstr + "' was succesfully added!");
           }
           else
             throw std::invalid_argument("Error, query for SELECT FROM 'customers' not executed! [" +
@@ -94,10 +98,20 @@ void CCustomerAdd::on_submit_btn_clicked() {
                                   query.getQuery().lastError().text().toStdString() + "]");
   }
   catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, e.what(), e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CCustomerAdd::on_submit_btn_clicked : Unexpected error!");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CCustomerAdd::on_submit_btn_clicked : Unexpected error!");
   }
+}
+
+void CCustomerAdd::clearUi() {
+  m_pUi->name_le->clear();
+  m_pUi->phone_le->clear();
+  m_pUi->street_le->clear();
+  m_pUi->city_cBox->clear();
+  m_pUi->house_num_sBox->setValue(0);
+  m_pUi->porch_sBox->setValue(0);
+  m_pUi->floor_sBox->setValue(0);
 }

@@ -139,7 +139,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QPushButton" name="add_service_btn">
+   <widget class="QPushButton" name="add_comp_btn">
     <property name="geometry">
      <rect>
       <x>97</x>

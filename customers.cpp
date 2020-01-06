@@ -22,6 +22,8 @@ CCustomers::CCustomers(QWidget *parent) :
   m_pUi->customers_tb->setSortingEnabled(true);
 }
 
+CCustomerDel* CCustomers::getCustDel() const { return m_pCust_del; }
+
 CCustomers::~CCustomers()
 {
   delete m_pUi;
@@ -33,7 +35,8 @@ void CCustomers::showWindow(QSortFilterProxyModel* res_qsfpm) {
 }
 
 void CCustomers::on_add_customer_btn_clicked() {
-  CQueryController query(CODBCW::getInstance());
+  size_t i = 0;
+  CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   try {
     std::map<QString, size_t> city_map;
@@ -49,17 +52,18 @@ void CCustomers::on_add_customer_btn_clicked() {
                                   query.getQuery().lastError().text().toStdString() + "]");
   }
   catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CCustomers::on_add_customer_btn_clicked : Unexpected error! LastError: [" +
-                          query.getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CCustomers::on_add_customer_btn_clicked : Unexpected error! LastError: [" +
+                  query.getQuery().lastError().text() + "]");
   }
 }
 
 void CCustomers::on_delete_customer_btn_clicked() {
-  CQueryController query(CODBCW::getInstance());
+  size_t i = 0;
+  CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
   try {
     std::vector<QString> vCust;
@@ -77,11 +81,11 @@ void CCustomers::on_delete_customer_btn_clicked() {
                                   query.getQuery().lastError().text().toStdString() + "]");
   }
   catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
     return;
   }
   catch(...) {
-    QMessageBox::critical(this, "Error!", "CCustomers::on_delete_customer_btn_clicked : Unexpected error! LastError: [" +
-                          query.getQuery().lastError().text() + "]");
+    CMsgBox::show(QMessageBox::Critical, this, "Error!", "CCustomers::on_delete_customer_btn_clicked : Unexpected error! LastError: [" +
+                  query.getQuery().lastError().text() + "]");
   }
 }

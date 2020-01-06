@@ -4,6 +4,7 @@
 
 #include <QDialog>
 #include <QTableView>
+#include "PCSM_msg_box.h"
 #include "libs/ODBCConnector/query_controller.h"
 
 
@@ -25,6 +26,9 @@ public slots:
 private slots:
   void on_submit_btn_clicked();
   void clearUi();
+
+signals:
+  void updOrders();
 
 private:
   Ui::EmployeeDeleterWindow* m_pUi;

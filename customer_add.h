@@ -6,6 +6,7 @@
 #include <QTableView>
 #include <QMessageBox>
 #include <map>
+#include "PCSM_msg_box.h"
 #include "libs/ODBCConnector/query_controller.h"
 
 
@@ -26,8 +27,10 @@ public slots:
 
 private slots:
   void on_submit_btn_clicked();
+  void clearUi();
 
 private:
+
   Ui::CustomerAddWindow* m_pUi;
   std::map<QString, size_t> m_city_map;
   QTableView* m_pCust_tb;

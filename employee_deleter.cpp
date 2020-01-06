@@ -28,43 +28,54 @@ void CEmployeeDel::showWindow(QString* pFN, size_t sz, QTableView* tb_ptr) {
 }
 
 void CEmployeeDel::on_submit_btn_clicked() {
-  CQueryController query(CODBCW::getInstance());
+  QMessageBox::StandardButton reply;
+  reply = QMessageBox::warning(this, "Warning!", "This action may delete order, are you sure? "
+                                                 "More information is available in the help.",
+                               QMessageBox::Yes | QMessageBox::No);
 
-  try {
-    QString query_qstr = QString("DELETE FROM employees WHERE fullname = '%1';").arg(m_pUi->fullname_cBox->currentText());
+  if (reply == QMessageBox::Yes) {
+    size_t i = 0;
+    CQueryController query(CQueryController(CODBCW::getInstance("", nullptr, &i)));
 
-    if (query.executeSqlQuery(query_qstr)) {
-      QMessageBox::information(this, "Success!", "Employee '" + m_pUi->fullname_cBox->currentText() + "' was succesfully deleted!");
+    try {
+      QString query_qstr = QString("DELETE FROM employees WHERE fullname = '%1';").arg(m_pUi->fullname_cBox->currentText());
 
-      query.clear();
+      if (query.executeSqlQuery(query_qstr)) {
+        CMsgBox::show(QMessageBox::Information, this, "Success!", "Employee '" + m_pUi->fullname_cBox->currentText() +
+                      "' was succesfully deleted!");
 
-      if (query.executeSqlQuery("SELECT fullname AS 'Fullname', post AS 'Post', "
-                                "salary AS 'Salary', working_hours AS 'Working hours' "
-                                "FROM employees;")) {
-        QSqlQueryModel* hEmpQModel = new QSqlQueryModel();
-        QSortFilterProxyModel* hEmpFilterModel = new QSortFilterProxyModel();
-        hEmpQModel->setQuery(query.getQuery());
-        hEmpFilterModel->setDynamicSortFilter(true);
-        hEmpFilterModel->setSourceModel(hEmpQModel);
-        m_tb_ptr->setModel(hEmpFilterModel);
+        query.clear();
+
+        if (query.executeSqlQuery("SELECT fullname AS 'Fullname', post AS 'Post', "
+                                  "salary AS 'Salary', working_hours AS 'Working hours' "
+                                  "FROM employees;")) {
+          QSqlQueryModel* hEmpQModel = new QSqlQueryModel();
+          QSortFilterProxyModel* hEmpFilterModel = new QSortFilterProxyModel();
+          hEmpQModel->setQuery(query.getQuery());
+          hEmpFilterModel->setDynamicSortFilter(true);
+          hEmpFilterModel->setSourceModel(hEmpQModel);
+          m_tb_ptr->setModel(hEmpFilterModel);
+
+          emit updOrders();
+        }
+        else
+          throw std::invalid_argument("CEmployeeDel::on_submit_btn_clicked : Error execute SELECT query! LastError: [" +
+                                      query.getQuery().lastError().text().toStdString() + "]");
       }
       else
-        throw std::invalid_argument("CEmployeeDel::on_submit_btn_clicked : Error execute SELECT query! LastError: [" +
+        throw std::invalid_argument("CEmployeeDel::on_submit_btn_clicked : Error execute DELETE query! LastError: [" +
                                     query.getQuery().lastError().text().toStdString() + "]");
-    }
-    else
-      throw std::invalid_argument("CEmployeeDel::on_submit_btn_clicked : Error execute DELETE query! LastError: [" +
-                                  query.getQuery().lastError().text().toStdString() + "]");
 
-    clearUi();
-  }
-  catch(std::invalid_argument& e) {
-    QMessageBox::critical(this, e.what(), e.what());
-    return;
-  }
-  catch(...) {
-    QMessageBox::critical(this, "Error!", "CEmployeeDel::on_submit_btn_clicked : Unexpected error! LastError: [" +
-                          query.getQuery().lastError().text() + "]");
+      clearUi();
+    }
+    catch(std::invalid_argument& e) {
+      CMsgBox::show(QMessageBox::Critical, this, "Error!", e.what());
+      return;
+    }
+    catch(...) {
+      CMsgBox::show(QMessageBox::Critical, this, "Error!", "CEmployeeDel::on_submit_btn_clicked : Unexpected error! LastError: [" +
+                    query.getQuery().lastError().text() + "]");
+    }
   }
 }
 

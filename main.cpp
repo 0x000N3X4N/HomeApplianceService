@@ -1,4 +1,4 @@
-﻿#include "mainw.h"
+﻿#include "connection.h"
 #include <QApplication>
 #include <QFile>
 #include <QDebug>
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
     qApp->setStyleSheet(contentOfStyleSheet);
   }
 
-  MainWindow w;
+  CConnection w;
   w.show();
 
   return a.exec();

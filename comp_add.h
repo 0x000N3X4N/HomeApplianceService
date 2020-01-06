@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include "PCSM_base_types.h"
 #include "component.h"
+#include "PCSM_msg_box.h"
 #include "libs/ODBCConnector/query_controller.h"
 
 
@@ -24,10 +25,10 @@ public:
 
 private slots:
   void clearUi();
+  void on_add_comp_btn_clicked();
 
 public slots:
   void showWindow(QTableView* hTbPriceList);
-  void on_add_service_btn_clicked();
 
 private:
   Ui::ServiceAddWindow* m_pUi;

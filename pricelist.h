@@ -12,6 +12,7 @@
 #include "comp_deleter.h"
 #include "comp_type_add.h"
 #include "comp_type_deleter.h"
+#include "PCSM_msg_box.h"
 
 
 namespace Ui {
@@ -24,6 +25,8 @@ class CPriceList : public QWidget, public PCOM::CCompsTraits {
 
 public:
   explicit CPriceList(QWidget *parent = nullptr);
+  CComp_TyDeleter* getCompTypeDel() const;
+  CCompDeleter* getCompDel() const;
   ~CPriceList();
 
 public slots:
@@ -34,7 +37,7 @@ signals:
   void showCompAdd(QTableView* hTbPriceList);
   void showCompTypeAdd(QTableView* hTbCompType);
   void showCompDeleter(QTableView* hTbPriceList);
-  void showCompTypeDeleter(QTableView* hTbCompType);
+  void showCompTypeDeleter(QTableView* hTbCompType, QTableView* hTbComps);
 
   //TODO: something universal method to switch between widgets, like:
   //template<T>
@@ -54,7 +57,7 @@ private:
   CCompAdd* m_comp_add_ptr;
   CComp_TyAdd* m_CompTyAdd_ptr;
   CComp_TyDeleter* m_CompTyDel_ptr;
-  CCompDeleter* m_pServiceDeleter;
+  CCompDeleter* m_pCompDeleter;
 };
 
 

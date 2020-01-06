@@ -7,10 +7,11 @@ CPriceList::CPriceList(QWidget *parent) :
   m_pUi(new Ui::PriceListWindow)
 {
   m_pUi->setupUi(this);
-  m_hQuery = new CQueryController(CODBCW::getInstance());
+  size_t i = 0;
+  m_hQuery = new CQueryController(CQueryController(CODBCW::getInstance("", nullptr, &i)));
   m_comp_add_ptr = new CCompAdd();
   m_CompTyAdd_ptr = new CComp_TyAdd();
-  m_pServiceDeleter = new CCompDeleter();
+  m_pCompDeleter = new CCompDeleter();
   m_pCompAddMenu = new QMenu();
   m_pCompDelMenu = new QMenu();
   m_CompTyDel_ptr = new CComp_TyDeleter();
@@ -26,7 +27,7 @@ CPriceList::CPriceList(QWidget *parent) :
           m_comp_add_ptr, &CCompAdd::showWindow);
 
   connect(this, &CPriceList::showCompDeleter,
-          m_pServiceDeleter, &CCompDeleter::showWindow);
+          m_pCompDeleter, &CCompDeleter::showWindow);
 
   connect(this, &CPriceList::showCompTypeAdd,
           m_CompTyAdd_ptr, &CComp_TyAdd::showWindow);
@@ -50,7 +51,7 @@ CPriceList::CPriceList(QWidget *parent) :
                  } else throw std::invalid_argument("CPriceList::CPriceList : Error execute query!");
                }
                catch(std::invalid_argument& e) {
-                 QMessageBox::critical(this, "Error", e.what());
+                 CMsgBox::show(QMessageBox::Critical, this, "Error", e.what());
                }
 
             } else if (action_name_qstr.compare("Add component type", Qt::CaseInsensitive) == 0) {
@@ -77,7 +78,7 @@ CPriceList::CPriceList(QWidget *parent) :
         else throw std::invalid_argument("CPriceList::CPriceList : Error execute query!");
       }
       catch(...) {
-        QMessageBox::critical(this, "Error!", "CPriceList::CPriceList : Unexpected error!");
+        CMsgBox::show(QMessageBox::Critical, this, "Error!", "CPriceList::CPriceList : Unexpected error!");
       }
     } else if (action_name_qstr.compare("Delete component type", Qt::CaseInsensitive) == 0) {
       try {
@@ -90,12 +91,12 @@ CPriceList::CPriceList(QWidget *parent) :
             CCompsTraits::get_comps().get()->push_back(comp);
           }
 
-          emit showCompTypeDeleter(m_pUi->comp_Ty_tbv);
+          emit showCompTypeDeleter(m_pUi->comp_Ty_tbv, m_pUi->pricelist_tbv);
         }
         else throw std::invalid_argument("CPriceList::CPriceList : Error execute query!");
       }
       catch(...) {
-        QMessageBox::critical(this, "Error!", "CPriceList::CPriceList : Unexpected error!");
+        CMsgBox::show(QMessageBox::Critical, this, "Error!", "CPriceList::CPriceList : Unexpected error!");
       }
     }
   });
@@ -112,7 +113,7 @@ CPriceList::~CPriceList() {
   delete m_pUi;
   delete m_hQuery;
   delete m_comp_add_ptr;
-  delete m_pServiceDeleter;
+  delete m_pCompDeleter;
   delete m_CompTyAdd_ptr;
 }
 
@@ -183,3 +184,7 @@ void CPriceList::on_right_btn_clicked() {
     }
   }
 }
+
+CComp_TyDeleter* CPriceList::getCompTypeDel() const { return m_CompTyDel_ptr; }
+
+CCompDeleter* CPriceList::getCompDel() const { return m_pCompDeleter; }
